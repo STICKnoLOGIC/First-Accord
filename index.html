@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Page with Floating Code Text Background</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #282c34; /* Default dark mode background */
+            font-family: 'Courier New', Courier, monospace; /* Monospaced font */
+            color: #abb2bf; /* Light grey text color */
+        }
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            z-index: 1;
+            position: relative;
+        }
+        .search-bar {
+            width: 50%;
+            max-width: 400px;
+            padding: 10px;
+            border: 2px solid #61dafb; /* Light blue border */
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #1e1e1e; /* Dark background for the input */
+            color: #dcdcdc; /* Light text color for the input */
+        }
+        .toggle-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #61dafb;
+            border: none;
+            border-radius: 5px;
+            color: #282c34;
+            z-index: 2; /* Ensure the button stays in front */
+        }
+        .floating-text {
+            position: absolute;
+            white-space: nowrap;
+            opacity: 0;
+            animation: float linear infinite;
+            font-size: 16px; /* Smaller font size for code-like appearance */
+            transition: top 1s ease, color 1s ease; /* Smooth transition for y-axis and color change */
+            color: var(--color, #abb2bf); /* Default color for dark mode */
+            z-index: 1; /* Ensure the floating text stays behind the button */
+        }
+        @keyframes float {
+            0% {
+                transform: translateX(var(--start));
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(var(--end));
+                opacity: 0;
+            }
+        }
+        body.light-mode {
+            background-color: #ffffff; /* Light mode background */
+            color: #282c34; /* Dark text color for light mode */
+        }
+        body.light-mode .search-bar {
+            background-color: #f0f0f0; /* Light background for the input */
+            color: #282c34; /* Dark text color for the input */
+        }
+        body.light-mode .floating-text {
+            color: var(--color-dark, #282c34); /* Dark text color for light mode */
+        }
+    </style>
+</head>
+<body>
+    <button class="toggle-button" onclick="toggleMode()">Toggle Mode</button>
+    <div class="search-container">
+        <input type="text" class="search-bar" placeholder="Search...">
+    </div>
+    <script>
+        const words = [
+            "console.log", "document", "window", "querySelector", "addEventListener", "setTimeout", "setInterval", "clearTimeout",
+            "clearInterval", "innerHTML", "textContent", "appendChild", "removeChild", "createElement", "Math.random",
+            "Math.floor", "parseInt", "parseFloat", "JSON.parse", "JSON.stringify", "fetch", "async", "await", "then", "catch",
+            "try", "catch", "finally", "localStorage", "sessionStorage", "getElementById", "getElementsByClassName",
+            "getElementsByTagName", "classList", "className", "style", "src", "href", "alt", "title", "type", "value",
+            "checked", "disabled", "selected", "options", "length", "index", "this", "constructor", "super", "extends",
+            "static", "prototype", "new", "delete", "void", "return", "break", "continue", "for", "while", "do", "if", "else",
+            "switch", "case", "default", "function", "class", "const", "let", "var", "import", "export", "from", "as", "extends"
+        ];
+
+        const darkColors = ["#c678dd", "#e5c07b", "#61dafb", "#98c379", "#e06c75", "#56b6c2"];
+        const lightColors = ["#6f42c1", "#d73a49", "#0366d6", "#22863a", "#d73a49", "#b08800"];
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function getRandomWord(excludeWords) {
+            let randomWord;
+
+            do {
+                randomWord = words[Math.floor(Math.random() * words.length)];
+            } while (excludeWords.includes(randomWord));
+
+            return randomWord;
+        }
+
+        function createFloatingText(word, rowY, direction) {
+            const div = document.createElement('div');
+            div.classList.add('floating-text');
+            const speed = Math.random() * 10 + 10; // Random speed between 10s and 20s
+
+            if (direction === 'start') {
+                div.style.setProperty('--start', '0vw');
+                div.style.setProperty('--end', '100vw');
+            } else {
+                div.style.setProperty('--start', '100vw');
+                div.style.setProperty('--end', '0vw');
+            }
+
+            const isLightMode = document.body.classList.contains('light-mode');
+            const colors = isLightMode ? darkColors : lightColors;
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            div.style.setProperty('--color', randomColor);
+
+            div.style.top = `${rowY}%`;
+            div.style.animationDuration = `${speed}s`;
+            div.style.animationDelay = `${Math.random() * 5}s`; // Random delay to stagger animations
+            div.textContent = word;
+
+            div.addEventListener('animationiteration', () => {
+                const newY = Math.random() * 90; // Random y position between 0% and 90%
+                div.style.top = `${newY}%`;
+                const newWord = getRandomWord([word]);
+                div.textContent = newWord;
+
+                const newRandomColor = colors[Math.floor(Math.random() * colors.length)];
+                div.style.setProperty('--color', newRandomColor);
+            });
+
+            document.body.appendChild(div);
+        }
+
+        const selectedWords = shuffle(words).slice(0, window.innerWidth < 600 ? 100 : 150); // Select fewer words for smaller screens
+
+        for (let i = 0; i < selectedWords.length; i += 5) {
+            const rowY = (i / 5 + 1) * 10; // Calculate the row position based on index
+
+            for (let j = 0; j < 5; j++) {
+                const word = selectedWords[i + j];
+                const direction = j % 2 === 0 ? 'start' : 'end';
+                createFloatingText(word, rowY, direction);
+            }
+        }
+
+        function toggleMode() {
+            const body = document.body;
+            body.classList.toggle('light-mode');
+
+            const isLightMode = body.classList.contains('light-mode');
+            const button = document.querySelector('.toggle-button');
+            button.style.backgroundColor = isLightMode ? '#282c34' : '#61dafb';
+            button.style.color = isLightMode ? '#ffffff' : '#282c34';
+            button.textContent = isLightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode';
+        }
+
+        window.addEventListener('resize', () => {
+            const floatingTexts = document.querySelectorAll('.floating-text');
+            floatingTexts.forEach(text => text.remove());
+
+            const newSelectedWords = shuffle(words).slice(0, window.innerWidth < 600 ? 100 : 150); // Adjust words based on screen size
+
+            for (let i = 0; i < newSelectedWords.length; i += 5) {
+                const rowY = (i / 5 + 1) * 10; // Calculate the row position based on index
+
+                for (let j = 0; j < 5; j++) {
+                    const word = newSelectedWords[i + j];
+                    const direction = j % 2 === 0 ? 'start' : 'end';
+                    createFloatingText(word, rowY, direction);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

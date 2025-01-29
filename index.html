@@ -139,7 +139,7 @@
             div.textContent = word;
 
             div.addEventListener('animationiteration', () => {
-                const newY = Math.random() * 90; // Random y position between 0% and 90%
+                const newY = Math.max(Math.random() * 90,10); // Random y position between 10% and 90%
                 div.style.top = `${newY}%`;
                 const newWord = getRandomWord();
                 div.textContent = newWord;
@@ -157,7 +157,7 @@
             const rowY = (i+2) * 10; // Calculate the row position based on index
 
             const rowWords= Math.max(Math.abs(Math.random() * 5),2); // random from 2 to 5
-            
+
             for (let j = 0; j < rowWords; j++) {
                 const word = selectedWords[i + j];
                 const direction = Math.random() > 0.5 ? 'start' : 'end';
@@ -182,10 +182,10 @@
             floatingTexts.forEach(text => text.remove());
 
             const newSelectedWords = shuffle(words);//.slice(0, window.innerWidth < 600 ? 100 : 150); // Adjust words based on screen size
-            
+
             for (let i = 0; i < newSelectedWords.length; i += 5) {
                 const rowY =  (i+2) * 10; // Calculate the row position based on index
-                
+
                 const rowWords= Math.max(Math.abs(Math.random() * 5),2); // random from 2 to 5
 
                 for (let j = 0; j < rowWords; j++) {
@@ -195,7 +195,7 @@
                 }
             }
         });
-        
+
         // get the last session dark theme state
         if(localStorage.getItem('snl_fa_theme')=='true'){
             toggleMode();

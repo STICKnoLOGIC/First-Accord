@@ -1,0 +1,83 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: fixed;
+    scrollbar-width: 0;
+    width: 100vw; /* make sure it doesnt scroll*/
+    height: 100vh; /* make sure it doesnt scroll*/
+    background-color: #282c34; /* Default dark mode background */
+    font-family: 'Courier New', Courier, monospace; /* Monospaced font */
+    color: #abb2bf; /* Light grey text color */
+}
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+}
+.search-bar {
+    width: 50%;
+    max-width: 400px;
+    padding: 10px;
+    border: 2px solid #61dafb; /* Light blue border */
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #1e1e1e; /* Dark background for the input */
+    color: #dcdcdc; /* Light text color for the input */
+    z-index: 2;
+}
+.toggle-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #61dafb;
+    border: none;
+    border-radius: 5px;
+    color: #282c34;
+    z-index: 2; /* Ensure the button stays in front */
+}
+.floating-text {
+    position: absolute;
+    white-space: nowrap;
+    opacity: 0;
+    animation: float linear infinite;
+    font-weight: 700;
+    font-size: 1.15rem; /* Smaller font size for code-like appearance */
+    transition: top 1s ease, color 1s ease; /* Smooth transition for y-axis and color change */
+    color: var(--color, #abb2bf); /* Default color for dark mode */
+    z-index: 1; /* Ensure the floating text stays behind the button */
+}
+@keyframes float {
+    0% {
+        transform: translateX(var(--start));
+        opacity: 0;
+    }
+    50% {
+        opacity: var(--oppa);
+    }
+    100% {
+        transform: translateX(var(--end));
+        opacity: 0;
+    }
+}
+body.light-mode {
+    background-color: #ffffff; /* Light mode background */
+    color: #282c34; /* Dark text color for light mode */
+}
+body.light-mode .search-bar {
+    background-color: #f0f0f0; /* Light background for the input */
+    color: #282c34; /* Dark text color for the input */
+}
+body.light-mode .floating-text {
+    color: var(--color); /* Dark text color for light mode */
+}
+
+.floating-text:hover{
+    animation-play-state: paused;
+    cursor: grab;
+}

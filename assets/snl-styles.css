@@ -9,6 +9,10 @@ body {
     background-color: #282c34; /* Default dark mode background */
     font-family: 'Courier New', Courier, monospace; /* Monospaced font */
     color: #abb2bf; /* Light grey text color */
+    /* dont select text */
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
 }
 .search-container {
     display: flex;
@@ -17,7 +21,7 @@ body {
     height: 100vh;
     position: relative;
 }
-.search-bar {
+.snl-search-bar {
     width: 50%;
     max-width: 400px;
     padding: 10px;
@@ -26,6 +30,15 @@ body {
     font-size: 16px;
     background-color: #1e1e1e; /* Dark background for the input */
     color: #dcdcdc; /* Light text color for the input */
+    z-index: 2;
+}
+.snl-search-button{
+    margin-left: 1rem;
+    background-color: #61dafb;
+    padding: 0.75rem;
+    color: #1e1e1e;
+    cursor: pointer;
+    border-radius: 0.5rem;
     z-index: 2;
 }
 .toggle-button {
@@ -69,7 +82,7 @@ body.light-mode {
     background-color: #ffffff; /* Light mode background */
     color: #282c34; /* Dark text color for light mode */
 }
-body.light-mode .search-bar {
+body.light-mode .snl-search-bar {
     background-color: #f0f0f0; /* Light background for the input */
     color: #282c34; /* Dark text color for the input */
 }

@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Page with Floating Code Text Background</title>
-    <link rel="stylesheet"  href="./assets/snl.css">
+    <link rel="stylesheet"  href="./assets/snl-styles.css">
 </head>
 <body>
     <button class="toggle-button" onclick="toggleMode()">Toggle Mode</button>
     <div class="search-container">
-        <input type="text" class="search-bar" placeholder="Search Contributor...">
+        <input type="text" class="snl-search-bar" id="snl-search-bar" placeholder="Search Contributor...">
+        <div class="snl-search-button" onclick="searchContributor()">Check</div>
     </div>
-    <script src="./assets/snl.js">
+    <div id="result"></div>
+    <script src="./assets/snl-script.js">
     </script>
 </body>
 </html>

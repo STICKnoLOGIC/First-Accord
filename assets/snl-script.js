@@ -2,8 +2,9 @@ const words = [
     "stick","ex","user", "dfg", "fgg", "rte", "ert", "stick", "stick","stick","ex","user", "dfg", "fgg", "rte", "ert", "stick", "stick","stick","ex","user", "dfg", "fgg", "rte", "ert", "stick", "stick","stick","ex","user", "dfg", "fgg", "rte", "ert", "stick", "stick","stick","ex","user", "dfg", "fgg", "rte", "ert", "stick", "stick","stick","ex","user", "dfg", "fgg", "rte", "ert", "stick", "stick","stick","ex","user", "dfg", "fgg", "rte", "ert", "stick", "stick","stick","ex","user", "dfg", "fgg", "rte", "ert", "stick", "stick","stick","ex","user", "dfg", "fgg", "rte", "ert", "stick", "stick","stick","ex","user", "dfg", "fgg", "rte", "ert", "stick", "stick","stick","ex","user", "dfg", "fgg", "rte", "ert", "stick", "stick","stick","ex","user", "dfg", "fgg", "rte", "ert", "stick", "stick"
 ];
 
-const darkColors = ["#c678dd", "#e5c07b", "#61dafb", "#98c379", "#e06c75", "#56b6c2"];
-const lightColors = ["#6f42c1", "#d73a49", "#0366d6", "#22863a", "#d73a49", "#b08800"];
+const darkColors = ["#383a42", "#0098dd", "#23974a", "#a05a48", "#c5a332", "#ce33c0","#823ff1","#275fe4","#df631c","#d52753","#7a82da"];
+const lightColors = ["#f8f8f2", "#8be9fd", "#50fa7b", "#ffb86c", "#ff79c6", "#bd93f9","#ff5555","#f1fa8c"];
+var colors = [];
 
 function getRandomWord() {
     return words[Math.floor(Math.random() * words.length)];
@@ -24,9 +25,8 @@ function createFloatingText(word, rowY, direction) {
     }
     
     div.style.setProperty('--oppa',( Math.random()*90 + 10 ) / 100); //create a depth effect by reducing the opacity of some floating text
-    
     const isLightMode = document.body.classList.contains('light-mode');
-    const colors = isLightMode ? darkColors : lightColors;
+    colors = isLightMode ? darkColors : lightColors;
     const randomColor = colors[Math.floor(Math.random() * colors.length)];
     div.style.setProperty('--color', randomColor);
 
@@ -65,6 +65,12 @@ function toggleMode() {
 
     const isLightMode = body.classList.contains('light-mode');
     localStorage.setItem('snl_fa_theme', isLightMode);
+    colors = isLightMode ? darkColors : lightColors;
+    const floatingTexts = document.querySelectorAll('.floating-text');
+    floatingTexts.forEach(function(text){
+        const newRandomColor = colors[Math.floor(Math.random() * colors.length)];
+        text.style.setProperty('--color', newRandomColor);
+    });
     const button = document.querySelector('.toggle-button');
     button.style.backgroundColor = isLightMode ? '#282c34' : '#61dafb';
     button.style.color = isLightMode ? '#ffffff' : '#282c34';
@@ -83,3 +89,30 @@ if(localStorage.getItem('snl_fa_theme')=='true'){
 }
 // start the floating
 generateFloatingText();
+
+//contributor
+async function fetchContributor(fileName) {
+    try {
+        const response = await fetch(`contributors/${fileName}.json`);
+        if (!response.ok) {
+            throw new Error('Contributor not found');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching the contributor:', error);
+        return null;
+    }
+}
+
+async function searchContributor() {
+    const query = document.getElementById('snl-search-bar').value.toLowerCase().replace(/\s+/g, '');
+    const fileName = query;
+    const result = await fetchContributor(fileName);
+
+    const resultDiv = document.getElementById('result');
+    if (result) {
+        resultDiv.innerHTML = `Name: ${result.name} <br> Email: ${result.email}`;
+    } else {
+        resultDiv.innerHTML = 'No matching contributor found.';
+    }
+}

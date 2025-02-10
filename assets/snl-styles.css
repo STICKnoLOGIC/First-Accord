@@ -30,7 +30,7 @@ body {
     font-size: 16px;
     background-color: #1e1e1e; /* Dark background for the input */
     color: #dcdcdc; /* Light text color for the input */
-    z-index: 2;
+    z-index: 100;
 }
 .snl-search-button{
     margin-left: 1rem;
@@ -39,7 +39,7 @@ body {
     color: #1e1e1e;
     cursor: pointer;
     border-radius: 0.5rem;
-    z-index: 2;
+    z-index: 100;
 }
 .toggle-button {
     position: absolute;
@@ -52,7 +52,7 @@ body {
     border: none;
     border-radius: 5px;
     color: #282c34;
-    z-index: 2; /* Ensure the button stays in front */
+    z-index: 100; /* Ensure the button stays in front */
 }
 .floating-text {
     position: absolute;
@@ -63,7 +63,7 @@ body {
     font-size: 1.15rem; /* Smaller font size for code-like appearance */
     transition: top 1s ease, color 1s ease; /* Smooth transition for y-axis and color change */
     color: var(--color, #abb2bf); /* Default color for dark mode */
-    z-index: 1; /* Ensure the floating text stays behind the button */
+    z-index: calc(var(--oppa,1) * 90 ); /* Ensure the floating text stays behind the button */
 }
 @keyframes float {
     0% {

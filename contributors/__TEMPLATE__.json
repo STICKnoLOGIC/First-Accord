@@ -1,0 +1,12 @@
+{
+    "name":"",
+    "email":"",
+    "github":"",
+    "social":{
+        "sm1":"link1",
+        "sm2":"link2"
+    },
+    "description":"short info about you and yourself",
+    "use_github_avatar":false,
+    "avatar_url":""
+}

@@ -1,12 +1,21 @@
 {
-    "name":"",
-    "email":"",
-    "github":"",
-    "social":{
-        "sm1":"link1",
-        "sm2":"link2"
+    "owner":{
+        "name":"required",
+        "email":"not-required",
+        "github":"not-required, automatically use filename"
     },
-    "description":"short info about you and yourself",
-    "use_github_avatar":false,
-    "avatar_url":""
+    "social":{ 
+        "fa-facebook":"link1",
+        "fa-discord":"link2",
+        "etc":"upto 5 social media"
+    },
+    "my_top_resources":{
+        "title e.g. StackOverflow":"link",
+        "another title":"link2",
+        "etc":"upto 3 resources"
+    },
+    "description":"required-short info about you and yourself",
+    "use_github_avatar":true,
+    "custom_avatar_url":"not-required",
+    "display_float_text":"not-required - automatically use filename, max of 16 Characters"
 }

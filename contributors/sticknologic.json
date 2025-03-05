@@ -1,0 +1,22 @@
+{
+    "owner":{
+        "name":"John Aerial J. Azcune",
+        "email":"johnaerial.azcune@STICKnoLOGIC.is-a.dev",
+        "github":"https://github.com/STICKnoLOGIC"
+    },
+    "social":{ 
+        "fa-facebook":"https://facebook.com/STICKnoLOGIC",
+        "fa-square-bluesky":"https://bsky.app/profile/sticknologic.bsky.social",
+        "fa-linkedin":"https://linkedin.com/in/STICKnoLOGIC",
+        "fa-x-twitter":"https://x.com/STICKnoLOGIC"
+    },
+    "my_top_resources":{
+        "StackOverflow":"https://stackoverflow.com",
+        "STICKnoLOGIC's Blog":"STICKnoLOGIC.is-a.dev/blog",
+        "Daily.Dev":"https://app.daily.dev"
+    },
+    "description":"A Web/App Developer | Pixel Artist | A simple stick that want to be a champ",
+    "use_github_avatar":true,
+    "custom_avatar_url":"",
+    "display_float_text":"STICKnoLOGIC"
+}

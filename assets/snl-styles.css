@@ -43,15 +43,11 @@ body {
 }
 .toggle-button {
     position: absolute;
-    top: 20px;
+    top: 32px;
+    color: #f0f0f0;
     right: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
     cursor: pointer;
-    background-color: #61dafb;
     border: none;
-    border-radius: 5px;
-    color: #282c34;
     z-index: 100; /* Ensure the button stays in front */
 }
 .floating-text {
@@ -78,6 +74,18 @@ body {
         opacity: 0;
     }
 }
+body.light-mode .toggle-button::before {
+content: "\f186" ;
+}
+body.light-mode .fa-logo {
+content: url('../logo_l.webp');
+}
+body.light-mode .fa-xl{
+    color: #1e1e1e;
+}
+body.light-mode .doc-text{
+color: #1e1e1e;
+}
 body.light-mode {
     background-color: #ffffff; /* Light mode background */
     color: #282c34; /* Dark text color for light mode */
@@ -93,4 +101,13 @@ body.light-mode .floating-text {
 .floating-text:hover{
     animation-play-state: paused;
     cursor: grab;
+}
+
+@media (max-width: 480px) {
+.doc-text{
+    display: none;
+    &::before{
+        content: "sadfasd";
+    }
+}
 }

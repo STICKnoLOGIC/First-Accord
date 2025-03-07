@@ -2,12 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="./fav.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Page with Floating Code Text Background</title>
     <link rel="stylesheet"  href="./assets/snl-styles.css">
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 <body>
-    <button class="toggle-button" onclick="toggleMode()">Toggle Mode</button>
+    <div>
+        <a href="/" alt="home"><img src="./logo.webp" class="fa-logo" alt="fa-logo" height="32" style="padding: 1rem;"></a>
+        <i class="fa-solid fa-sun fa-xl toggle-button" onclick="toggleMode()"></i>
+        <a href="./docs" target="_blank" alt="Documentation" style="color:#f0f0f0;text-decoration: none; position: absolute; top: 24px; right: 74px;"><i class="fa-solid fa-book fa-xl"></i> <span class="doc-text">Docs</span></a>
+        <!-- <button class="toggle-button" onclick="toggleMode()">Toggle Mode</button> -->
+    </div>
     <div class="search-container">
         <input type="text" class="snl-search-bar" id="snl-search-bar" placeholder="Search Contributor...">
         <div class="snl-search-button" onclick="searchContributor()">Check</div>

@@ -71,10 +71,6 @@ function toggleMode() {
         const newRandomColor = colors[Math.floor(Math.random() * colors.length)];
         text.style.setProperty('--color', newRandomColor);
     });
-    const button = document.querySelector('.toggle-button');
-    button.style.backgroundColor = isLightMode ? '#282c34' : '#61dafb';
-    button.style.color = isLightMode ? '#ffffff' : '#282c34';
-    button.textContent = isLightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode';
 }
 
 window.addEventListener('resize', () => {

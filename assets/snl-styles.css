@@ -74,6 +74,8 @@ body {
         opacity: 0;
     }
 }
+
+
 body.light-mode .toggle-button::before {
 content: "\f186" ;
 }
@@ -110,4 +112,56 @@ body.light-mode .floating-text {
         content: "sadfasd";
     }
 }
+}
+
+.dial-bg{
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #2727276e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.dial-card{
+    background-color: #2e2e2e; 
+    max-width: 600px; 
+    height: 400px; 
+    min-width: 400px; 
+    border-radius: 1rem;
+    padding: 8px;
+}
+
+.dial-top{
+    display: flex; 
+    flex-direction: row;
+}
+
+.dial-body{
+    overflow:scroll; 
+    height: 280px; 
+    padding-bottom: 1rem; 
+    scrollbar-width: 0;     
+    word-wrap:break-word; 
+    word-break: normal; 
+}
+
+.dial-body::-webkit-scrollbar {
+    display: none;
+  }
+
+.dial-sm{
+    display: flex; 
+    flex-direction: row; 
+    justify-content: start; 
+    gap: 1rem; 
+    padding-bottom: 8px;
+}
+
+.dial-avatar{
+    width: 80px;height: 80px; margin: 0.5rem;
 }

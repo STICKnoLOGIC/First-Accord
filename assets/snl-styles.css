@@ -133,7 +133,8 @@ body.light-mode .floating-text {
     height: 400px; 
     min-width: 400px; 
     border-radius: 1rem;
-    padding: 8px;
+    position: relative;
+    overflow: hidden;
 }
 
 .dial-top{
@@ -143,8 +144,9 @@ body.light-mode .floating-text {
 
 .dial-body{
     overflow:scroll; 
-    height: 280px; 
-    padding-bottom: 1rem; 
+    height: 250px; 
+    padding:0 1.75rem;
+    padding-bottom: 1rem;
     scrollbar-width: 0;     
     word-wrap:break-word; 
     word-break: normal; 

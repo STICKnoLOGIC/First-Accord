@@ -24,142 +24,38 @@
     </script>
     <div class="dial-bg">
         <div class="dial-card">
-            <div style="background-color: #2e2e2e; position: absolute; bottom: 0; display: flex; justify-content:space-between; width: 100%; align-items: center;">
-                <div style="padding:8px;font-size: 24px; width: fit-content;" ><strong>Share:</strong> 
-                    <i class="fa-brands fa-square-facebook dial-share" onclick="share(0)"></i> 
-                    <i class="fa-brands fa-square-x-twitter  dial-share" onclick="share(1)"></i> 
-                    <i class="fa-brands fa-square-bluesky  dial-share"></i> 
-                    <i class="fa-brands fa-square-whatsapp  dial-share"></i> 
-                    <i class="fa-brands fa-telegram  dial-share"></i>
+            <div class="dial-bottom">
+                <div style="padding:8px;font-size: 24px; width: fit-content;" ><strong>Share:</strong>
+                    <i class="fa-brands fa-square-facebook dial-share" onclick="share(0)"></i>
+                    <i class="fa-brands fa-square-x-twitter  dial-share" onclick="share(1)"></i>
+                    <i class="fa-brands fa-square-bluesky  dial-share" onclick="share(2)"></i>
+                    <i class="fa-brands fa-square-whatsapp  dial-share" onclick="share(3)"></i>
+                    <i class="fa-brands fa-telegram  dial-share" onclick="share(4)"></i>
+                    <i class="fa-solid fa-link dial-share" onclick="share(5)"></i>
                 </div>
-                <div style="cursor:pointer;margin-left: auto; margin-right: 16px; border-style:solid; border-width: 2px; border-color:tomato; padding:4px 8px; border-radius: 8px; font-weight: 900;">Close</div>
+                <div class="dial-close" id="dial-close">Close</div>
             </div>
             <div class="dial-top">
                 <img src="https://github.com/STICKnoLOGIC.png?size=80" class="dial-avatar" alt="contributor-avatar">
                 <div style="width: 100%;">
                     <h2 class="dial-name">John Aerial J. Azcune The Creator</h2>
                     <div class="dial-sm">
-                        <i class="fab fa-facebook"></i>
+                        <i class="fab fa-facebook dial-share"></i>
                     </div>
                     <hr>
                 </div>
             </div>
             <div class="dial-body">
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsdassad
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd
-                sdfsdfsd
-                <br>
-                sdfsdfsd asdja kad kasdkasdkasekgr lrhqlk hrh krhrkjhrk jhrkj hqwrkhwr kjhwr kjwhrq kwqrjhkwjrhkwjrhwkqjr hwkqj rhwqk rhwkr jhwkrh wqrkjh 
+                <span id="dial-description">
+                sdfsdfsdsd dlksfjslkdfj jlsdkfj sldkfj sdlkdj sldfj slkf jsldkf jslfkd jslkf jsdlfk jlk jsdlfk jdsflk jsdl jdsf ljf lkdsjf lksdfj lsdkf jsdlk jdlf kjsdf lksjdf lksj lks jsdl kjsdlf kjsdf lkjsd lk jsldkf jsdlf jdsfl jsdf lsjdf lksdjf lskfj sldf jsdlfk jsdlfk jsdlf kjsdf lkjdsf ljf ldksfj ldskf jsdlfk jsdlfk jsdlfk jsdfl kjsdf lksjdf lsdjf lksdfj lsdfj lksdfj lkfj lksfj lksdfj lkdsfj lksdfj lsdkfjsldf kjsdlf kjsdfl jsdl jsdlf jsdlfj sdlfj sldfjlsdjsldk jsdlkjsdflkjsd lkjsdfl ksdjflksdjf lksj lsdk jdls kjsdl kjsdl kjsdsef hef hsdf jhsdf hsdf kjshdf kjsdhf jksdhf skjdf hsdkjf hsdkjfh skdjfhsdfjkhsd;fs fj ;kfh sdjkfh s;dkfjh skd;jhf dksjfh dksjfh sdkfjh sdkj;fh dsk;fjh sdkfjh sdkjf hdsfkj hsdkfjh sdkjfh sdkdjfh k;jhf</span>
+                <div id="dial-res-cntnr">
+                    <h3>My TOP Resources:</h3>
+                    <ul id="dial-resources">
+                    </ul>
+                </div>
             </div>
         </div>
         </div>
     </div>
-    <script>
-        function share(link){
-            let url='';
-            let current_url=window.location.href+(window.location.href.includes('?c=')?"":'?c='+document.getElementById('snl-search-bar').value);
-            let message=`ICYMI - First Accord: Create yout First GitHub Contribution. Join Us and make your first contribution in Open Source World!`;
-            switch(link){
-                case 0:
-                    url=`https://www.facebook.com/sharer/sharer.php?u=${current_url}/&share=facebook`;
-                    break;
-                case 1:
-                    url=`https://x.com/intent/post?url=${current_url}&via=STICKnoLOGIC&hashtags=FirstAccord&text=${message}`;
-                    break;
-                case 0:
-                    break;
-                case 0:
-                    break;
-                case 0:
-                    break;
-            }
-            window.open(url,"Share First Accord",'width=720,height=1280,titlebar=0,toolbar=0,');
-        }
-    </script>
 </body>
 </html>

@@ -176,13 +176,18 @@ body.light-mode .dial-card{
     width: 8px;
   }
 .dial-body::-webkit-scrollbar-track {
-    background: #f1f1f148;
+    background: transparent;
   }
 .dial-body::-webkit-scrollbar-thumb {
     background: #888888c9;
+    border-radius: 24px;
+    height: 4rem !important;
   }
 .dial-body::-webkit-scrollbar-thumb:hover {
     background: #555;
+  }
+  .dial-body::-webkit-scrollbar-corner{
+    display: none;
   }
 
 .dial-sm{

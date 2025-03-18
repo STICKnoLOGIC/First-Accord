@@ -1,3 +1,4 @@
+// contributors
 const words = [
     "STICKnoLOGIC",
     "SnL",
@@ -5,11 +6,15 @@ const words = [
     "js.org",
 ];
 
+// colors
 const darkColors = ["#383a42", "#0098dd", "#23974a", "#a05a48", "#c5a332", "#ce33c0","#823ff1","#275fe4","#df631c","#d52753","#7a82da"];
 const lightColors = ["#f8f8f2", "#8be9fd", "#50fa7b", "#ffb86c", "#ff79c6", "#bd93f9","#ff5555","#f1fa8c"];
+var colors = [];
+
+// views
 const search=document.getElementById('snl-search-bar');
 const dialBG=document.getElementById('dial-bg');
-var colors = [];
+const resultDiv=document.getElementById('result');
 
 function getRandomWord() {
     return words[Math.floor(Math.random() * words.length)];
@@ -106,14 +111,16 @@ async function fetchContributor(fileName) {
 }
 
 async function searchContributor() {
-    const query = search.value.toLowerCase().replace(/\s+/g, '');
-    const fileName = query;
+    const fileName = search.value.toLowerCase().replace(/\s+/g, '').trim();
+    if(!resultDiv.classList.contains('hidden'))
+        resultDiv.classList.toggle('hidden');
     const result = await fetchContributor(fileName);
 
-    const resultDiv = document.getElementById('result');
     if (result) {
         resultDiv.innerHTML = `Name: ${result.name} <br> Email: ${result.email}`;
     } else {
+        if(resultDiv.classList.contains('hidden'))
+            resultDiv.classList.toggle('hidden');
         resultDiv.innerHTML = 'No matching contributor found.';
     }
 }

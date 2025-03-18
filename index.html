@@ -24,19 +24,24 @@
     </script>
     <div class="dial-bg">
         <div class="dial-card">
-            <div style="background-color: #2e2e2e; position: absolute; bottom: 0; display: flex; justify-content:space-between; width: 100%;">
-                <div style="font-size: 24px; width: fit-content;" >Share: <i class="fa-brands fa-square-facebook"></i> <i class="fa-brands fa-square-x-twitter"></i> <i class="fa-brands fa-square-bluesky"></i> <i class="fa-brands fa-square-whatsapp"></i> <i class="fa-brands fa-telegram"></i></div>
-                <div style="margin-left: auto; margin-right: 8px;">Close</div>
+            <div style="background-color: #2e2e2e; position: absolute; bottom: 0; display: flex; justify-content:space-between; width: 100%; align-items: center;">
+                <div style="padding:8px;font-size: 24px; width: fit-content;" ><strong>Share:</strong> 
+                    <i class="fa-brands fa-square-facebook dial-share" onclick="share(0)"></i> 
+                    <i class="fa-brands fa-square-x-twitter  dial-share" onclick="share(1)"></i> 
+                    <i class="fa-brands fa-square-bluesky  dial-share"></i> 
+                    <i class="fa-brands fa-square-whatsapp  dial-share"></i> 
+                    <i class="fa-brands fa-telegram  dial-share"></i>
+                </div>
+                <div style="cursor:pointer;margin-left: auto; margin-right: 16px; border-style:solid; border-width: 2px; border-color:tomato; padding:4px 8px; border-radius: 8px; font-weight: 900;">Close</div>
             </div>
             <div class="dial-top">
                 <img src="https://github.com/STICKnoLOGIC.png?size=80" class="dial-avatar" alt="contributor-avatar">
                 <div style="width: 100%;">
-                    <h2 class="dial-name" style="line-height: 1rem;">John Aerial J. Azcune The Creator</h2>
+                    <h2 class="dial-name">John Aerial J. Azcune The Creator</h2>
                     <div class="dial-sm">
                         <i class="fab fa-facebook"></i>
-
                     </div>
-                    <hr style="padding:0;margin: 0; margin-bottom: 8px; height: 1px; background-color: orange !important; color: orange; border: none;">
+                    <hr>
                 </div>
             </div>
             <div class="dial-body">
@@ -134,5 +139,27 @@
         </div>
         </div>
     </div>
+    <script>
+        function share(link){
+            let url='';
+            let current_url=window.location.href+(window.location.href.includes('?c=')?"":'?c='+document.getElementById('snl-search-bar').value);
+            let message=`ICYMI - First Accord: Create yout First GitHub Contribution. Join Us and make your first contribution in Open Source World!`;
+            switch(link){
+                case 0:
+                    url=`https://www.facebook.com/sharer/sharer.php?u=${current_url}/&share=facebook`;
+                    break;
+                case 1:
+                    url=`https://x.com/intent/post?url=${current_url}&via=STICKnoLOGIC&hashtags=FirstAccord&text=${message}`;
+                    break;
+                case 0:
+                    break;
+                case 0:
+                    break;
+                case 0:
+                    break;
+            }
+            window.open(url,"Share First Accord",'width=720,height=1280,titlebar=0,toolbar=0,');
+        }
+    </script>
 </body>
 </html>

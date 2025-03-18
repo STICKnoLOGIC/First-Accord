@@ -239,3 +239,11 @@ body.light-mode .dial-card{
 .dial-close:hover{
     font-weight: 900;
 }
+
+@media (max-width: 640px) {
+    .dial-card{
+        margin: 0 8px;
+        max-width: 100%;
+        min-width: auto;
+    }
+}

@@ -20,9 +20,7 @@
         <div class="snl-search-button" onclick="searchContributor()">Check</div>
     </div>
     <div id="result"></div>
-    <script src="./assets/snl-script.js">
-    </script>
-    <div class="dial-bg">
+    <div id="dial-bg" class="dial-bg">
         <div class="dial-card">
             <div class="dial-bottom">
                 <div style="padding:8px;font-size: 24px; width: fit-content;" ><strong>Share:</strong>
@@ -33,7 +31,7 @@
                     <i class="fa-brands fa-telegram  dial-share" onclick="share(4)"></i>
                     <i class="fa-solid fa-link dial-share" onclick="share(5)"></i>
                 </div>
-                <div class="dial-close" id="dial-close">Close</div>
+                <div class="dial-close" onclick="closeButton()">Close</div>
             </div>
             <div class="dial-top">
                 <img src="https://github.com/STICKnoLOGIC.png?size=80" class="dial-avatar" alt="contributor-avatar">
@@ -57,5 +55,7 @@
         </div>
         </div>
     </div>
+    <script src="./assets/snl-script.js">
+    </script>
 </body>
 </html>

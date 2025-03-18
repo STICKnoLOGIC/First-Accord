@@ -8,6 +8,7 @@ const words = [
 const darkColors = ["#383a42", "#0098dd", "#23974a", "#a05a48", "#c5a332", "#ce33c0","#823ff1","#275fe4","#df631c","#d52753","#7a82da"];
 const lightColors = ["#f8f8f2", "#8be9fd", "#50fa7b", "#ffb86c", "#ff79c6", "#bd93f9","#ff5555","#f1fa8c"];
 const search=document.getElementById('snl-search-bar');
+const dialBG=document.getElementById('dial-bg');
 var colors = [];
 
 function getRandomWord() {
@@ -152,4 +153,7 @@ function share(link){
             return;
     }
     window.open(url,"Share First Accord",'width=360,height=640,titlebar=0,toolbar=0,');
+}
+function closeButton(){
+    dialBG.classList.toggle('hidden');
 }

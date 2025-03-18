@@ -14,6 +14,15 @@ body {
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
 }
+hr{
+    padding:0;
+    margin: 0;
+    margin-bottom: 8px;
+    height: 1px;
+    background-color: orange;
+    color: orange;
+    border: none;
+}
 .search-container {
     display: flex;
     justify-content: center;
@@ -120,7 +129,7 @@ body.light-mode .floating-text {
     position: absolute;
     top: 0;
     left: 0;
-    background-color: #2727276e;
+    background-color: #272727af;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -144,12 +153,14 @@ body.light-mode .floating-text {
 
 .dial-body{
     overflow:scroll; 
-    height: 250px; 
+    height: 240px; 
     padding:0 1.75rem;
+    padding-top: 8px;
     padding-bottom: 1rem;
     scrollbar-width: 0;     
     word-wrap:break-word; 
-    word-break: normal; 
+    word-break: normal;
+    mask-image: linear-gradient(to bottom, transparent 0%, black 16px, black calc(100% - 16px), transparent 100%);
 }
 
 .dial-body::-webkit-scrollbar {
@@ -161,9 +172,27 @@ body.light-mode .floating-text {
     flex-direction: row; 
     justify-content: start; 
     gap: 1rem; 
+    margin-left: 1rem;
     padding-bottom: 8px;
 }
 
 .dial-avatar{
-    width: 80px;height: 80px; margin: 0.5rem;
+    width: 80px;
+    height: 80px;
+    margin: 0.5rem;
+    border-radius: 50%;
+    background-color: #2e2e2e;
+}
+
+.dial-name{
+    line-height: 1rem;
+    margin-right: 16px;
+    margin-top: 24px;
+    margin-bottom: 16px;
+}
+
+.dial-share:hover{
+    cursor: pointer;
+    color: orange;
+    transform: scale(1.3);
 }

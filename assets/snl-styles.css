@@ -245,6 +245,18 @@ body.light-mode .dial-card{
     font-weight: 900;
 }
 
+#result{
+    position:absolute;
+    right: 0;
+    bottom: 0;
+    margin: 8px;
+    background-color: tomato;
+    color: white;
+    padding: 8px;
+    border-radius: 8px;
+    z-index: 200;
+}
+
 @media (max-width: 640px) {
     .dial-card{
         margin: 0 8px;

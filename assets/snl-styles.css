@@ -29,6 +29,7 @@ hr{
     align-items: center;
     height: 100vh;
     position: relative;
+    gap: 1rem;
 }
 .snl-search-bar {
     width: 50%;
@@ -42,7 +43,6 @@ hr{
     z-index: 100;
 }
 .snl-search-button{
-    margin-left: 1rem;
     background-color: #61dafb;
     padding: 0.75rem;
     color: #1e1e1e;
@@ -262,5 +262,8 @@ body.light-mode .dial-card{
         margin: 0 8px;
         max-width: 100%;
         min-width: auto;
+    }
+    .search-container{
+        flex-direction: column;
     }
 }

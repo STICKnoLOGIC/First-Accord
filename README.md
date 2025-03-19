@@ -1,5 +1,5 @@
 <p align="center">
-    <img alt="Open Source Love" src="./logo_md.webp" class="index-logo">
+    <img alt="Open Source Love" src="./logo_md_l.webp" class="index-logo">
     <br>
     <a href="https://github.com/STICKnoLOGIC/First-Accord" alt="Open Source Love">
         <img alt="Open Source Love" src="https://STICKnoLOGIC.github.io/open-source-badges/badges/open-source-v1/open-source.svg">

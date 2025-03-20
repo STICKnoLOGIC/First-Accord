@@ -24,6 +24,7 @@ concurrency:
 jobs:
   # Build job
   build:
+     if: github.ref == 'refs/heads/gh-pages'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

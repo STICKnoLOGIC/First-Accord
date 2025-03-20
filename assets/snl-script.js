@@ -1,4 +1,5 @@
 // contributors
+const pattern=/^[a-zA-Z0-9][a-zA-Z0-9.-]*$/;
 const words = [
     "STICKnoLOGIC",
     "SnL",
@@ -89,6 +90,20 @@ window.addEventListener('resize', () => {
     generateFloatingText();
 });
 
+search.addEventListener(
+    "input", function () {
+    const inputValue = this.value.trim();
+
+    const matchedValue = inputValue.match(pattern);
+
+    // if (matchedValue) {
+    //     search.value = matchedValue[0];
+    //     return;
+    // }
+    this.value=pattern.match(this.value);
+}
+);
+
 // get the last session dark theme state
 if(localStorage.getItem('snl_fa_theme')=='true'){
     toggleMode();
@@ -99,7 +114,7 @@ generateFloatingText();
 //contributor
 async function fetchContributor(fileName) {
     try {
-        const response = await fetch(`contributors/${fileName}.json`);
+        const response = await fetch(`https://raw.githubusercontent.com/sticknologic/first-accord/main/contributors/${fileName}.json`);
         if (!response.ok) {
             throw new Error('Contributor not found');
         }
@@ -111,7 +126,7 @@ async function fetchContributor(fileName) {
 }
 
 async function searchContributor() {
-    const fileName = search.value.toLowerCase().replace(/\s+/g, '').trim();
+    const fileName = search.value.toLowerCase().trim().replace(/\s+/g, '');
     if(!resultDiv.classList.contains('hidden'))
         resultDiv.classList.toggle('hidden');
     const result = await fetchContributor(fileName);

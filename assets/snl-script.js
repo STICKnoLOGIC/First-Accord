@@ -140,6 +140,13 @@ async function fetchContributor(fileName) {
 
 async function searchContributor() {
     const fileName = search.value.toLowerCase().trim().replace(/\s+/g, '');
+    if(fileName===""){
+        //TODO: Create a function for showing error
+        if(resultDiv.classList.contains('hidden'))
+            resultDiv.classList.toggle('hidden');
+        resultDiv.innerHTML = "Can't Search Empty Field.";
+        return;
+    }
     if(!resultDiv.classList.contains('hidden'))
         resultDiv.classList.toggle('hidden');
     const result = await fetchContributor(fileName);

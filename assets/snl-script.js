@@ -1,5 +1,4 @@
 // contributors
-const pattern=/^[a-zA-Z0-9][a-zA-Z0-9.-]*$/;
 const words = [
     "STICKnoLOGIC",
     "SnL",
@@ -7,6 +6,9 @@ const words = [
     "js.org",
 ];
 
+//values
+const pattern=/^[a-zA-Z0-9]+[-a-zA-Z0-9]*/;
+let lastInput="";
 // colors
 const darkColors = ["#383a42", "#0098dd", "#23974a", "#a05a48", "#c5a332", "#ce33c0","#823ff1","#275fe4","#df631c","#d52753","#7a82da"];
 const lightColors = ["#f8f8f2", "#8be9fd", "#50fa7b", "#ffb86c", "#ff79c6", "#bd93f9","#ff5555","#f1fa8c"];
@@ -88,6 +90,8 @@ window.addEventListener('resize', () => {
     const floatingTexts = document.querySelectorAll('.floating-text');
     floatingTexts.forEach(text => text.remove());
     generateFloatingText();
+    // TODO: Create a "Realistic" PArallax Effect
+    // console.log(window.innerWidth);
 });
 
 search.addEventListener(
@@ -96,11 +100,20 @@ search.addEventListener(
 
     const matchedValue = inputValue.match(pattern);
 
-    // if (matchedValue) {
-    //     search.value = matchedValue[0];
-    //     return;
-    // }
-    this.value=pattern.match(this.value);
+    if (matchedValue && inputValue!=="") {
+        if(inputValue.endsWith('--')){
+            this.value=lastInput;
+            return;
+        }
+        lastInput=matchedValue[0];
+        search.value = matchedValue[0];
+        return;
+    }else if(inputValue.endsWith('--')||inputValue.startsWith("-")){
+        this.value=lastInput;
+        return;
+    }
+    this.value="";
+    lastInput=this.value;
 }
 );
 

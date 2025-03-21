@@ -10,6 +10,11 @@ const words = [
 const pattern=/^[a-zA-Z0-9]+[-a-zA-Z0-9]*/;
 let lastInput="";
 isSearching=false;
+let searchedUser='';
+let url_string = window.location.href;
+let url = new URL(url_string);
+let c = url.searchParams.get("c");
+
 // colors
 const darkColors = ["#383a42", "#0098dd", "#23974a", "#a05a48", "#c5a332", "#ce33c0","#823ff1","#275fe4","#df631c","#d52753","#7a82da"];
 const lightColors = ["#f8f8f2", "#8be9fd", "#50fa7b", "#ffb86c", "#ff79c6", "#bd93f9","#ff5555","#f1fa8c"];
@@ -17,8 +22,22 @@ var colors = [];
 
 // views
 const search=document.getElementById('snl-search-bar');
-const dialBG=document.getElementById('dial-bg');
 const resultDiv=document.getElementById('result');
+const dialBG=document.getElementById('dial-bg');
+const userName=document.getElementById('dial-name');
+const userNameLink=document.getElementById('dial-name-link');
+const userSM=document.getElementById('dial-sm');
+const userAvatar=document.getElementById('dial-avatar');
+const userDescription=document.getElementById('dial-description');
+const userResourceContainer=document.getElementById('dial-res-cntnr');
+const userResource=document.getElementById('dial-resources');
+
+// checker
+if(c!==null || c!==''){
+    search.value=c;
+    searchContributor();
+}
+
 
 function getRandomWord() {
     return words[Math.floor(Math.random() * words.length)];
@@ -138,12 +157,59 @@ async function fetchContributor(fileName) {
     try {
         const response = await fetch(`https://raw.githubusercontent.com/sticknologic/first-accord/main/contributors/${fileName}.json`);
         if (!response.ok) {
-            throw new Error('Contributor not found');
+            return null;
         }
         return await response.json();
     } catch (error) {
-        console.error('Error fetching the contributor:', error);
         return null;
+    }
+}
+
+//show Error
+function showError(msg){
+    if(resultDiv.classList.contains('hidden'))
+        resultDiv.classList.toggle('hidden');
+    resultDiv.innerHTML = sanitize(msg);
+}
+
+// hide view
+function hide(view){
+    if (!view.classList.contains('hidden')){
+        view.classList.toggle('hidden');
+    }
+}
+
+// sanitizer
+function sanitize(msg){
+    return DOMPurify.sanitize(msg);
+}
+
+//propagate data
+function showDial(data){
+    hide(resultDiv);
+    if (dialBG.classList.contains('hidden'))
+        dialBG.classList.toggle('hidden');
+    userAvatar.src= `${'use_github_avatar' in data && !data.use_github_avatar && 'custom_avatar_url' in data ?  sanitize(data.custom_avatar_url) : ('github' in data.owner ? sanitize(data.owner.github) : `https://github/com/${searchedUser}` )}.png?size=128`;
+    userNameLink.href='github' in data.owner ? sanitize(data.owner.github) : `https://github/com/${searchedUser}`;
+    userName.innerHTML=data.owner.name;
+    userSM.innerHTML='';
+    if('social' in data){
+        for(s in data.social){
+            userSM.innerHTML+= `<a href="${sanitize(data.social[s])}" alt="user-sm" target="_blank"><i class="${sanitize(s)} dial-share"></i></a>`;
+        }
+    }
+    if('email' in data.owner){
+        userSM.innerHTML+=`<a href="mailto:${sanitize(data.owner.email)}?subject=Hi There!&body=I find Your Contribution at First Accord!"><i class="fa-solid fa-envelope dial-share"></i></a>`;
+    }
+    userDescription.innerHTML='description'in data? sanitize(data.description) : "This Contributor is lazy enough not to modify this description, what a shame..";
+    if ("my_top_resources" in data){
+        userResourceContainer.classList.remove('hidden');
+        userResource.innerHTML='';
+        for(res in data.my_top_resources){
+            userResource.innerHTML+=`<li><a href="${sanitize(data.my_top_resources[res])}" alt="my top resources" target="_blank">${sanitize(res)}</a></li>`;
+        }
+    }else{
+        hide(userResourceContainer);
     }
 }
 
@@ -153,34 +219,20 @@ async function searchContributor() {
     }
     const fileName = search.value.toLowerCase().trim().replace(/\s+/g, '');
     if(fileName===""){
-        //TODO: Create a function for showing error
-        if(resultDiv.classList.contains('hidden'))
-            resultDiv.classList.toggle('hidden');
-        resultDiv.innerHTML = "Can't Search Empty Field.";
+        showError("Can't Search Empty Field.");
         return;
     }
-    if(!resultDiv.classList.contains('hidden'))
-        resultDiv.classList.toggle('hidden');
+    hide(resultDiv);
     isSearching=true;
     const result = await fetchContributor(fileName);
 
     if (result) {
-        resultDiv.innerHTML = `Name: ${result.name} <br> Email: ${result.email}`;
+        searchedUser=fileName;
+        showDial(result);
     } else {
-        if(resultDiv.classList.contains('hidden'))
-            resultDiv.classList.toggle('hidden');
-        resultDiv.innerHTML = 'No matching contributor found.';
+        showError('No matching contributor found.');
     }
     isSearching=false;
-}
-
-let url_string = window.location.href;
-let url = new URL(url_string);
-let c = url.searchParams.get("c");
-
-if(c!==null || c!==''){
-    search.value=c;
-    searchContributor();
 }
 
 function share(link){
@@ -211,5 +263,5 @@ function share(link){
     window.open(url,"Share First Accord",'width=360,height=640,titlebar=0,toolbar=0,');
 }
 function closeButton(){
-    dialBG.classList.toggle('hidden');
+    hide(dialBG);
 }

@@ -2,11 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/x-icon" href="./fav.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- favicon -->
+    <link rel="icon" type="image/x-icon" href="./fav.ico">
+
+    <!-- Main Title -->
     <title>Search Page with Floating Code Text Background</title>
+
+    <!-- css -->
     <link rel="stylesheet"  href="./assets/snl-styles.css">
     <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- js -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2/dist/purify.min.js"></script>
+
+    <!-- preload image/s -->
 </head>
 <body>
     <div>
@@ -35,7 +46,7 @@
             <div class="dial-top">
                 <img src="" class="dial-avatar" id="dial-avatar" alt="contributor-avatar">
                 <div style="width: 100%;">
-                    <h2 id="dial-name" class="dial-name"></h2>
+                    <a id="dial-name-link" href="" target="_blank"  style="text-decoration: none;" alt="gh-username"><h2 id="dial-name" class="dial-name"></h2></a>
                     <div id="dial-sm" class="dial-sm">
                     </div>
                     <hr>

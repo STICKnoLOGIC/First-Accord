@@ -9,6 +9,7 @@ const words = [
 //values
 const pattern=/^[a-zA-Z0-9]+[-a-zA-Z0-9]*/;
 let lastInput="";
+isSearching=false;
 // colors
 const darkColors = ["#383a42", "#0098dd", "#23974a", "#a05a48", "#c5a332", "#ce33c0","#823ff1","#275fe4","#df631c","#d52753","#7a82da"];
 const lightColors = ["#f8f8f2", "#8be9fd", "#50fa7b", "#ffb86c", "#ff79c6", "#bd93f9","#ff5555","#f1fa8c"];
@@ -86,12 +87,20 @@ function toggleMode() {
     });
 }
 
+//screen listenr
 window.addEventListener('resize', () => {
     const floatingTexts = document.querySelectorAll('.floating-text');
     floatingTexts.forEach(text => text.remove());
     generateFloatingText();
     // TODO: Create a "Realistic" PArallax Effect
     // console.log(window.innerWidth);
+});
+
+//search listener
+search.addEventListener('keypress',function(e){
+    if(e.key==='Enter'){
+        searchContributor();
+    }
 });
 
 search.addEventListener(
@@ -139,6 +148,9 @@ async function fetchContributor(fileName) {
 }
 
 async function searchContributor() {
+    if(isSearching){
+        return;
+    }
     const fileName = search.value.toLowerCase().trim().replace(/\s+/g, '');
     if(fileName===""){
         //TODO: Create a function for showing error
@@ -149,6 +161,7 @@ async function searchContributor() {
     }
     if(!resultDiv.classList.contains('hidden'))
         resultDiv.classList.toggle('hidden');
+    isSearching=true;
     const result = await fetchContributor(fileName);
 
     if (result) {
@@ -158,13 +171,14 @@ async function searchContributor() {
             resultDiv.classList.toggle('hidden');
         resultDiv.innerHTML = 'No matching contributor found.';
     }
+    isSearching=false;
 }
 
 let url_string = window.location.href;
 let url = new URL(url_string);
 let c = url.searchParams.get("c");
 
-if(c!==null){
+if(c!==null || c!==''){
     search.value=c;
     searchContributor();
 }

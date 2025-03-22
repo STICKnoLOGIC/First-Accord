@@ -1,11 +1,3 @@
-// contributors
-const words = [
-    "STICKnoLOGIC",
-    "SnL",
-    "Cyber-Jazzer",
-    "js.org",
-];
-
 //values
 const pattern=/^[a-zA-Z0-9]+[-a-zA-Z0-9]*/;
 let lastInput="";

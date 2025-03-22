@@ -78,7 +78,10 @@ a{
         transform: translateX(var(--start));
         opacity: 0;
     }
-    50% {
+    30% {
+        opacity: var(--oppa);
+    }
+    70% {
         opacity: var(--oppa);
     }
     100% {

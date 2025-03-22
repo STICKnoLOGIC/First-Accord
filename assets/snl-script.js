@@ -14,6 +14,8 @@ let searchedUser='';
 let url_string = window.location.href;
 let url = new URL(url_string);
 let c = url.searchParams.get("c");
+let floatingTextCount=40; //I hope 40 floating text is not "annoying"
+let lastWidth=window.innerWidth;
 
 // colors
 const darkColors = ["#383a42", "#0098dd", "#23974a", "#a05a48", "#c5a332", "#ce33c0","#823ff1","#275fe4","#df631c","#d52753","#7a82da"];
@@ -88,8 +90,8 @@ function createFloatingText(word, rowY, direction) {
 }
 
 function generateFloatingText(){
-    //I hope 40 floating text is not "annoying"
-    for (let i = 0; i < 40; i++) {
+
+    for (let i = 0; i < floatingTextCount; i++) {
         const rowY = ( 2 * Math.random() * 80 ) + 10; // random row position from 10% to 90%
         const direction = Math.random() > 0.5 ? 'start' : 'end';
         createFloatingText(getRandomWord(), rowY, direction);
@@ -113,11 +115,19 @@ function toggleMode() {
 
 //screen listenr
 window.addEventListener('resize', () => {
+    if(window.innerWidth===lastWidth){
+        return;
+    }
+    lastWidth=window.innerWidth;
+    if(lastWidth<780){
+        floatingTextCount=25; //less floating text for tablets
+    }else{
+        floatingTextCount=40;
+    }
     const floatingTexts = document.querySelectorAll('.floating-text');
     floatingTexts.forEach(text => text.remove());
     generateFloatingText();
-    // TODO: Create a "Realistic" PArallax Effect
-    // console.log(window.innerWidth);
+
 });
 
 //search listener

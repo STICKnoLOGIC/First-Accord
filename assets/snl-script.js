@@ -33,7 +33,7 @@ const userResourceContainer=document.getElementById('dial-res-cntnr');
 const userResource=document.getElementById('dial-resources');
 
 // checker
-if(c!==null || c!==''){
+if(c!==null && c!==''){
     search.value=c;
     searchContributor();
 }

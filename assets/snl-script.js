@@ -17,6 +17,10 @@ let c = url.searchParams.get("c");
 let floatingTextCount=40; //I hope 40 floating text is not "annoying"
 let lastWidth=window.innerWidth;
 
+if(lastWidth<780){
+    floatingTextCount=25;
+}
+
 // colors
 const darkColors = ["#383a42", "#0098dd", "#23974a", "#a05a48", "#c5a332", "#ce33c0","#823ff1","#275fe4","#df631c","#d52753","#7a82da"];
 const lightColors = ["#f8f8f2", "#8be9fd", "#50fa7b", "#ffb86c", "#ff79c6", "#bd93f9","#ff5555","#f1fa8c"];
@@ -72,18 +76,19 @@ function createFloatingText(word, rowY, direction) {
     div.textContent = word;
 
     div.addEventListener('animationiteration', () => {
+        div.style.animation = 'none';
+        div.offsetHeight; /* trigger reflow */
+        div.style.animation = null;
         const newY = Math.random() * 80 + 10; // Random y/row position between 10% and 90%
         div.style.top = `${newY}%`;
         const newWord = getRandomWord();
         div.textContent = newWord;
         const Allrand=Math.random();
-        this.style.animationPlayState = "paused";
         const speed =  Allrand * 10 + 5 ; // Random speed between 5s and 15s
         div.style.animationDuration = `${speed}s`;
         div.style.setProperty('--oppa',1.2 - ((Allrand*90+10)/100)); //create a depth effect by reducing the opacity of some floating text
         const newRandomColor = colors[Math.floor(Math.random() * colors.length)];
         div.style.setProperty('--color', newRandomColor);
-        style.animationPlayState = "running";
     });
 
     document.body.appendChild(div);

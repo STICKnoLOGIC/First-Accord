@@ -46,7 +46,8 @@ function getRandomWord() {
 function createFloatingText(word, rowY, direction) {
     const div = document.createElement('div');
     div.classList.add('floating-text');
-    const speed = Math.random() * 10 + 5 ; // Random speed between 5s and 15s
+    const Allrand=Math.random();
+    const speed =  Allrand * 10 + 5 ; // Random speed between 5s and 15s
 
     //animation var
     if (direction === 'start') {
@@ -57,7 +58,7 @@ function createFloatingText(word, rowY, direction) {
         div.style.setProperty('--end', '0vw');
     }
 
-    div.style.setProperty('--oppa',( Math.random()*90 + 10 ) / 100); //create a depth effect by reducing the opacity of some floating text
+    div.style.setProperty('--oppa',1.2 - (( Allrand * 90 + 10 ) / 100)); //create a depth effect by reducing the opacity of some floating text
     const isLightMode = document.body.classList.contains('light-mode');
     colors = isLightMode ? darkColors : lightColors;
     const randomColor = colors[Math.floor(Math.random() * colors.length)];
@@ -65,7 +66,7 @@ function createFloatingText(word, rowY, direction) {
 
     div.style.top = `${rowY}%`;
     div.style.animationDuration = `${speed}s`;
-    div.style.animationDelay = `${Math.random() * 5}s`; // Random delay to stagger animations
+    div.style.animationDelay = `${Allrand * 5}s`; // Random delay to stagger animations
     div.textContent = word;
 
     div.addEventListener('animationiteration', () => {
@@ -73,10 +74,14 @@ function createFloatingText(word, rowY, direction) {
         div.style.top = `${newY}%`;
         const newWord = getRandomWord();
         div.textContent = newWord;
-
-        div.style.setProperty('--oppa',(Math.random()*90+10)/100); //create a depth effect by reducing the opacity of some floating text
+        const Allrand=Math.random();
+        this.style.animationPlayState = "paused";
+        const speed =  Allrand * 10 + 5 ; // Random speed between 5s and 15s
+        div.style.animationDuration = `${speed}s`;
+        div.style.setProperty('--oppa',1.2 - ((Allrand*90+10)/100)); //create a depth effect by reducing the opacity of some floating text
         const newRandomColor = colors[Math.floor(Math.random() * colors.length)];
         div.style.setProperty('--color', newRandomColor);
+        style.animationPlayState = "running";
     });
 
     document.body.appendChild(div);

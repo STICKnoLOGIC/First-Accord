@@ -13,7 +13,7 @@
     var link = document.createElement( "link" );
     link.type = "text/css";
     link.rel = "stylesheet";
-    if(localStorage.getItem('snl_fa_theme')!=='true'){
+    if(localStorage.getItem('snl_fa_theme')==='true'){
       link.href = './styles/habilight.css';
     }else{
       link.href = './styles/darcula.css';

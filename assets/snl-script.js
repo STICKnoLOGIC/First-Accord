@@ -1,4 +1,5 @@
 //values
+let words=[];
 const pattern=/^[a-zA-Z0-9]+[-a-zA-Z0-9]*/;
 let lastInput="";
 isSearching=false;
@@ -109,7 +110,7 @@ function toggleMode() {
     });
 }
 
-//screen listenr
+//screen listener
 window.addEventListener('resize', () => {
     if(window.innerWidth===lastWidth){
         return;
@@ -161,7 +162,12 @@ if(localStorage.getItem('snl_fa_theme')=='true'){
     toggleMode();
 }
 // start the floating
-generateFloatingText();
+fetch('https://raw.githubusercontent.com/sticknologic/first-accord/main/utils/contributos.json')
+  .then((response) => response.json())
+  .then((data) => {
+    words=data;
+    generateFloatingText();
+  })
 
 //contributor
 async function fetchContributor(fileName) {
@@ -206,7 +212,7 @@ function showDial(data){
     userSM.innerHTML='';
     if('social' in data){
         for(s in data.social){
-            userSM.innerHTML+= `<a href="${sanitize(data.social[s])}" alt="user-sm" target="_blank"><i class="${sanitize(s)} dial-share"></i></a>`;
+            userSM.innerHTML+= `<a href="${(!data.social[s].startsWith('http')?'https://':'') + sanitize(data.social[s])}" alt="user-sm" target="_blank"><i class="${sanitize(s)} dial-share"></i></a>`;
         }
     }
     if('email' in data.owner){
@@ -217,7 +223,7 @@ function showDial(data){
         userResourceContainer.classList.remove('hidden');
         userResource.innerHTML='';
         for(res in data.my_top_resources){
-            userResource.innerHTML+=`<li><a href="${sanitize(data.my_top_resources[res])}" alt="my top resources" target="_blank">${sanitize(res)}</a></li>`;
+            userResource.innerHTML+=`<li><a href="${(!data.my_top_resources[res].startsWith('http')?'http://':'')+sanitize(data.my_top_resources[res])}" alt="my top resources" target="_blank">${sanitize(res)}</a></li>`;
         }
     }else{
         hide(userResourceContainer);
@@ -276,3 +282,38 @@ function share(link){
 function closeButton(){
     hide(dialBG);
 }
+const about=document.getElementById('dial-bg-about');
+function closeAbout(){
+    hide(about);
+}
+
+function showAbout(){
+    if(about.classList.contains('hidden'))
+    {
+        about.classList.toggle('hidden');
+    }
+}
+
+//readme.md or about
+const md = window.markdownit({
+    html: true,
+    linkify: true,
+    typographer: true
+});
+
+fetch('https://raw.githubusercontent.com/sticknologic/first-accord/main/README.md')
+  .then((response) => response.text())
+  .then((text) => {
+    document.getElementById('dial-about').innerHTML =md.render(text);
+  })
+
+// about checker
+
+if(localStorage.getItem('snl_fa_about')=='true'){
+    closeAbout();
+    document.getElementById('show-about').checked=true;
+}
+
+document.getElementById('show-about').addEventListener('change', function() {
+    localStorage.setItem('snl_fa_about', this.checked);
+  });

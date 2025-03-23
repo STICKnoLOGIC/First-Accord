@@ -4,7 +4,7 @@
         "email":"johnaerial.azcune@STICKnoLOGIC.is-a.dev",
         "github":"https://github.com/STICKnoLOGIC"
     },
-    "social":{ 
+    "social":{
         "fa-brands fa-facebook":"https://facebook.com/STICKnoLOGIC",
         "fa-brands fa-square-bluesky":"https://bsky.app/profile/sticknologic.bsky.social",
         "fa-brands fa-linkedin":"https://linkedin.com/in/STICKnoLOGIC",
@@ -12,7 +12,7 @@
     },
     "my_top_resources":{
         "StackOverflow":"https://stackoverflow.com",
-        "STICKnoLOGIC's Blog":"STICKnoLOGIC.is-a.dev/blog",
+        "STICKnoLOGIC's Blog":"https://STICKnoLOGIC.is-a.dev/blog",
         "Daily.Dev":"https://app.daily.dev"
     },
     "description":"A Web/App Developer | Pixel Artist | A simple stick that want to be a champ",

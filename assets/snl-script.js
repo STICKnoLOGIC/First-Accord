@@ -1,12 +1,5 @@
-// contributors
-const words = [
-    "STICKnoLOGIC",
-    "SnL",
-    "Cyber-Jazzer",
-    "js.org",
-];
-
 //values
+let words=[];
 const pattern=/^[a-zA-Z0-9]+[-a-zA-Z0-9]*/;
 let lastInput="";
 isSearching=false;
@@ -14,6 +7,12 @@ let searchedUser='';
 let url_string = window.location.href;
 let url = new URL(url_string);
 let c = url.searchParams.get("c");
+let floatingTextCount=40; //I hope 40 floating text is not "annoying"
+let lastWidth=window.innerWidth;
+
+if(lastWidth<780){
+    floatingTextCount=25;
+}
 
 // colors
 const darkColors = ["#383a42", "#0098dd", "#23974a", "#a05a48", "#c5a332", "#ce33c0","#823ff1","#275fe4","#df631c","#d52753","#7a82da"];
@@ -33,7 +32,7 @@ const userResourceContainer=document.getElementById('dial-res-cntnr');
 const userResource=document.getElementById('dial-resources');
 
 // checker
-if(c!==null || c!==''){
+if(c!==null && c!==''){
     search.value=c;
     searchContributor();
 }
@@ -46,7 +45,8 @@ function getRandomWord() {
 function createFloatingText(word, rowY, direction) {
     const div = document.createElement('div');
     div.classList.add('floating-text');
-    const speed = Math.random() * 10 + 5 ; // Random speed between 5s and 15s
+    const Allrand=Math.random();
+    const speed =  Allrand * 10 + 5 ; // Random speed between 5s and 15s
 
     //animation var
     if (direction === 'start') {
@@ -57,7 +57,7 @@ function createFloatingText(word, rowY, direction) {
         div.style.setProperty('--end', '0vw');
     }
 
-    div.style.setProperty('--oppa',( Math.random()*90 + 10 ) / 100); //create a depth effect by reducing the opacity of some floating text
+    div.style.setProperty('--oppa',1.2 - (( Allrand * 90 + 10 ) / 100)); //create a depth effect by reducing the opacity of some floating text
     const isLightMode = document.body.classList.contains('light-mode');
     colors = isLightMode ? darkColors : lightColors;
     const randomColor = colors[Math.floor(Math.random() * colors.length)];
@@ -65,16 +65,21 @@ function createFloatingText(word, rowY, direction) {
 
     div.style.top = `${rowY}%`;
     div.style.animationDuration = `${speed}s`;
-    div.style.animationDelay = `${Math.random() * 5}s`; // Random delay to stagger animations
+    div.style.animationDelay = `${Allrand * 5}s`; // Random delay to stagger animations
     div.textContent = word;
 
     div.addEventListener('animationiteration', () => {
+        div.style.animation = 'none';
+        div.offsetHeight; /* trigger reflow */
+        div.style.animation = null;
         const newY = Math.random() * 80 + 10; // Random y/row position between 10% and 90%
         div.style.top = `${newY}%`;
         const newWord = getRandomWord();
         div.textContent = newWord;
-
-        div.style.setProperty('--oppa',(Math.random()*90+10)/100); //create a depth effect by reducing the opacity of some floating text
+        const Allrand=Math.random();
+        const speed =  Allrand * 10 + 5 ; // Random speed between 5s and 15s
+        div.style.animationDuration = `${speed}s`;
+        div.style.setProperty('--oppa',1.2 - ((Allrand*90+10)/100)); //create a depth effect by reducing the opacity of some floating text
         const newRandomColor = colors[Math.floor(Math.random() * colors.length)];
         div.style.setProperty('--color', newRandomColor);
     });
@@ -83,8 +88,7 @@ function createFloatingText(word, rowY, direction) {
 }
 
 function generateFloatingText(){
-    //I hope 40 floating text is not "annoying"
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < floatingTextCount; i++) {
         const rowY = ( 2 * Math.random() * 80 ) + 10; // random row position from 10% to 90%
         const direction = Math.random() > 0.5 ? 'start' : 'end';
         createFloatingText(getRandomWord(), rowY, direction);
@@ -106,13 +110,21 @@ function toggleMode() {
     });
 }
 
-//screen listenr
+//screen listener
 window.addEventListener('resize', () => {
+    if(window.innerWidth===lastWidth){
+        return;
+    }
+    lastWidth=window.innerWidth;
+    if(lastWidth<780){
+        floatingTextCount=25; //less floating text for tablets
+    }else{
+        floatingTextCount=40;
+    }
     const floatingTexts = document.querySelectorAll('.floating-text');
     floatingTexts.forEach(text => text.remove());
     generateFloatingText();
-    // TODO: Create a "Realistic" PArallax Effect
-    // console.log(window.innerWidth);
+
 });
 
 //search listener
@@ -150,7 +162,12 @@ if(localStorage.getItem('snl_fa_theme')=='true'){
     toggleMode();
 }
 // start the floating
-generateFloatingText();
+fetch('https://raw.githubusercontent.com/sticknologic/first-accord/main/util/contributors.json')
+  .then((response) => response.json())
+  .then((data) => {
+    words=data;
+    generateFloatingText();
+  })
 
 //contributor
 async function fetchContributor(fileName) {
@@ -195,7 +212,7 @@ function showDial(data){
     userSM.innerHTML='';
     if('social' in data){
         for(s in data.social){
-            userSM.innerHTML+= `<a href="${sanitize(data.social[s])}" alt="user-sm" target="_blank"><i class="${sanitize(s)} dial-share"></i></a>`;
+            userSM.innerHTML+= `<a href="${(!data.social[s].startsWith('http')?'https://':'') + sanitize(data.social[s])}" alt="user-sm" target="_blank"><i class="${sanitize(s)} dial-share"></i></a>`;
         }
     }
     if('email' in data.owner){
@@ -206,7 +223,7 @@ function showDial(data){
         userResourceContainer.classList.remove('hidden');
         userResource.innerHTML='';
         for(res in data.my_top_resources){
-            userResource.innerHTML+=`<li><a href="${sanitize(data.my_top_resources[res])}" alt="my top resources" target="_blank">${sanitize(res)}</a></li>`;
+            userResource.innerHTML+=`<li><a href="${(!data.my_top_resources[res].startsWith('http')?'http://':'')+sanitize(data.my_top_resources[res])}" alt="my top resources" target="_blank">${sanitize(res)}</a></li>`;
         }
     }else{
         hide(userResourceContainer);
@@ -265,3 +282,38 @@ function share(link){
 function closeButton(){
     hide(dialBG);
 }
+const about=document.getElementById('dial-bg-about');
+function closeAbout(){
+    hide(about);
+}
+
+function showAbout(){
+    if(about.classList.contains('hidden'))
+    {
+        about.classList.toggle('hidden');
+    }
+}
+
+//readme.md or about
+const md = window.markdownit({
+    html: true,
+    linkify: true,
+    typographer: true
+});
+
+fetch('https://raw.githubusercontent.com/sticknologic/first-accord/main/README.md')
+  .then((response) => response.text())
+  .then((text) => {
+    document.getElementById('dial-about').innerHTML =md.render(text);
+  })
+
+// about checker
+
+if(localStorage.getItem('snl_fa_about')=='true'){
+    closeAbout();
+    document.getElementById('show-about').checked=true;
+}
+
+document.getElementById('show-about').addEventListener('change', function() {
+    localStorage.setItem('snl_fa_about', this.checked);
+  });

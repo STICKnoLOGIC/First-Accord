@@ -87,7 +87,6 @@ function createFloatingText(word, rowY, direction) {
 }
 
 function generateFloatingText(){
-
     for (let i = 0; i < floatingTextCount; i++) {
         const rowY = ( 2 * Math.random() * 80 ) + 10; // random row position from 10% to 90%
         const direction = Math.random() > 0.5 ? 'start' : 'end';

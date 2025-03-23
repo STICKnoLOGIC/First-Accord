@@ -26,12 +26,18 @@ hr{
 a{
     color: inherit;
 }
+.doc-text{
+    cursor: pointer;
+}
 .search-container {
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
     gap: 1rem;
+}
+.index-logo{
+    max-width: 100%;
 }
 .snl-search-bar {
     width: 50%;
@@ -60,6 +66,11 @@ a{
     cursor: pointer;
     border: none;
     z-index: 100; /* Ensure the button stays in front */
+}
+.about-button{
+    cursor: pointer;
+    border: none;
+    z-index: 100;
 }
 .floating-text {
     position: absolute;
@@ -117,15 +128,6 @@ body.light-mode .floating-text {
 .floating-text:hover{
     animation-play-state: paused;
     cursor: grab;
-}
-
-@media (max-width: 480px) {
-.doc-text{
-    display: none;
-    &::before{
-        content: "sadfasd";
-    }
-}
 }
 
 .dial-bg{
@@ -260,6 +262,21 @@ body.light-mode .dial-card{
     padding: 8px;
     border-radius: 8px;
     z-index: 200;
+}
+
+@media (max-width: 480px) {
+    .doc-text{
+        display: none;
+        &::before{
+            content: "sadfasd";
+        }
+    }
+    .about-b{
+        right: 94px !important;
+    }
+    .doc-b{
+        right: 59px !important;
+    }
 }
 
 @media (max-width: 640px) {

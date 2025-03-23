@@ -162,7 +162,7 @@ if(localStorage.getItem('snl_fa_theme')=='true'){
     toggleMode();
 }
 // start the floating
-fetch('https://raw.githubusercontent.com/sticknologic/first-accord/main/utils/contributos.json')
+fetch('https://raw.githubusercontent.com/sticknologic/first-accord/main/util/contributos.json')
   .then((response) => response.json())
   .then((data) => {
     words=data;

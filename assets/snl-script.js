@@ -1,10 +1,18 @@
-// contributors
-const words = [
-    "STICKnoLOGIC",
-    "SnL",
-    "Cyber-Jazzer",
-    "js.org",
-];
+//values
+let words=[];
+const pattern=/^[a-zA-Z0-9]+[-a-zA-Z0-9]*/;
+let lastInput="";
+isSearching=false;
+let searchedUser='';
+let url_string = window.location.href;
+let url = new URL(url_string);
+let c = url.searchParams.get("c");
+let floatingTextCount=40; //I hope 40 floating text is not "annoying"
+let lastWidth=window.innerWidth;
+
+if(lastWidth<780){
+    floatingTextCount=25;
+}
 
 // colors
 const darkColors = ["#383a42", "#0098dd", "#23974a", "#a05a48", "#c5a332", "#ce33c0","#823ff1","#275fe4","#df631c","#d52753","#7a82da"];
@@ -13,8 +21,22 @@ var colors = [];
 
 // views
 const search=document.getElementById('snl-search-bar');
-const dialBG=document.getElementById('dial-bg');
 const resultDiv=document.getElementById('result');
+const dialBG=document.getElementById('dial-bg');
+const userName=document.getElementById('dial-name');
+const userNameLink=document.getElementById('dial-name-link');
+const userSM=document.getElementById('dial-sm');
+const userAvatar=document.getElementById('dial-avatar');
+const userDescription=document.getElementById('dial-description');
+const userResourceContainer=document.getElementById('dial-res-cntnr');
+const userResource=document.getElementById('dial-resources');
+
+// checker
+if(c!==null && c!==''){
+    search.value=c;
+    searchContributor();
+}
+
 
 function getRandomWord() {
     return words[Math.floor(Math.random() * words.length)];
@@ -23,7 +45,8 @@ function getRandomWord() {
 function createFloatingText(word, rowY, direction) {
     const div = document.createElement('div');
     div.classList.add('floating-text');
-    const speed = Math.random() * 10 + 5 ; // Random speed between 5s and 15s
+    const Allrand=Math.random();
+    const speed =  Allrand * 10 + 5 ; // Random speed between 5s and 15s
 
     //animation var
     if (direction === 'start') {
@@ -34,7 +57,7 @@ function createFloatingText(word, rowY, direction) {
         div.style.setProperty('--end', '0vw');
     }
 
-    div.style.setProperty('--oppa',( Math.random()*90 + 10 ) / 100); //create a depth effect by reducing the opacity of some floating text
+    div.style.setProperty('--oppa',1.2 - (( Allrand * 90 + 10 ) / 100)); //create a depth effect by reducing the opacity of some floating text
     const isLightMode = document.body.classList.contains('light-mode');
     colors = isLightMode ? darkColors : lightColors;
     const randomColor = colors[Math.floor(Math.random() * colors.length)];
@@ -42,16 +65,21 @@ function createFloatingText(word, rowY, direction) {
 
     div.style.top = `${rowY}%`;
     div.style.animationDuration = `${speed}s`;
-    div.style.animationDelay = `${Math.random() * 5}s`; // Random delay to stagger animations
+    div.style.animationDelay = `${Allrand * 5}s`; // Random delay to stagger animations
     div.textContent = word;
 
     div.addEventListener('animationiteration', () => {
+        div.style.animation = 'none';
+        div.offsetHeight; /* trigger reflow */
+        div.style.animation = null;
         const newY = Math.random() * 80 + 10; // Random y/row position between 10% and 90%
         div.style.top = `${newY}%`;
         const newWord = getRandomWord();
         div.textContent = newWord;
-
-        div.style.setProperty('--oppa',(Math.random()*90+10)/100); //create a depth effect by reducing the opacity of some floating text
+        const Allrand=Math.random();
+        const speed =  Allrand * 10 + 5 ; // Random speed between 5s and 15s
+        div.style.animationDuration = `${speed}s`;
+        div.style.setProperty('--oppa',1.2 - ((Allrand*90+10)/100)); //create a depth effect by reducing the opacity of some floating text
         const newRandomColor = colors[Math.floor(Math.random() * colors.length)];
         div.style.setProperty('--color', newRandomColor);
     });
@@ -60,8 +88,7 @@ function createFloatingText(word, rowY, direction) {
 }
 
 function generateFloatingText(){
-    //I hope 40 floating text is not "annoying"
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < floatingTextCount; i++) {
         const rowY = ( 2 * Math.random() * 80 ) + 10; // random row position from 10% to 90%
         const direction = Math.random() > 0.5 ? 'start' : 'end';
         createFloatingText(getRandomWord(), rowY, direction);
@@ -83,55 +110,146 @@ function toggleMode() {
     });
 }
 
+//screen listener
 window.addEventListener('resize', () => {
+    if(window.innerWidth===lastWidth){
+        return;
+    }
+    lastWidth=window.innerWidth;
+    if(lastWidth<780){
+        floatingTextCount=25; //less floating text for tablets
+    }else{
+        floatingTextCount=40;
+    }
     const floatingTexts = document.querySelectorAll('.floating-text');
     floatingTexts.forEach(text => text.remove());
     generateFloatingText();
+
 });
+
+//search listener
+search.addEventListener('keypress',function(e){
+    if(e.key==='Enter'){
+        searchContributor();
+    }
+});
+
+search.addEventListener(
+    "input", function () {
+    const inputValue = this.value.trim();
+
+    const matchedValue = inputValue.match(pattern);
+
+    if (matchedValue && inputValue!=="") {
+        if(inputValue.endsWith('--')){
+            this.value=lastInput;
+            return;
+        }
+        lastInput=matchedValue[0];
+        search.value = matchedValue[0];
+        return;
+    }else if(inputValue.endsWith('--')||inputValue.startsWith("-")){
+        this.value=lastInput;
+        return;
+    }
+    this.value="";
+    lastInput=this.value;
+}
+);
 
 // get the last session dark theme state
 if(localStorage.getItem('snl_fa_theme')=='true'){
     toggleMode();
 }
 // start the floating
-generateFloatingText();
+fetch('https://raw.githubusercontent.com/sticknologic/first-accord/main/utils/contributos.json')
+  .then((response) => response.json())
+  .then((data) => {
+    words=data;
+    generateFloatingText();
+  })
 
 //contributor
 async function fetchContributor(fileName) {
     try {
-        const response = await fetch(`contributors/${fileName}.json`);
+        const response = await fetch(`https://raw.githubusercontent.com/sticknologic/first-accord/main/contributors/${fileName}.json`);
         if (!response.ok) {
-            throw new Error('Contributor not found');
+            return null;
         }
         return await response.json();
     } catch (error) {
-        console.error('Error fetching the contributor:', error);
         return null;
     }
 }
 
-async function searchContributor() {
-    const fileName = search.value.toLowerCase().replace(/\s+/g, '').trim();
-    if(!resultDiv.classList.contains('hidden'))
+//show Error
+function showError(msg){
+    if(resultDiv.classList.contains('hidden'))
         resultDiv.classList.toggle('hidden');
-    const result = await fetchContributor(fileName);
+    resultDiv.innerHTML = sanitize(msg);
+}
 
-    if (result) {
-        resultDiv.innerHTML = `Name: ${result.name} <br> Email: ${result.email}`;
-    } else {
-        if(resultDiv.classList.contains('hidden'))
-            resultDiv.classList.toggle('hidden');
-        resultDiv.innerHTML = 'No matching contributor found.';
+// hide view
+function hide(view){
+    if (!view.classList.contains('hidden')){
+        view.classList.toggle('hidden');
     }
 }
 
-let url_string = window.location.href;
-let url = new URL(url_string);
-let c = url.searchParams.get("c");
+// sanitizer
+function sanitize(msg){
+    return DOMPurify.sanitize(msg);
+}
 
-if(c!==null){
-    search.value=c;
-    searchContributor();
+//propagate data
+function showDial(data){
+    hide(resultDiv);
+    if (dialBG.classList.contains('hidden'))
+        dialBG.classList.toggle('hidden');
+    userAvatar.src= `${'use_github_avatar' in data && !data.use_github_avatar && 'custom_avatar_url' in data ?  sanitize(data.custom_avatar_url) : ('github' in data.owner ? sanitize(data.owner.github) : `https://github/com/${searchedUser}` )}.png?size=128`;
+    userNameLink.href='github' in data.owner ? sanitize(data.owner.github) : `https://github/com/${searchedUser}`;
+    userName.innerHTML=data.owner.name;
+    userSM.innerHTML='';
+    if('social' in data){
+        for(s in data.social){
+            userSM.innerHTML+= `<a href="${(!data.social[s].startsWith('http')?'https://':'') + sanitize(data.social[s])}" alt="user-sm" target="_blank"><i class="${sanitize(s)} dial-share"></i></a>`;
+        }
+    }
+    if('email' in data.owner){
+        userSM.innerHTML+=`<a href="mailto:${sanitize(data.owner.email)}?subject=Hi There!&body=I find Your Contribution at First Accord!"><i class="fa-solid fa-envelope dial-share"></i></a>`;
+    }
+    userDescription.innerHTML='description'in data? sanitize(data.description) : "This Contributor is lazy enough not to modify this description, what a shame..";
+    if ("my_top_resources" in data){
+        userResourceContainer.classList.remove('hidden');
+        userResource.innerHTML='';
+        for(res in data.my_top_resources){
+            userResource.innerHTML+=`<li><a href="${(!data.my_top_resources[res].startsWith('http')?'http://':'')+sanitize(data.my_top_resources[res])}" alt="my top resources" target="_blank">${sanitize(res)}</a></li>`;
+        }
+    }else{
+        hide(userResourceContainer);
+    }
+}
+
+async function searchContributor() {
+    if(isSearching){
+        return;
+    }
+    const fileName = search.value.toLowerCase().trim().replace(/\s+/g, '');
+    if(fileName===""){
+        showError("Can't Search Empty Field.");
+        return;
+    }
+    hide(resultDiv);
+    isSearching=true;
+    const result = await fetchContributor(fileName);
+
+    if (result) {
+        searchedUser=fileName;
+        showDial(result);
+    } else {
+        showError('No matching contributor found.');
+    }
+    isSearching=false;
 }
 
 function share(link){
@@ -162,5 +280,40 @@ function share(link){
     window.open(url,"Share First Accord",'width=360,height=640,titlebar=0,toolbar=0,');
 }
 function closeButton(){
-    dialBG.classList.toggle('hidden');
+    hide(dialBG);
 }
+const about=document.getElementById('dial-bg-about');
+function closeAbout(){
+    hide(about);
+}
+
+function showAbout(){
+    if(about.classList.contains('hidden'))
+    {
+        about.classList.toggle('hidden');
+    }
+}
+
+//readme.md or about
+const md = window.markdownit({
+    html: true,
+    linkify: true,
+    typographer: true
+});
+
+fetch('https://raw.githubusercontent.com/sticknologic/first-accord/main/README.md')
+  .then((response) => response.text())
+  .then((text) => {
+    document.getElementById('dial-about').innerHTML =md.render(text);
+  })
+
+// about checker
+
+if(localStorage.getItem('snl_fa_about')=='true'){
+    closeAbout();
+    document.getElementById('show-about').checked=true;
+}
+
+document.getElementById('show-about').addEventListener('change', function() {
+    localStorage.setItem('snl_fa_about', this.checked);
+  });

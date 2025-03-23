@@ -30,7 +30,6 @@ a{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     position: relative;
     gap: 1rem;
 }
@@ -271,5 +270,13 @@ body.light-mode .dial-card{
     }
     .search-container{
         flex-direction: column;
+    }
+    .snl-search-bar {
+        width: 80%;
+        max-width: auto ;
+    }
+    .snl-search-button{
+        width: 70%;
+        text-align: center;
     }
 }

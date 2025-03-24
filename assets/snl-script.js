@@ -288,6 +288,7 @@ function closeAbout(){
 }
 
 function showAbout(){
+    about.scrollTop = 0;
     if(about.classList.contains('hidden'))
     {
         about.classList.toggle('hidden');

@@ -58,6 +58,13 @@ a{
     border-radius: 0.5rem;
     z-index: 100;
 }
+.snl-info{
+    align-self: center;
+    justify-self: center;
+    text-align: center;
+    background-color:#282c34;
+    z-index: 100;
+}
 .toggle-button {
     position: absolute;
     top: 32px;

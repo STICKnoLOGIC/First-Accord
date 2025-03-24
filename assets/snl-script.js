@@ -290,7 +290,7 @@ function closeAbout(){
 const aboutBody=document.getElementById('dial-about');
 
 function showAbout(){
-    aboutBody.scrollTop = 0;
+    aboutBody.scroll(0,0);
     if(about.classList.contains('hidden'))
     {
         about.classList.toggle('hidden');

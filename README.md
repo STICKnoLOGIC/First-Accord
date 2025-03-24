@@ -1,10 +1,10 @@
 <p align="center">
-    <img alt="Open Source Love" src="./logo_md_l.webp" class="index-logo">
+    <img alt="Open Source Love" src="/logo_md_l.webp" class="index-logo">
     <br>
     <a href="https://github.com/STICKnoLOGIC/First-Accord" alt="Open Source Love">
         <img alt="Open Source Love" src="https://STICKnoLOGIC.github.io/open-source-badges/badges/open-source-v1/open-source.svg">
     </a>
-    <a href="./LICENSE" alt="License: MIT">
+    <a href="/LICENSE" alt="License: MIT">
         <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-green.svg" >
     </a>
     <img alt="HTML" src="https://img.shields.io/badge/html5-%23E34F26.svg?style=flat&logo=html5&logoColor=white" >
@@ -20,7 +20,7 @@
  First Accord is an open source project designed to help beginners dive into contributing. It's a simple and beginner-friendly way to get started with GitHub and make your very first contribution. The process is quick, straightforward, and perfect for building your confidence!
 
 ## Documentation
-<a href="./docs" alt="rtfd">
+<a href="/docs" alt="rtfd">
     <img alt="rtfd" src="https://img.shields.io/badge/Readthedocs-%23000000.svg?style=flat&logo=readthedocs&logoColor=white" >
 </a>
 

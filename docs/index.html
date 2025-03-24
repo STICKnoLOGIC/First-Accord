@@ -2,21 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Docs - First Accord</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+   <!-- favicon -->
+   <link rel="icon" type="image/x-icon" href="/fav.ico">
+
+  <!-- Google / Search Engine Tags -->
+  <meta itemprop="name" content="Docs -First Accord" />
+  <meta itemprop="description" content="Explore the comprehensive guide on how to contribute to First Accord. Learn about participation guidelines, contribution steps, and collaboration tools to make a meaningful impact" />
+  <meta itemprop="image" content="https://raw.githubusercontent.com/STICKnoLOGIC/First-Accord/refs/heads/gh-pages/og_image.png" />
+
+  <!-- Facebook Meta Tags -->
+  <meta property="og:url" content="https://First-Accord.js.org/docs" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Docs - First Accord" />
+  <meta property="og:description" content="Explore the comprehensive guide on how to contribute to First Accord. Learn about participation guidelines, contribution steps, and collaboration tools to make a meaningful impact" />
+  <meta property="og:image" content="https://raw.githubusercontent.com/STICKnoLOGIC/First-Accord/refs/heads/gh-pages/og_image.png" />
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Docs - First Accord" />
+  <meta name="twitter:description" content="Explore the comprehensive guide on how to contribute to First Accord. Learn about participation guidelines, contribution steps, and collaboration tools to make a meaningful impact" />
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/STICKnoLOGIC/First-Accord/refs/heads/gh-pages/og_image.png" />
+
+  <!-- Apple Meta Tags -->
+  <meta name="apple-mobile-web-app-title" content="Docs - First Accord" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="preload" as="style" href="/styles/habilight.css">
+  <link rel="preload" as="style" href="/styles/darcula.css">
   <script>
     var file = location.pathname.split( "/" ).pop();
 
     var link = document.createElement( "link" );
     link.type = "text/css";
     link.rel = "stylesheet";
-    if(localStorage.getItem('snl_fa_theme')!=='true'){
-      link.href = './styles/habilight.css';
+    if(localStorage.getItem('snl_fa_theme')==='true'){
+      link.href = '/styles/habilight.css';
     }else{
-      link.href = './styles/darcula.css';
+      link.href = '/styles/darcula.css';
     }
     document.getElementsByTagName( "head" )[0].appendChild( link );
   </script>
@@ -26,6 +52,7 @@
   <div id="app"></div>
   <script>
     window.$docsify = {
+      homepage: 'readme.md',
       name: 'Docs - First Accord',
       repo: 'https://github.com/STICKnoLOGIC/First-Accord',
       loadSidebar:true,

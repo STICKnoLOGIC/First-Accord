@@ -105,7 +105,7 @@ body.light-mode .toggle-button::before {
 content: "\f186" ;
 }
 body.light-mode .fa-logo {
-content: url('../logo_l.webp');
+content: url('/logo_l.webp');
 }
 body.light-mode .fa-xl{
     color: #1e1e1e;
@@ -123,6 +123,10 @@ body.light-mode .snl-search-bar {
 }
 body.light-mode .floating-text {
     color: var(--color); /* Dark text color for light mode */
+}
+
+body.light-mode .snl-info{
+    background-color: white !important;
 }
 
 .floating-text:hover{
@@ -178,6 +182,7 @@ body.light-mode .dial-card{
     word-break: normal;
     mask-image: linear-gradient(to bottom, transparent 0%, black 8px, black calc(100% - 48px), transparent 100%);
 }
+
 
 .dial-body::-webkit-scrollbar {
     width: 8px;

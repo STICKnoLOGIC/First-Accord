@@ -287,11 +287,14 @@ function closeAbout(){
     hide(about);
 }
 
+const aboutBody=document.getElementById('dial-about');
+
 function showAbout(){
     if(about.classList.contains('hidden'))
-    {
-        about.classList.toggle('hidden');
-    }
+        {
+            about.classList.toggle('hidden');
+        }
+    aboutBody.scroll(0,0);
 }
 
 //readme.md or about
@@ -304,11 +307,10 @@ const md = window.markdownit({
 fetch('https://raw.githubusercontent.com/sticknologic/first-accord/main/README.md')
   .then((response) => response.text())
   .then((text) => {
-    document.getElementById('dial-about').innerHTML =md.render(text);
+    aboutBody.innerHTML =md.render(text);
   })
 
 // about checker
-
 if(localStorage.getItem('snl_fa_about')=='true'){
     closeAbout();
     document.getElementById('show-about').checked=true;

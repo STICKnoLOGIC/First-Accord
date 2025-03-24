@@ -290,11 +290,11 @@ function closeAbout(){
 const aboutBody=document.getElementById('dial-about');
 
 function showAbout(){
-    aboutBody.scroll(0,0);
     if(about.classList.contains('hidden'))
-    {
-        about.classList.toggle('hidden');
-    }
+        {
+            about.classList.toggle('hidden');
+        }
+    aboutBody.scroll(0,0);
 }
 
 //readme.md or about

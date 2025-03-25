@@ -3,27 +3,45 @@ name: Validate JSON File
 on:
   pull_request:
     branches: [main]
-  
+    paths:
+      -"contributors/*.json"
+
   workflow_dispatch:
 
+concurrency:
+    group: ${{ github.ref }}-ci
+    cancel-in-progress: true
+
 jobs:
-    # Build job
-    build:
+    initialize:
       if: github.ref == 'refs/heads/main'
       runs-on: ubuntu-latest  # windows-latest || macos-latest
-      name: Validate PR JSON
+      name: Initializing
       permissions:
         pull-requests: read
       steps:
-      - uses: actions/checkout@v4
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v46
 
-      - name: List all changed files
-        env:
-          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+      - uses: actions/checkout@v4
+
+      - name: Fetch PR information
+        if: github.event_name == 'pull_request'
         run: |
-          for file in ${ALL_CHANGED_FILES}; do
-            echo "$file was changed"
-          done
+            echo "PR_AUTHOR=${{ github.event.pull_request.user.login }}" >> $GITHUB_ENV
+            echo "PR_AUTHOR_ID=${{ github.event.pull_request.user.id }}" >> $GITHUB_ENV
+            LABELS=$(gh api --jq '[.labels[].name]' /repos/{owner}/{repo}/pulls/${{ github.event.number }})
+            echo "PR_LABELS=$LABELS" >> $GITHUB_ENV
+            FILES=$(gh api --jq '[.[] | select(.status != "removed") | .filename]' /repos/{owner}/{repo}/pulls/${{ github.event.number }}/files)
+            echo "CHANGED_FILES=$FILES" >> $GITHUB_ENV
+            REMOVED_FILE_DATA=$(gh api --jq '[.[] | select(.status == "removed") | {name: .filename, data: .patch}]' /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files)
+            echo "DELETED_FILES=$REMOVED_FILE_DATA" >> $GITHUB_ENV
+        env:
+            GH_TOKEN: ${{ github.token }}
+
+    test:
+      needs: initialize
+      runs-on: ubuntu-latest  # windows-latest || macos-latest
+      name: testing
+      steps:
+      # - uses: actions/checkout@v4
+      - name: validation
+        run: echo fromJson(env.CHANGED_FILES);

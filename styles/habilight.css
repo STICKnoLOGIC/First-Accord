@@ -1,9 +1,10 @@
 /*!
- * Darkly - Dark theme for docsify
- * Report bug/feature: https://github.com/sushantrahate/docsify-darkly-theme
+ * Habilight Theme
+ * ported by: STICKnoLOGIC
 */
 @import url('https://fonts.googleapis.com/css?family=Roboto+Mono|Source+Sans+Pro:300,600');
 * {
+  opacity: 1 !important;
   -webkit-font-smoothing: antialiased;
   -webkit-overflow-scrolling: touch;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -504,7 +505,7 @@ section.cover {
   background-size: cover;
   height: 100vh;
   display: none;
-  background: 
+  background:
     linear-gradient(180deg, #341D65 0%, rgba(52, 29, 101, 0) 100%),
     radial-gradient(94.51% 124.88% at 94.32% 94.43%, rgba(65, 244, 255, 0.78) 0%, rgba(128, 217, 255, 0.78) 46.52%, rgba(65, 198, 255, 0) 100%),
     linear-gradient(41deg, #fffce673 4.33%, rgba(255, 252, 230, 0) 73.7%);

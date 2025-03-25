@@ -59,10 +59,11 @@ a{
     z-index: 100;
 }
 .snl-info{
+    position: relative;
     align-self: center;
     justify-self: center;
     text-align: center;
-    background-color:#282c34;
+    background-color:#282c34 !important;
     z-index: 100;
 }
 .toggle-button {

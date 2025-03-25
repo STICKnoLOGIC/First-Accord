@@ -44,4 +44,4 @@ jobs:
       steps:
       # - uses: actions/checkout@v4
       - name: validation
-        run: echo fromJson(env.CHANGED_FILES);
+        run: echo env.CHANGED_FILES

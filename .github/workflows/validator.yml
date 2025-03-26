@@ -29,7 +29,7 @@ jobs:
             # echo "PR_AUTHOR_ID=${{ github.event.pull_request.user.id }}" >> $GITHUB_ENV
             LABELS=$(gh api --jq '[.labels[].name]' /repos/{owner}/{repo}/pulls/${{ github.event.number }})
             echo "PR_LABELS=$LABELS" >> $GITHUB_ENV
-            FILES=$(gh api --jq '.[] | select(.status != "removed") | .filename' /repos/{owner}/{repo}/pulls/${{ github.event.number }}/files)
+            FILES=$(gh api --jq '[.[] | select(.status != "removed") | .filename]' /repos/{owner}/{repo}/pulls/${{ github.event.number }}/files)
             echo "CHANGED_FILES=$FILES" >> $GITHUB_ENV
             echo $FILES
             echo "${FILES[0]}"

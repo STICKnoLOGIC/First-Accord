@@ -31,8 +31,9 @@ jobs:
             echo "PR_LABELS=$LABELS" >> $GITHUB_ENV
             FILES=$(gh api --jq '[.[] | select(.status != "removed") | .filename]' /repos/{owner}/{repo}/pulls/${{ github.event.number }}/files)
             echo "CHANGED_FILES=$FILES" >> $GITHUB_ENV
-            echo $FILES
-            echo "${FILES[0]}"
+            IFS=$'\n' read -rd '' -a changed_files <<<"$(echo "$FILES" | jq -r '.[]')"
+            # Access the first value
+            echo "${changed_files[0]}"
             REMOVED_FILE_DATA=$(gh api --jq '[.[] | select(.status == "removed") | {name: .filename, data: .patch}]' /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files)
             echo "DELETED_FILES=$REMOVED_FILE_DATA" >> $GITHUB_ENV
         env:

@@ -31,13 +31,21 @@ jobs:
             echo "PR_LABELS=$LABELS" >> $GITHUB_ENV
             FILES=$(gh api --jq '[.[] | select(.status != "removed") | .filename]' /repos/{owner}/{repo}/pulls/${{ github.event.number }}/files)
             echo "CHANGED_FILES=$FILES" >> $GITHUB_ENV
-            IFS=$'\n' read -rd '' -a changed_files <<<"$(echo "$FILES" | jq -r '.[]')"
-            # Access the first value
-            echo "${changed_files[0]}"
+            echo "CHANGED_FILES=$FILES"
             REMOVED_FILE_DATA=$(gh api --jq '[.[] | select(.status == "removed") | {name: .filename, data: .patch}]' /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files)
             echo "DELETED_FILES=$REMOVED_FILE_DATA" >> $GITHUB_ENV
         env:
             GH_TOKEN: ${{ github.token }}
+      - name: Get changed files and write the outputs to a JSON file
+        id: changed-files-write-output-files-json
+        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+        with:
+              json: true
+              write_output_files: true
+
+      - name: Verify the contents of the .github/outputs/added_files.json file
+        run: |
+              cat .github/outputs/added_files.json
 
     test:
       needs: initialize

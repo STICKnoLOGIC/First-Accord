@@ -46,4 +46,6 @@ jobs:
       steps:
       # - uses: actions/checkout@v4
       - name: validation
-        run: echo ${{github.job.initialize.env.CHANGED_FILES}}
+        run: |
+         echo ${{github.job.initialize.env.CHANGED_FILES}}
+         cat  ${{github.job.initialize.env.CHANGED_FILES}}

@@ -19,7 +19,10 @@ jobs:
       outputs:
         user: ${{ steps.init.outputs.PR_AUTHOR }}
         labels: ${{ steps.init.outputs.PR_LABEL }}
-        error_pr_count: ${{ steps.checker.outputs.PR_LABEL }}
+        json_content: ${{ steps.checker.outputs.JSON_CONTENT }}
+        error_pr_count: ${{ steps.checker.outputs.ERROR_COUNT }}
+        error_pr_file: ${{ steps.checker.outputs.ERROR_FILE }}
+        error_pr_content: ${{ steps.checker.outputs.ERROR_CONTENT }}
       steps:
       - uses: actions/checkout@v4
       - name: Fetch PR information
@@ -40,14 +43,24 @@ jobs:
       - name: Verify the content
         id: checker
         run: |
-              if [ ${{steps.get_pr.outputs.all_changed_files_count}} > 1 ]; then
+              if [ ${{steps.get_pr.outputs.all_changed_files_count}} != 1 ]; then
               echo "ERROR_COUNT=You can only create 1 JSON file per Contributor" >>  "$GITHUB_OUTPUT"
               fi
-              # if [ ${{steps.get_pr.outputs.all_changed_files_count}} > 1 ]; then
-              # echo "ERROR_COUNT=You can only create 1 JSON file per Contributor" >>  "$GITHUB_OUTPUT"
-              # fi
-              echo ${{steps.get_pr.outputs.all_changed_files}}
-              cat ${{steps.get_pr.outputs.all_changed_files}}
+              if [ ${{steps.get_pr.outputs.all_changed_files_count}} == 1 ]; then
+                if [[ "${{steps.get_pr.outputs.all_changed_files}}" != *"${{steps.init.outputs.PR_AUTHOR}}"* ]]; then
+                echo "ERROR_FILE=Invalid file name, please visit [file name guidelines](https://first-accord.js.org/docs/#/json-structure?id=filename)" >>  "$GITHUB_OUTPUT"
+                fi
+                if ! jq empty "$json_file" >/dev/null 2>&1; then
+                echo "ERROR_CONTENT=Error: Invalid JSON file!" >>  "$GITHUB_OUTPUT"
+                fi
+              echo "JSON_CONTENT=$(cat ${{steps.get_pr.outputs.all_changed_files}})" >>  "$GITHUB_OUTPUT"
+              fi
+      - name: Finalize
+        run: |
+          echo ${{ steps.checker.outputs.JSON_CONTENT }}
+          echo ${{ steps.checker.outputs.ERROR_COUNT }}
+          echo ${{ steps.checker.outputs.ERROR_FILE }}
+          echo ${{ steps.checker.outputs.ERROR_CONTENT }}
 
     test:
       needs: initialize

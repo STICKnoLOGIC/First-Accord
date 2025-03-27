@@ -53,7 +53,8 @@ jobs:
                 if ! jq empty "$json_file" >/dev/null 2>&1; then
                 echo "ERROR_CONTENT=Error: Invalid JSON file!" >>  "$GITHUB_OUTPUT"
                 fi
-              echo "JSON_CONTENT=$(cat ${{steps.get_pr.outputs.all_changed_files}})" >>  "$GITHUB_OUTPUT"
+              content=$(cat ${{steps.get_pr.outputs.all_changed_files}})
+              echo "JSON_CONTENT=$content" >>  "$GITHUB_OUTPUT"
               fi
       - name: Finalize
         run: |

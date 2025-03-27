@@ -38,6 +38,7 @@ jobs:
         if: ${{steps.get_pr.outputs.all_changed_files_count}} <= 1
         run: |
               echo ${{steps.get_pr.outputs.all_changed_files}}
+              cat ${{steps.get_pr.outputs.all_changed_files}}
 
     test:
       needs: initialize
@@ -48,4 +49,3 @@ jobs:
       - name: validation
         run: |
          echo ${{github.job.initialize.env.CHANGED_FILES}}
-         cat  ${{github.job.initialize.env.CHANGED_FILES}}

@@ -19,7 +19,7 @@ jobs:
       outputs:
         user: ${{ steps.init.outputs.PR_AUTHOR }}
         labels: ${{ steps.init.outputs.PR_LABEL }}
-        json_content: ${{ steps.checker.outputs.JSON_CONTENT }}
+        json_content: $(cat ${{steps.get_pr.outputs.all_changed_files}})
         error_pr_count: ${{ steps.checker.outputs.ERROR_COUNT }}
         error_pr_file: ${{ steps.checker.outputs.ERROR_FILE }}
         error_pr_content: ${{ steps.checker.outputs.ERROR_CONTENT }}
@@ -53,8 +53,8 @@ jobs:
                 if ! jq empty "$json_file" >/dev/null 2>&1; then
                 echo "ERROR_CONTENT=Error: Invalid JSON file!" >>  "$GITHUB_OUTPUT"
                 fi
-              content=$(cat ${{steps.get_pr.outputs.all_changed_files}})
-              Write-Output "JSON_CONTENT=$content" >>  "$GITHUB_OUTPUT"
+              # content=$(cat ${{steps.get_pr.outputs.all_changed_files}})
+              echo "JSON_CONTENT=$content" >>  "$GITHUB_OUTPUT"
               fi
       - name: Finalize
         run: |

@@ -18,25 +18,34 @@ jobs:
         pull-requests: read
       outputs:
         user: ${{ steps.init.outputs.PR_AUTHOR }}
+        labels: ${{ steps.init.outputs.PR_LABEL }}
+        error_pr_count: ${{ steps.checker.outputs.PR_LABEL }}
       steps:
       - uses: actions/checkout@v4
       - name: Fetch PR information
         id: init
         if: github.event_name == 'pull_request'
         run: |
-            # echo "PR_AUTHOR=${{ github.event.pull_request.user.login }}" >>  "$GITHUB_OUTPUT"
-            # echo "PR_AUTHOR_ID=${{ github.event.pull_request.user.id }}" >>  "$GITHUB_OUTPUT"
+            echo "PR_AUTHOR=${{ github.event.pull_request.user.login }}" >>  "$GITHUB_OUTPUT"
+            echo "PR_AUTHOR_ID=${{ github.event.pull_request.user.id }}" >>  "$GITHUB_OUTPUT"
             LABELS=$(gh api --jq '[.labels[].name]' /repos/{owner}/{repo}/pulls/${{ github.event.number }})
+            echo "PR_LABEL=${LABELS}" >>  "$GITHUB_OUTPUT"
         env:
             GH_TOKEN: ${{ github.token }}
-      - name: Get changed files and write the outputs to a JSON file
+      - name: Get changed files
         id: get_pr
         uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
         with:
-         since_last_remote_commit: true 
+         since_last_remote_commit: true
       - name: Verify the content
-        if: ${{steps.get_pr.outputs.all_changed_files_count}} <= 1
+        id: checker
         run: |
+              if [ ${{steps.get_pr.outputs.all_changed_files_count}} > 1 ]; then
+              echo "ERROR_COUNT=You can only create 1 JSON file per Contributor" >>  "$GITHUB_OUTPUT"
+              fi
+              # if [ ${{steps.get_pr.outputs.all_changed_files_count}} > 1 ]; then
+              # echo "ERROR_COUNT=You can only create 1 JSON file per Contributor" >>  "$GITHUB_OUTPUT"
+              # fi
               echo ${{steps.get_pr.outputs.all_changed_files}}
               cat ${{steps.get_pr.outputs.all_changed_files}}
 

@@ -6,8 +6,6 @@ on:
     paths:
       - "contributors/*.json"
 
-  workflow_dispatch:
-
 concurrency:
     group: ${{ github.ref }}-ci
     cancel-in-progress: true
@@ -18,34 +16,28 @@ jobs:
       name: Initializing
       permissions:
         pull-requests: read
+      outputs:
+        user: ${{ steps.init.outputs.PR_AUTHOR }}
       steps:
-
       - uses: actions/checkout@v4
-
       - name: Fetch PR information
+        id: init
         if: github.event_name == 'pull_request'
         run: |
-            # echo "PR_AUTHOR=${{ github.event.pull_request.user.login }}" >> $GITHUB_ENV
-            # echo "PR_AUTHOR_ID=${{ github.event.pull_request.user.id }}" >> $GITHUB_ENV
+            # echo "PR_AUTHOR=${{ github.event.pull_request.user.login }}" >>  "$GITHUB_OUTPUT"
+            # echo "PR_AUTHOR_ID=${{ github.event.pull_request.user.id }}" >>  "$GITHUB_OUTPUT"
             LABELS=$(gh api --jq '[.labels[].name]' /repos/{owner}/{repo}/pulls/${{ github.event.number }})
-            echo "PR_LABELS=$LABELS" >> $GITHUB_ENV
-            FILES=$(gh api --jq '[.[] | select(.status != "removed") | .filename]' /repos/{owner}/{repo}/pulls/${{ github.event.number }}/files)
-            echo "CHANGED_FILES=$FILES" >> $GITHUB_ENV
-            echo "CHANGED_FILES=$FILES"
-            REMOVED_FILE_DATA=$(gh api --jq '[.[] | select(.status == "removed") | {name: .filename, data: .patch}]' /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files)
-            echo "DELETED_FILES=$REMOVED_FILE_DATA" >> $GITHUB_ENV
         env:
             GH_TOKEN: ${{ github.token }}
       - name: Get changed files and write the outputs to a JSON file
-        id: changed-files-write-output-files-json
+        id: get_pr
         uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
         with:
-              json: true
-              write_output_files: true
-
-      - name: Verify the contents of the .github/outputs/added_files.json file
+         since_last_remote_commit: true 
+      - name: Verify the content
+        if: ${{steps.get_pr.outputs.all_changed_files_count}} <= 1
         run: |
-              cat .github/outputs/added_files.json
+              exho ${{steps.get_pr.outputs.all_changed_files}}
 
     test:
       needs: initialize

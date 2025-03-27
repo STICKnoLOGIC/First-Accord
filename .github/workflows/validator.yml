@@ -54,7 +54,7 @@ jobs:
                 echo "ERROR_CONTENT=Error: Invalid JSON file!" >>  "$GITHUB_OUTPUT"
                 fi
               content=$(cat ${{steps.get_pr.outputs.all_changed_files}})
-              echo "JSON_CONTENT=$content" >>  "$GITHUB_OUTPUT"
+              Write-Output "JSON_CONTENT=$content" >>  "$GITHUB_OUTPUT"
               fi
       - name: Finalize
         run: |

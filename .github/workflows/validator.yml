@@ -37,7 +37,7 @@ jobs:
       - name: Verify the content
         if: ${{steps.get_pr.outputs.all_changed_files_count}} <= 1
         run: |
-              exho ${{steps.get_pr.outputs.all_changed_files}}
+              echo ${{steps.get_pr.outputs.all_changed_files}}
 
     test:
       needs: initialize

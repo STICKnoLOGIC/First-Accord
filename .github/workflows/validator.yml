@@ -57,7 +57,7 @@ jobs:
                 fi
               content=$(cat ${{steps.get_pr.outputs.all_changed_files}})
               echo "JSON_FILE=${{steps.get_pr.outputs.all_changed_files}}" >>  "$GITHUB_OUTPUT"
-              echo 'JSON_CONTENT=${content}' >>  "$GITHUB_OUTPUT"
+              echo 'JSON_CONTENT=$content' >>  "$GITHUB_OUTPUT"
               fi
       - name: Finalize
         run: |

@@ -57,16 +57,16 @@ jobs:
                 fi
                 # json content
                 content=${{steps.get_pr.outputs.all_changed_files}}
-                if ! jq 'has("owner")' $content; then
+                if ! jq -e 'has("owner")' $content > /dev/null; then
                   echo "No Owner Data";
                 fi
-                if ! jq '.owner | has("name")' $content; then
+                if ! jq -e '.owner | has("name")' $content > /dev/null; then
                   echo "No Owner Name";
                 fi
-                if ! jq '.owner | has("email")' $content; then
+                if ! jq -e '.owner | has("email")' $content > /dev/null; then
                   echo "No Owner Email";
                 fi
-                if ! jq 'has("user_github_avatar")' $content; then
+                if ! jq -e 'has("user_github_avatar")' $content > /dev/null; then
                   echo "No Owner Name";
                 fi
                 if jq -r '.description' $content | grep -Fiq -f <(curl -s "https://raw.githubusercontent.com/{owner}/profanity-filter/refs/heads/main/src/ProfanityFilter.Services/Data/GoogleBannedWords.txt"); then

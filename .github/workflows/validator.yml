@@ -37,7 +37,7 @@ jobs:
             GH_TOKEN: ${{ github.token }}
       - name: Get changed files
         id: get_pr
-        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+        uses: tj-actions/changed-files@v46
         with:
          since_last_remote_commit: true
       - name: Verify the content
@@ -47,12 +47,12 @@ jobs:
               echo "ERROR_COUNT=You can only create 1 JSON file per Contributor" >>  "$GITHUB_OUTPUT"
               fi
               if [ ${{steps.get_pr.outputs.all_changed_files_count}} == 1 ]; then
-                temp_var_name=${{steps.init.outputs.PR_AUTHOR}}
+                temp_var_name="${{steps.init.outputs.PR_AUTHOR}}"
                 lower_name="${temp_var_name,,}"
                 if [[ "${{steps.get_pr.outputs.all_changed_files}}" != *"$lower_name"* ]]; then
                 echo "ERROR_FILE=Invalid file name, please visit [file name guidelines](https://first-accord.js.org/docs/#/json-structure?id=filename)" >>  "$GITHUB_OUTPUT"
                 fi
-                if ! jq empty "$json_file" >/dev/null 2>&1; then
+                if ! jq empty ${{steps.get_pr.outputs.all_changed_files}} >/dev/null 2>&1; then
                 echo "ERROR_CONTENT=Error: Invalid JSON file!" >>  "$GITHUB_OUTPUT"
                 fi
               # content=$(cat ${{steps.get_pr.outputs.all_changed_files}})

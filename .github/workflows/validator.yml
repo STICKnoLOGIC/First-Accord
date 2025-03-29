@@ -15,7 +15,7 @@ jobs:
       runs-on: ubuntu-latest
       name: Fetching Data
       permissions:
-        pull-requests: read
+        pull-requests: write
       outputs:
         user: ${{ steps.init.outputs.PR_AUTHOR }}
         labels: ${{ steps.init.outputs.PR_LABEL }}

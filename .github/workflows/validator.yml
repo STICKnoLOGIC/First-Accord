@@ -12,8 +12,8 @@ concurrency:
 
 jobs:
     initialize:
-      runs-on: ubuntu-latest  # windows-latest || macos-latest
-      name: Initializing
+      runs-on: ubuntu-latest
+      name: Fetching Data
       permissions:
         pull-requests: read
       outputs:
@@ -53,18 +53,28 @@ jobs:
                 echo 'ERROR_FILE=" - Invalid file name, please visit [file name guidelines](https://first-accord.js.org/docs/#/json-structure?id=filename)"' >>  "$GITHUB_OUTPUT"
                 fi
                 if ! jq empty ${{steps.get_pr.outputs.all_changed_files}} >/dev/null 2>&1; then
-                echo 'ERROR_CONTENT=" - Error: Invalid JSON file!"' >>  "$GITHUB_OUTPUT"
+                echo "ERROR_CONTENT= - Error: Invalid JSON file!" >>  "$GITHUB_OUTPUT"
                 fi
-              content=$(cat ${{steps.get_pr.outputs.all_changed_files}})
-              echo 'JSON_FILE="${{steps.get_pr.outputs.all_changed_files}}"' >>  "$GITHUB_OUTPUT"
-              echo 'JSON_CONTENT="${content}"' >>  "$GITHUB_OUTPUT"
+                # json content
+                content=${{steps.get_pr.outputs.all_changed_files}}
+                if [ ! jq 'has("owner")' $content]; then
+                  echo "No Owner Data";
+                fi
+                if [ ! jq '.owner | has("name")' $content]; then
+                  echo "No Owner Name";
+                fi
+                if [ ! jq '.owner | has("email")' $content]; then
+                  echo "No Owner Email";
+                fi
+                if [ ! jq 'has("user_github_avatar")' $content]; then
+                  echo "No Owner Name";
+                fi
+                if jq -r '.description' $content | grep -Fiq -f <(curl -s "https://raw.githubusercontent.com/{owner}/profanity-filter/refs/heads/main/src/ProfanityFilter.Services/Data/GoogleBannedWords.txt"); then
+                  echo "Profanity detected!"
+                else
+                  echo "No profanity detected."
+                fi
               fi
-      - name: Finalize
-        run: |
-          echo ${{ steps.checker.outputs.JSON_CONTENT }}
-          echo ${{ steps.checker.outputs.ERROR_COUNT }}
-          echo ${{ steps.checker.outputs.ERROR_FILE }}
-          echo ${{ steps.checker.outputs.ERROR_CONTENT }}
 
     test:
       needs: initialize

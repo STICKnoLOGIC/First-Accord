@@ -19,7 +19,8 @@ jobs:
       outputs:
         user: ${{ steps.init.outputs.PR_AUTHOR }}
         labels: ${{ steps.init.outputs.PR_LABEL }}
-        json_content: $(cat ${{steps.get_pr.outputs.all_changed_files}})
+        json_content: ${{steps.get_pr.outputs.all_changed_files}}
+        deleted_content: ${{steps.get_pr.outputs.deleted_files}}
         error_pr_count: ${{ steps.checker.outputs.ERROR_COUNT }}
         error_pr_file: ${{ steps.checker.outputs.ERROR_FILE }}
         error_pr_content: ${{ steps.checker.outputs.ERROR_CONTENT }}
@@ -59,13 +60,13 @@ jobs:
                 # json content
                 content=${{steps.get_pr.outputs.all_changed_files}}
                 if ! jq -e 'has("owner")' $content > /dev/null; then
-                  echo "No Owner Data";
+                  echo "ERROR_REQ_OWNER= - owner" >>  "$GITHUB_OUTPUT"
                 fi
                 if ! jq -e '.owner | has("name")' $content > /dev/null; then
-                  echo "No Owner Name";
+                  echo "ERROR_REQ_OWNER_NAME= - owner/name" >>  "$GITHUB_OUTPUT"
                 fi
                 if ! jq -e '.owner | has("email")' $content > /dev/null; then
-                  echo "No Owner Email";
+                  echo "ERROR_REQ_OWNER_EMAIL= - owner/email" >>  "$GITHUB_OUTPUT"
                 fi
                 if ! jq -e 'has("user_github_avatar")' $content > /dev/null; then
                   echo "No Owner Name";
@@ -76,6 +77,22 @@ jobs:
                   echo "No profanity detected."
                 fi
               fi
+
+      - name: Checking JSON result 1
+        if: ${{steps.checker.outputs.ERROR_COUNT}} || ${{ steps.checker.outputs.ERROR_FILE }} || ${{ steps.checker.outputs.ERROR_CONTENT }}
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          message: |
+            Invalid PR due to:
+            ${{steps.checker.outputs.ERROR_COUNT}}
+            ${{ steps.checker.outputs.ERROR_FILE }}
+            ${{ steps.checker.outputs.ERROR_CONTENT }}
+
+      - name: Checking JSON result 2
+        if: ${{steps.checker.outputs.ERROR_COUNT}} || ${{ steps.checker.outputs.ERROR_FILE }} || ${{ steps.checker.outputs.ERROR_CONTENT }}
+        run: gh pr close --comment "Auto-closing pull request"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     test:
       needs: initialize

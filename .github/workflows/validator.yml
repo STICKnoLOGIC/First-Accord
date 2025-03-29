@@ -84,7 +84,9 @@ jobs:
         with:
           message: |
             Invalid PR due to:
-            ${{steps.checker.outputs.ERROR_COUNT}} ${{ steps.checker.outputs.ERROR_FILE }}  ${{ steps.checker.outputs.ERROR_CONTENT }}
+            ${{steps.checker.outputs.ERROR_COUNT}}
+            ${{ steps.checker.outputs.ERROR_FILE }}
+            ${{ steps.checker.outputs.ERROR_CONTENT }}
 
       - name: Checking JSON result 2
         if: ${{steps.checker.outputs.ERROR_COUNT}} || ${{ steps.checker.outputs.ERROR_FILE }} || ${{ steps.checker.outputs.ERROR_CONTENT }}

@@ -50,10 +50,10 @@ jobs:
                 temp_var_name="${{steps.init.outputs.PR_AUTHOR}}"
                 lower_name="${temp_var_name,,}"
                 if [[ "${{steps.get_pr.outputs.all_changed_files}}" != *"$lower_name"* ]]; then
-                echo "ERROR_FILE= - Invalid file name, please visit [file name guidelines](https://first-accord.js.org/docs/#/json-structure?id=filename)" >>  "$GITHUB_OUTPUT"
+                echo 'ERROR_FILE=" - Invalid file name, please visit [file name guidelines](https://first-accord.js.org/docs/#/json-structure?id=filename)"' >>  "$GITHUB_OUTPUT"
                 fi
                 if ! jq empty ${{steps.get_pr.outputs.all_changed_files}} >/dev/null 2>&1; then
-                echo "ERROR_CONTENT= - Error: Invalid JSON file!" >>  "$GITHUB_OUTPUT"
+                echo 'ERROR_CONTENT=" - Error: Invalid JSON file!"' >>  "$GITHUB_OUTPUT"
                 fi
               content=$(cat ${{steps.get_pr.outputs.all_changed_files}})
               echo 'JSON_FILE="${{steps.get_pr.outputs.all_changed_files}}"' >>  "$GITHUB_OUTPUT"

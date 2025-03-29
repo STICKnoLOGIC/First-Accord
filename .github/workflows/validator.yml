@@ -55,6 +55,7 @@ jobs:
                 if ! jq empty ${{steps.get_pr.outputs.all_changed_files}} >/dev/null 2>&1; then
                 echo "ERROR_CONTENT= - Error: Invalid JSON file!" >>  "$GITHUB_OUTPUT"
                 fi
+
                 # json content
                 content=${{steps.get_pr.outputs.all_changed_files}}
                 if ! jq -e 'has("owner")' $content > /dev/null; then
@@ -84,4 +85,4 @@ jobs:
       # - uses: actions/checkout@v4
       - name: validation
         run: |
-         echo ${{github.job.initialize.env.CHANGED_FILES}}
+         echo ${{needs.initialize.outputs.json_content}}

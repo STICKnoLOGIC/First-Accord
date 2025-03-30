@@ -124,6 +124,8 @@ jobs:
                 if [[ "${{steps.get_pr.outputs.all_changed_files}}" != *"$lower_name"* ]]; then
 
                 echo "ERROR_DELETE= - You can't delete/remove the file that is not your contribution." >>  "$GITHUB_OUTPUT"
+
+                fi
               fi
 
       - name: Checking JSON result 1

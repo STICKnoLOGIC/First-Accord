@@ -24,8 +24,10 @@ jobs:
         error_pr_count: ${{ steps.checker.outputs.ERROR_COUNT }}
         error_pr_file: ${{ steps.checker.outputs.ERROR_FILE }}
         error_pr_content: ${{ steps.checker.outputs.ERROR_CONTENT }}
+
       steps:
       - uses: actions/checkout@v4
+
       - name: Fetch PR information
         id: init
         if: github.event_name == 'pull_request'
@@ -36,11 +38,11 @@ jobs:
             echo "PR_LABEL=${LABELS}" >>  "$GITHUB_OUTPUT"
         env:
             GH_TOKEN: ${{ github.token }}
+
       - name: Get changed files
         id: get_pr
         uses: tj-actions/changed-files@v46
-        with:
-         since_last_remote_commit: true
+
       - name: Verify the content
         id: checker
         run: |

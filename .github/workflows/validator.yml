@@ -44,38 +44,84 @@ jobs:
       - name: Verify the content
         id: checker
         run: |
+              # we expect you to create 1 json file
               if [ ${{steps.get_pr.outputs.all_changed_files_count}} != 1 ]; then
-              echo "ERROR_COUNT= - You can only create 1 JSON file per Contributor" >>  "$GITHUB_OUTPUT"
-              fi
-              if [ ${{steps.get_pr.outputs.all_changed_files_count}} == 1 ]; then
+
+                echo "ERROR_COUNT= - You can only create 1 JSON file per Contributor" >>  "$GITHUB_OUTPUT"
+
+              elif [ ${{steps.get_pr.outputs.all_changed_files_count}} == 1 ]; then
+
                 temp_var_name="${{steps.init.outputs.PR_AUTHOR}}"
                 lower_name="${temp_var_name,,}"
+
+                # check if JSON file is yours
                 if [[ "${{steps.get_pr.outputs.all_changed_files}}" != *"$lower_name"* ]]; then
+
                 echo "ERROR_FILE= - Invalid file name, please visit [file name guidelines](https://first-accord.js.org/docs/#/json-structure?id=filename)" >>  "$GITHUB_OUTPUT"
+
                 fi
+
+                # check if JSON file is valid and not empty
                 if ! jq empty ${{steps.get_pr.outputs.all_changed_files}} >/dev/null 2>&1; then
-                echo "ERROR_CONTENT= - Error: Invalid JSON file!" >>  "$GITHUB_OUTPUT"
+
+                echo "ERROR_CONTENT= - Invalid JSON format!" >>  "$GITHUB_OUTPUT"
+
                 fi
 
                 # json content
                 content=${{steps.get_pr.outputs.all_changed_files}}
+
+                #check if owner keyy exist
                 if ! jq -e 'has("owner")' $content > /dev/null; then
                   echo "ERROR_REQ_OWNER= - owner" >>  "$GITHUB_OUTPUT"
                 fi
+
+                # check if owner.name key exist
                 if ! jq -e '.owner | has("name")' $content > /dev/null; then
                   echo "ERROR_REQ_OWNER_NAME= - owner/name" >>  "$GITHUB_OUTPUT"
                 fi
+
+                # check if owner.email key exist
                 if ! jq -e '.owner | has("email")' $content > /dev/null; then
                   echo "ERROR_REQ_OWNER_EMAIL= - owner/email" >>  "$GITHUB_OUTPUT"
                 fi
                 if ! jq -e 'has("user_github_avatar")' $content > /dev/null; then
                   echo "No Owner Name";
                 fi
-                if jq -r '.description' $content | grep -Fiq -f <(curl -s "https://raw.githubusercontent.com/{owner}/profanity-filter/refs/heads/main/src/ProfanityFilter.Services/Data/GoogleBannedWords.txt"); then
+
+                # check for profanity in owner.name
+                if jq -r '.owner.name' $content | grep -Fiq -f <(curl -s "https://raw.githubusercontent.com/{owner}/profanity-filter/refs/heads/main/src/ProfanityFilter.Services/Data/GoogleBannedWords.txt"); then
+
                   echo "Profanity detected!"
+
                 else
+
                   echo "No profanity detected."
+
                 fi
+
+                # check for profanity in description
+                if jq -r '.description' $content | grep -Fiq -f <(curl -s "https://raw.githubusercontent.com/{owner}/profanity-filter/refs/heads/main/src/ProfanityFilter.Services/Data/GoogleBannedWords.txt"); then
+
+                  echo "Profanity detected!"
+
+                else
+
+                  echo "No profanity detected."
+
+                fi
+              fi
+
+              # check if there is a deleted file
+              if [${{steps.get_pr.outputs.deleted_files_count}} > 1 ]; then
+
+                  echo "ERROR_DELETE= - You can only create 1 JSON file per Contributor!" >>  "$GITHUB_OUTPUT"
+
+              elif [ ${{steps.get_pr.outputs.deleted_files_count}} == 1 ]; then
+
+                if [[ "${{steps.get_pr.outputs.all_changed_files}}" != *"$lower_name"* ]]; then
+
+                echo "ERROR_DELETE= - You can't delete/remove the file that is not your contribution." >>  "$GITHUB_OUTPUT"
               fi
 
       - name: Checking JSON result 1
@@ -90,7 +136,7 @@ jobs:
 
       - name: Checking JSON result 2
         if: ${{steps.checker.outputs.ERROR_COUNT}} || ${{ steps.checker.outputs.ERROR_FILE }} || ${{ steps.checker.outputs.ERROR_CONTENT }}
-        run: gh pr close --comment "Auto-closing pull request"
+        run: gh pr close ${{ github.event.pull_request.number }} --comment "Auto-closing pull request, you are welcome to reopen or create a new pull request."
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

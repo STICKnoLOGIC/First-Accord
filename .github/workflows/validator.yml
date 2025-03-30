@@ -146,10 +146,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    test:
+    create:
       needs: initialize
       runs-on: ubuntu-latest  # windows-latest || macos-latest
-      name: testing
+      name: when Creating/Modifying JSON
       steps:
       # - uses: actions/checkout@v4
       - name: validation

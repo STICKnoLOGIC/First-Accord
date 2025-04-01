@@ -73,7 +73,7 @@ jobs:
                 # json content
                 content=${{steps.get_pr.outputs.all_changed_files}}
 
-                #check if owner keyy exist
+                #check if owner key exist
                 if ! jq -e 'has("owner")' $content > /dev/null; then
                   echo "ERROR_REQ_OWNER= - owner" >>  "$GITHUB_OUTPUT"
                 fi
@@ -87,8 +87,9 @@ jobs:
                 if ! jq -e '.owner | has("email")' $content > /dev/null; then
                   echo "ERROR_REQ_OWNER_EMAIL= - owner/email" >>  "$GITHUB_OUTPUT"
                 fi
-                if ! jq -e 'has("user_github_avatar")' $content > /dev/null; then
-                  echo "No Owner Name";
+                if jq -e 'has("use_github_avatar")' $content > /dev/null; then
+                  isPic=$(cat $content | jq -r '.use_github_avatar')
+                  echo "JSON_USE_PIC= $isPic" >>  "$GITHUB_OUTPUT";
                 fi
 
                 # check for profanity in owner.name

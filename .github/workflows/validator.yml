@@ -188,13 +188,9 @@ jobs:
                 labels+=",r: Yhal-avatar"
               fi
               gh pr edit ${{ github.event.pull_request.number }} --add-label "$labels"
+              gh pr review --request "{owner}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Assign reviewer
-        uses: peter-evans/review-assigner@v2
-        with:
-            reviewers: $(echo "${{ github.repository }}" | cut -d'/' -f1)
-            token: ${{ secrets.GITHUB_TOKEN }}
 
     create:
       needs: initialize

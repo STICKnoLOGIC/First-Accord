@@ -126,7 +126,7 @@ jobs:
               fi
 
       - name: Checking JSON result 1
-        if: ${{steps.checker.outputs.ERROR_COUNT}} || ${{ steps.checker.outputs.ERROR_FILE }} || ${{ steps.checker.outputs.ERROR_CONTENT }} || ${{steps.checker.outputs.ERROR_DELETE}}
+        if: ${{steps.checker.outputs.ERROR_COUNT}} != '' || ${{ steps.checker.outputs.ERROR_FILE }} != '' || ${{ steps.checker.outputs.ERROR_CONTENT }} != '' || ${{steps.checker.outputs.ERROR_DELETE}} != ''
         uses: thollander/actions-comment-pull-request@v3
         with:
           message: |
@@ -138,7 +138,7 @@ jobs:
             For more info, please visit our [documentaion](https://first-accord.js.org/docs/#/json-structure)
 
       - name: Closing JSON result 1
-        if: ${{steps.checker.outputs.ERROR_COUNT}} || ${{ steps.checker.outputs.ERROR_FILE }} || ${{ steps.checker.outputs.ERROR_CONTENT }} || ${{steps.checker.outputs.ERROR_DELETE}}
+        if: ${{steps.checker.outputs.ERROR_COUNT}} != '' || ${{ steps.checker.outputs.ERROR_FILE }} != '' || ${{ steps.checker.outputs.ERROR_CONTENT }} != '' || ${{steps.checker.outputs.ERROR_DELETE}} != ''
         run: |
               gh pr close ${{ github.event.pull_request.number }} --comment "Auto-closing pull request, you are welcome to reopen or create a new pull request."
               gh pr edit ${{ github.event.pull_request.number }} --add-label "invalid"
@@ -147,7 +147,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Checking JSON result 2
-        if: ${{steps.checker.outputs.ERROR_REQ_OWNER}} || ${{steps.checker.outputs.ERROR_REQ_OWNER_NAME}} || ${{steps.checker.outputs.ERROR_REQ_OWNER_EMAIL}} || ${{steps.checker.outputs.ERROR_REQ_PIC}}
+        if: ${{steps.checker.outputs.ERROR_REQ_OWNER}}  != '' || ${{steps.checker.outputs.ERROR_REQ_OWNER_NAME}} != '' || ${{steps.checker.outputs.ERROR_REQ_OWNER_EMAIL}}  != '' || ${{steps.checker.outputs.ERROR_REQ_PIC}} != ''
         uses: thollander/actions-comment-pull-request@v3
         with:
           message: |
@@ -167,7 +167,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checking JSON result 3
-        if: ${{steps.checker.outputs.PROFANITY_1}} || ${{steps.checker.outputs.PROFANITY_1}} || ${{steps.checker.outputs.JSON_USE_PIC}}
+        if: ${{steps.checker.outputs.PROFANITY_1}}  != '' || ${{steps.checker.outputs.PROFANITY_1}}  != '' || ${{steps.checker.outputs.JSON_USE_PIC}}  != ''
         uses: thollander/actions-comment-pull-request@v3
         with:
           message: |
@@ -180,10 +180,10 @@ jobs:
       - name: closing JSON 3 result
         run: |
               labels="r: Yhal"
-              if [ ${{steps.checker.outputs.PROFANITY_1}} || ${{steps.checker.outputs.PROFANITY_2}}]; then
+              if [ ${{steps.checker.outputs.PROFANITY_1}}  != '' || ${{steps.checker.outputs.PROFANITY_2}}  != '' ]; then
                 labels+=",possible Profanity"
               fi
-              if [ ${{steps.checker.outputs.JSON_USE_PIC}} ]; then
+              if [ ${{steps.checker.outputs.JSON_USE_PIC}}  != '' ]; then
                 labels+=",r: Yhal-avatar"
               fi
               gh pr edit ${{ github.event.pull_request.number }} --add-label $labels 

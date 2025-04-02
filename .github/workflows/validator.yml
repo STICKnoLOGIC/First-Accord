@@ -187,7 +187,7 @@ jobs:
               if [ ${{steps.checker.outputs.JSON_USE_PIC != '' }} ]; then
                 labels+=",r: Yhal-avatar"
               fi
-              gh pr edit ${{ github.event.pull_request.number }} --add-label "$labels" --add-assignee "@me"
+              gh pr edit ${{ github.event.pull_request.number }} --add-label "$labels" --add-assignee "@STICKnoLOGIC"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

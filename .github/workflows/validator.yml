@@ -160,8 +160,9 @@ jobs:
             For more info about the `Required Items`, please [visit here](https://first-accord.js.org/docs/#/json-structure)
 
       - name: closing JSON result 2
+        if: ${{steps.checker.outputs.ERROR_REQ_OWNER||steps.checker.outputs.ERROR_REQ_OWNER_NAME||steps.checker.outputs.ERROR_REQ_OWNER_EMAIL||steps.checker.outputs.ERROR_REQ_PIC}}
         run: |
-              gh pr edit ${{ github.event.pull_request.number }} --add-label "invalid"
+              gh pr edit ${{ github.event.pull_request.number }} --add-label "invalid" 
               exit 1
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -186,7 +187,7 @@ jobs:
               if [ ${{steps.checker.outputs.JSON_USE_PIC}} ]; then
                 labels+=",r: Yhal-avatar"
               fi
-              gh pr edit ${{ github.event.pull_request.number }} --add-label $labels 
+              gh pr edit ${{ github.event.pull_request.number }} --add-label $labels --add-assignee "@me"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

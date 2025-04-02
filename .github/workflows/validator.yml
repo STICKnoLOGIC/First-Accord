@@ -101,7 +101,7 @@ jobs:
                   echo "PROFANITY_1= - Possible Profanity in Name" >>  "$GITHUB_OUTPUT";
                   echo "Profanity detected in Name!"
                   fi
-                  
+
                   # check for profanity in description
                   if jq -r '.description' $content | grep -Fiq -f <(curl -s "https://raw.githubusercontent.com/{owner}/profanity-filter/refs/heads/main/src/ProfanityFilter.Services/Data/GoogleBannedWords.txt"); then
                   echo "PROFANITY_2= - Possible Profanity in Description" >>  "$GITHUB_OUTPUT";
@@ -145,7 +145,7 @@ jobs:
               exit 1
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Checking JSON result 2
         if: ${{steps.checker.outputs.ERROR_REQ_OWNER||steps.checker.outputs.ERROR_REQ_OWNER_NAME||steps.checker.outputs.ERROR_REQ_OWNER_EMAIL||steps.checker.outputs.ERROR_REQ_PIC}}
         uses: thollander/actions-comment-pull-request@v3
@@ -156,13 +156,13 @@ jobs:
               ${{steps.checker.outputs.ERROR_REQ_OWNER_NAME}}
               ${{steps.checker.outputs.ERROR_REQ_OWNER_EMAIL}}
               ${{steps.checker.outputs.ERROR_REQ_PIC}}
-            
+
             For more info about the `Required Items`, please [visit here](https://first-accord.js.org/docs/#/json-structure)
 
       - name: closing JSON result 2
         if: ${{steps.checker.outputs.ERROR_REQ_OWNER||steps.checker.outputs.ERROR_REQ_OWNER_NAME||steps.checker.outputs.ERROR_REQ_OWNER_EMAIL||steps.checker.outputs.ERROR_REQ_PIC}}
         run: |
-              gh pr edit ${{ github.event.pull_request.number }} --add-label "invalid" 
+              gh pr edit ${{ github.event.pull_request.number }} --add-label "invalid"
               exit 1
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -177,7 +177,7 @@ jobs:
               ${{steps.checker.outputs.PROFANITY_2}}
               ${{steps.checker.outputs.JSON_USE_PIC}}
             Thank You! 😁😁
-      
+
       - name: closing JSON 3 result
         run: |
               labels="r: Yhal"
@@ -190,6 +190,11 @@ jobs:
               gh pr edit ${{ github.event.pull_request.number }} --add-label "$labels"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Assign reviewer
+        uses: peter-evans/review-assigner@v2
+        with:
+            reviewers: $(echo "${{ github.repository }}" | cut -d'/' -f1)
+            token: ${{ secrets.GITHUB_TOKEN }}
 
     create:
       needs: initialize

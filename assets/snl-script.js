@@ -211,7 +211,11 @@ function showDial(data){
     userName.innerHTML=data.owner.name;
     userSM.innerHTML='';
     if('social' in data){
+        let count=0;
         for(s in data.social){
+            count++;
+            if (count>5) //utmost 5 social links to display
+                break;
             userSM.innerHTML+= `<a href="${(!data.social[s].startsWith('http')?'https://':'') + sanitize(data.social[s])}" alt="user-sm" target="_blank"><i class="${sanitize(s)} dial-share"></i></a>`;
         }
     }
@@ -222,7 +226,11 @@ function showDial(data){
     if ("my_top_resources" in data){
         userResourceContainer.classList.remove('hidden');
         userResource.innerHTML='';
+        let count=0;
         for(res in data.my_top_resources){
+            count++;
+            if(count>3) //utmost 3 resource to display
+                break;
             userResource.innerHTML+=`<li><a href="${(!data.my_top_resources[res].startsWith('http')?'http://':'')+sanitize(data.my_top_resources[res])}" alt="my top resources" target="_blank">${sanitize(res)}</a></li>`;
         }
     }else{

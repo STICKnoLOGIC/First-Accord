@@ -181,12 +181,12 @@ jobs:
         run: |
               labels="r: Yhal"
               if [ ${{steps.checker.outputs.PROFANITY_1}} || ${{steps.checker.outputs.PROFANITY_2}}]; then
-                labels+=",r: Yhal-avatar"
-              fi
-              if [ ${{steps.checker.outputs.JSON_USE_PIC}} ]; then
                 labels+=",possible Profanity"
               fi
-              gh pr edit ${{ github.event.pull_request.number }} --add-label "invalid"
+              if [ ${{steps.checker.outputs.JSON_USE_PIC}} ]; then
+                labels+=",r: Yhal-avatar"
+              fi
+              gh pr edit ${{ github.event.pull_request.number }} --add-label $labels 
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

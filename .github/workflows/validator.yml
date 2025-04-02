@@ -181,10 +181,10 @@ jobs:
       - name: closing JSON 3 result
         run: |
               labels="r: Yhal"
-              if [ ${{steps.checker.outputs.PROFANITY_1 !='' || steps.checker.outputs.PROFANITY_2 !=''}} ]; then
+              if [ ${{steps.checker.outputs.PROFANITY_1 !='' || steps.checker.outputs.PROFANITY_2 !=''}} == true ]; then
                 labels+=",possible Profanity"
               fi
-              if [ ${{steps.checker.outputs.JSON_USE_PIC != '' }} ]; then
+              if [ ${{steps.checker.outputs.JSON_USE_PIC != '' }} == true ]; then
                 labels+=",r: Yhal-avatar"
               fi
               gh pr edit ${{ github.event.pull_request.number }} --add-label "$labels"

@@ -53,21 +53,30 @@ jobs:
 
               elif [ ${{steps.get_pr.outputs.all_changed_files_count}} == 1 ]; then
 
+                Write-Output "ERROR_COUNT=" >> $env:GITHUB_OUTPUT #make it empty
                 temp_var_name="${{steps.init.outputs.PR_AUTHOR}}"
                 lower_name="${temp_var_name,,}"
 
                 # check if JSON file is yours
                 if [[ "${{steps.get_pr.outputs.all_changed_files}}" != *"$lower_name"* ]]; then
 
-                echo "ERROR_FILE= - Invalid file name, please visit [file name guidelines](https://first-accord.js.org/docs/#/json-structure?id=filename)" >>  "$GITHUB_OUTPUT"
-
+                  echo "ERROR_FILE= - Invalid file name, please visit [file name guidelines](https://first-accord.js.org/docs/#/json-structure?id=filename)" >>  "$GITHUB_OUTPUT"
+                
+                else
+                
+                  Write-Output "ERROR_FILE=" >> $env:GITHUB_OUTPUT #make it empty
+                
                 fi
 
                 # check if JSON file is valid and not empty
                 if ! jq empty ${{steps.get_pr.outputs.all_changed_files}} >/dev/null 2>&1; then
 
-                echo "ERROR_CONTENT= - Invalid JSON format!" >>  "$GITHUB_OUTPUT"
-
+                  echo "ERROR_CONTENT= - Invalid JSON format!" >>  "$GITHUB_OUTPUT"
+                
+                else
+                
+                  Write-Output "ERROR_CONTENT=" >> $env:GITHUB_OUTPUT #make it empty
+                
                 fi
 
                 # json content
@@ -75,38 +84,77 @@ jobs:
 
                 #check if owner key exist
                 if ! jq -e 'has("owner")' $content > /dev/null; then
+                
                   echo "ERROR_REQ_OWNER= - owner" >>  "$GITHUB_OUTPUT"
+                
+                else
+                
+                  Write-Output "ERROR_REQ_OWNER=" >> $env:GITHUB_OUTPUT #make it empty
+
                 fi
 
                 # check if owner.name key exist
                 if ! jq -e '.owner | has("name")' $content > /dev/null; then
+                  
                   echo "ERROR_REQ_OWNER_NAME= - owner/name" >>  "$GITHUB_OUTPUT"
+                
+                else
+                
+                  Write-Output "ERROR_REQ_OWNER_NAME=" >> $env:GITHUB_OUTPUT #make it empty
+                
                 fi
 
                 # check if owner.email key exist
                 if ! jq -e '.owner | has("email")' $content > /dev/null; then
+                
                   echo "ERROR_REQ_OWNER_EMAIL= - owner/email" >>  "$GITHUB_OUTPUT"
+                
+                else
+
+                  Write-Output "ERROR_REQ_OWNER_EMAIL=" >> $env:GITHUB_OUTPUT #make it empty
+                
                 fi
                 if ! jq -e 'has("use_github_avatar")' $content > /dev/null; then
+                
                   echo "ERROR_REQ_PIC= - use_github_avatar" >>  "$GITHUB_OUTPUT";
+                
                 else
+
+                  Write-Output "ERROR_REQ_PIC=" >> $env:GITHUB_OUTPUT #make it empty
                   if [ cat $content | jq -r '.use_github_avatar' ]; then
+
                     isPic=$(cat $content | jq -r '.use_github_avatar')
                     echo "JSON_USE_PIC=$isPic" >>  "$GITHUB_OUTPUT";
+                    
+                  else
+
+                    Write-Output "JSON_USE_PIC=" >> $env:GITHUB_OUTPUT #make it empty
+
                   fi
+
                 fi
 
                 # check for profanity in owner.name
                 if jq -r '.owner.name' $content | grep -Fiq -f <(curl -s "https://raw.githubusercontent.com/{owner}/profanity-filter/refs/heads/main/src/ProfanityFilter.Services/Data/GoogleBannedWords.txt"); then
+
                   echo "PROFANITY_1= - Possible Profanity in Name" >>  "$GITHUB_OUTPUT";
                   echo "Profanity detected in Name!"
-                  fi
+
+                else
+
+                  Write-Output "PROFANITY_1=" >> $env:GITHUB_OUTPUT #make it empty
+
+                fi
                   
-                  # check for profanity in description
-                  if jq -r '.description' $content | grep -Fiq -f <(curl -s "https://raw.githubusercontent.com/{owner}/profanity-filter/refs/heads/main/src/ProfanityFilter.Services/Data/GoogleBannedWords.txt"); then
+                # check for profanity in description
+                if jq -r '.description' $content | grep -Fiq -f <(curl -s "https://raw.githubusercontent.com/{owner}/profanity-filter/refs/heads/main/src/ProfanityFilter.Services/Data/GoogleBannedWords.txt"); then
+
                   echo "PROFANITY_2= - Possible Profanity in Description" >>  "$GITHUB_OUTPUT";
-                  echo "Profanity detected!"
                   echo "No profanity detected in Description!"
+
+                else
+
+                  Write-Output "PROFANITY_2=" >> $env:GITHUB_OUTPUT #make it empty
 
                 fi
               fi
@@ -120,9 +168,14 @@ jobs:
 
                 if [[ "${{steps.get_pr.outputs.all_changed_files}}" != *"$lower_name"* ]]; then
 
-                echo "ERROR_DELETE= - You can't delete/remove the file that is not your contribution." >>  "$GITHUB_OUTPUT"
+                  echo "ERROR_DELETE= - You can't delete/remove the file that is not your contribution." >>  "$GITHUB_OUTPUT"
 
                 fi
+
+              else
+
+                Write-Output "ERROR_DELETE=" >> $env:GITHUB_OUTPUT #make it empty
+               
               fi
 
       - name: Checking JSON result 1

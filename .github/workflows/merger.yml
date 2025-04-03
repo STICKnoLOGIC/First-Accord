@@ -69,7 +69,7 @@ jobs:
     needs: toMerge
     env:
       GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
-    if: !contains( ${{github.event.pull_request.labels.*.name}}, 'to Delete')
+    if: ${{ github.event.pull_request && !contains(github.event.pull_request.labels.*.name, 'to Delete') }}
     steps:
       - uses: action/checkout@v4
       - uses: tj-actions/changed-files@v46

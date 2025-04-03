@@ -89,8 +89,12 @@ jobs:
               git config --global user.name 'STICKnoLOGIC'
               git config --global user.email '65322242+STICKnoLOGIC@users.noreply.github.com'
               git add ./contributors/names
-              git commit -m 'Update Contributor/s'
-              git push
+              if git commit -m 'Update Contributor/s'; then
+                echo 'commited'
+              fi
+              if git push ; then
+                echo 'pushed'
+              fi
       - uses: thollander/actions-comment-pull-request@v3
         with:
           message: |

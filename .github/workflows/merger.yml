@@ -81,7 +81,7 @@ jobs:
               mkdir -p contributors/names/
               floatName="$(cat ${{steps.get_pr.outputs.all_changed_files}} | jq -r '.display_float_text')"
               echo $floatName
-              if [ $floatName == '' && ${{needs.toMerge.outputs.old_user != needs.toMerge.outputs.current_pr_user}}  ==  true ]; then
+              if [ $floatName == '' && ${{needs.toMerge.outputs.old_user != needs.toMerge.outputs.current_pr_user}} ]; then
                 echo "${{needs.toMerge.outputs.current_pr_user}}" > contributors/names/@${{needs.toMerge.outputs.current_pr_user}}
               elif [ $floatName != '' && $floatName != "${{needs.toMerge.outputs.old_user}}" ]; then
                 echo "$floatName" > contributors/names/@${{needs.toMerge.outputs.current_pr_user}}

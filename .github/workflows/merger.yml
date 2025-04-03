@@ -64,6 +64,8 @@ jobs:
       - uses: "pascalgn/automerge-action@v0.16.4"
         env:
           GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
+          MERGE_LABELS: "ready to merge"
+          MERGE_REMOVE_LABELS: "ready to merge"
 
 # ADDING
   Create_Merge:
@@ -109,5 +111,7 @@ jobs:
       - uses: "pascalgn/automerge-action@v0.16.4"
         env:
           GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
+          MERGE_LABELS: "ready to merge"
+          MERGE_REMOVE_LABELS: "ready to merge"
 
 

@@ -40,13 +40,12 @@ jobs:
         id: old_ref
         run: |
               oldName=""
-              name="${{steps.fetched_data.outputs.PR_AUTHOR}}"
+              name=${{steps.fetched_data.outputs.PR_AUTHOR}}
               content="contributors/${name,,}.json"
               if jq -e 'has("display_float_text")' $content >/dev/null 2>&1; then
-
-                $oldName+="$(cat $content | jq -r '.display_float_text')"
+                oldName+="$(cat $content | jq -r '.display_float_text')"
               else
-                $oldName+="$name"
+                oldName+="$name"
               fi
                 echo "OLD_NAME=$oldName" >>  "$GITHUB_OUTPUT"
 

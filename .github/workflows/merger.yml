@@ -20,22 +20,23 @@ jobs:
       pull-requests: write
     outputs:
       old_user: ${{steps.old_ref.outputs.OLD_NAME}}
-      current_pr_user: ${{steps.old_ref.outputs.OLD_NAME}}
+      current_pr_user: ${{steps.fetched_data.outputs.PR_AUTHOR}}
     steps:
       - uses: actions/checkout@v4
       - name: getting prs
         id: get_pr
         uses: tj-actions/changed-files@v46
 
-        # when Deleting Contribution
       - name: Fetch data
         id: fetched_data
         run: |
               echo "PR_AUTHOR=${{ github.event.pull_request.user.login }}" >>  "$GITHUB_OUTPUT"
+
       - name: Fetch data from the main branch
         uses: actions/checkout@v4
         with:
           ref: 'main'
+
       - name: get old display_float_text
         id: old_ref
         run: |
@@ -74,6 +75,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: tj-actions/changed-files@v46
         id: get_pr
+
       - name: Fetching Data
         run: |
               mkdir -p contributors/names/

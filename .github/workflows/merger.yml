@@ -40,7 +40,7 @@ jobs:
         id: old_ref
         run: |
               oldName=""
-              name=${{steps.fetched_data.outputs.PR_AUTHOR}}
+              name="${{steps.fetched_data.outputs.PR_AUTHOR}}"
               content="contributors/${name,,}.json"
               if jq -e 'has("display_float_text")' $content >/dev/null 2>&1; then
 

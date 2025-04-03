@@ -19,7 +19,7 @@ jobs:
     permissions:
       pull-requests: write
     outputs:
-      old_user: ${{steps.old_ref.outputs.OLD_NAME}}
+      new_user: ${{steps.old_ref.outputs.NEW_NAME}}
       current_pr_user: ${{steps.fetched_data.outputs.PR_AUTHOR}}
     steps:
       - uses: actions/checkout@v4
@@ -40,15 +40,12 @@ jobs:
       - name: get old display_float_text
         id: old_ref
         run: |
-              oldName=""
               name=${{steps.fetched_data.outputs.PR_AUTHOR}}
-              content="contributors/${name,,}.json"
-              if jq -e 'has("display_float_text")' $content >/dev/null 2>&1; then
-                oldName+="$(cat $content | jq -r '.display_float_text')"
-              else
-                oldName+="$name"
+              new_name="$(cat ${{steps.get_pr.outputs.all_changed_files}} | jq -r '.display_float_text')"
+              if [ $new_name == '' ]; then
+                new_name+="$name"
               fi
-                echo "OLD_NAME=$oldName" >>  "$GITHUB_OUTPUT"
+                echo "NEW_NAME=$new_name" >>  "$GITHUB_OUTPUT"
 
   Delete_Merge:
     runs-on: ubuntu-latest
@@ -73,17 +70,19 @@ jobs:
     if: ${{ github.event.pull_request && !contains(github.event.pull_request.labels.*.name, 'to Delete') }}
     steps:
       - uses: actions/checkout@v4
-      - uses: tj-actions/changed-files@v46
-        id: get_pr
-
+        with:
+          ref:  'main'
       - name: Fetching Data
         run: |
               mkdir -p contributors/names/
-              floatName="$(cat ${{steps.get_pr.outputs.all_changed_files}} | jq -r '.display_float_text')"
-              echo $floatName
-              if [ $floatName == '' && ${{needs.toMerge.outputs.old_user != needs.toMerge.outputs.current_pr_user}} ]; then
+              floatName="${{needs.toMerge.outputs.new_user}}"
+              oldName=""
+              name=${{needs.toMerge.outputs.current_pr_user}}
+              content="contributors/${name,,}.json"
+              old_user="$(cat $content | jq -r '.display_float_text')"
+              if [ $floatName == '' && $old_user != ${{needs.toMerge.outputs.current_pr_user}} ]; then
                 echo "${{needs.toMerge.outputs.current_pr_user}}" > contributors/names/@${{needs.toMerge.outputs.current_pr_user}}
-              elif [ $floatName != '' && $floatName != "${{needs.toMerge.outputs.old_user}}" ]; then
+              elif [ $floatName != '' && $floatName != $$old_user ]; then
                 echo "$floatName" > contributors/names/@${{needs.toMerge.outputs.current_pr_user}}
               fi
               git config --global user.name 'STICKnoLOGIC'
@@ -95,6 +94,7 @@ jobs:
               if git push ; then
                 echo 'pushed'
               fi
+
       - uses: thollander/actions-comment-pull-request@v3
         with:
           message: |

@@ -27,7 +27,7 @@ jobs:
         id: get_pr
         uses: tj-actions/changed-files@v46
 
-		#when Deleting Contribution
+        # when Deleting Contribution
       - name: Fetch data
         id: fetched_data
         run: |

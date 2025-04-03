@@ -1,4 +1,4 @@
-name: Validate JSON File
+name: CI JSON Checker
 
 on:
   pull_request:
@@ -18,13 +18,8 @@ jobs:
         pull-requests: write
       outputs:
         user: ${{ steps.init.outputs.PR_AUTHOR }}
-        labels: ${{ steps.init.outputs.PR_LABEL }}
-        json_content: ${{steps.get_pr.outputs.all_changed_files}}
+        delete_message: ${{steps.checker.outputs.ERROR_DELETE}}
         deleted_content: ${{steps.get_pr.outputs.deleted_files}}
-        error_pr_count: ${{ steps.checker.outputs.ERROR_COUNT }}
-        error_pr_file: ${{ steps.checker.outputs.ERROR_FILE }}
-        error_pr_content: ${{ steps.checker.outputs.ERROR_CONTENT }}
-
       steps:
       - uses: actions/checkout@v4
 
@@ -33,9 +28,6 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
             echo "PR_AUTHOR=${{ github.event.pull_request.user.login }}" >>  "$GITHUB_OUTPUT"
-            echo "PR_AUTHOR_ID=${{ github.event.pull_request.user.id }}" >>  "$GITHUB_OUTPUT"
-            LABELS=$(gh api --jq '[.labels[].name]' /repos/{owner}/{repo}/pulls/${{ github.event.number }})
-            echo "PR_LABEL=${LABELS}" >>  "$GITHUB_OUTPUT"
         env:
             GH_TOKEN: ${{ github.token }}
 
@@ -179,12 +171,13 @@ jobs:
             Thank You! 😁😁
 
       - name: closing JSON 3 result
+        if: ${{ steps.checker.outputs.ERROR_DELETE && steps.get_pr.outputs.deleted_files_count != 1 }}
         run: |
               labels="r: Yhal"
               if [ ${{steps.checker.outputs.PROFANITY_1 !='' || steps.checker.outputs.PROFANITY_2 !=''}} == true ]; then
                 labels+=",possible Profanity"
               fi
-              if [ ${{steps.checker.outputs.JSON_USE_PIC != '' }} == true ]; then
+              if [ ${{steps.checker.outputs.JSON_USE_PIC != ''}} == true ]; then
                 labels+=",r: Yhal-avatar"
               fi
               OWNER=$(echo "${{ github.repository }}" | cut -d'/' -f1)
@@ -194,12 +187,16 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    create:
+    delete:
       needs: initialize
-      runs-on: ubuntu-latest  # windows-latest || macos-latest
-      name: when Creating/Modifying JSON
+      runs-on: ubuntu-latest
+      name: when Deleting JSON
       steps:
       # - uses: actions/checkout@v4
-      - name: validation
+      - name: checking
+        if: ${{ needs.initialize.outputs.delete_message == '' && needs.initialize.outputs.deleted_content }}
         run: |
-         echo ${{needs.initialize.outputs.json_content}}
+              run: |
+              gh pr edit ${{ github.event.pull_request.number }} --add-label "r: Yhal,to Delete"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

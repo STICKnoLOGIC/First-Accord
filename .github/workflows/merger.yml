@@ -1,0 +1,21 @@
+name: CI Contributor Merger
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "contributors/*.json"
+
+concurrency:
+    group: ${{ github.ref }}-ci-merger
+    cancel-in-progress: true
+
+jobs:
+  toMerge:
+    runs-on: ubuntu-latest
+    name: Ready to Merge
+    if: contains(github.event.issue.labels.*.name, 'ready to merge')
+    permissions:
+     pull-requests: write
+    steps:
+      - uses: actions/checkout@v4

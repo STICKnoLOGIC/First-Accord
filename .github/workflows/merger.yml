@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "contributors/*.json"
+    types: [ labeled ]
 
 concurrency:
     group: ${{ github.ref }}-ci-merger
@@ -13,9 +14,88 @@ concurrency:
 jobs:
   toMerge:
     runs-on: ubuntu-latest
-    name: Ready to Merge
-    if: contains(github.event.issue.labels.*.name, 'ready to merge')
+    name: Ready to Merge - ${{ github.event.pull_request.title }}
+    if:  contains( github.event.pull_request.labels.*.name, 'ready to merge')
     permissions:
-     pull-requests: write
+      pull-requests: write
+    outputs:
+      old_user: ${{steps.old_ref.outputs.OLD_NAME}}
+      current_pr_user: ${{steps.old_ref.outputs.OLD_NAME}}
     steps:
       - uses: actions/checkout@v4
+      - name: getting prs
+        id: get_pr
+        uses: tj-actions/changed-files@v46
+
+		#when Deleting Contribution
+      - name: Fetch data
+        id: fetched_data
+        run: |
+              echo "PR_AUTHOR=${{ github.event.pull_request.user.login }}" >>  "$GITHUB_OUTPUT"
+      - name: Fetch data from the main branch
+        uses: actions/checkout@v4
+        with:
+          ref: 'main'
+      - name: get old display_float_text
+        id: old_ref
+        run: |
+              oldName=""
+              name=${{steps.fetched_data.outputs.PR_AUTHOR}}
+              content="contributors/${name,,}.json"
+              if jq -e 'has("display_float_text")' $content >/dev/null 2>&1; then
+
+                $oldName+="$(cat $content | jq -r '.display_float_text')"
+              else
+                $oldName+="$name"
+              fi
+                echo "OLD_NAME=$oldName" >>  "$GITHUB_OUTPUT"
+
+  Delete_Merge:
+    runs-on: ubuntu-latest
+    needs: toMerge
+    env:
+      GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
+    if:  contains( github.event.pull_request.labels.*.name, 'to Delete')
+    steps:
+      - uses: thollander/actions-comment-pull-request@v3
+        with:
+          message: |
+            Hey @${{needs.toMerge.outputs.current_pr_user}}! I just wanted to say a big thank you for the effort you put into your contribution. Even though you decided to remove your contribution, we truly appreciate the thought and hard work behind it. Every bit of collaboration counts, and we're glad to have you on board!
+            Best Regards,
+            @STICKnoLOGIC
+      - uses: "pascalgn/automerge-action@v0.16.4"
+
+  Create_Merge:
+    runs-on: ubuntu-latest
+    needs: toMerge
+    env:
+      GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
+    if:  ! contains( github.event.pull_request.labels.*.name, 'to Delete')
+    steps:
+      - uses: action/checkout@v4
+      - uses: tj-actions/changed-files@v46
+        id: get_pr
+      - name: Fetching Data
+        run: |
+              mkdir -p contributors/names/
+              floatName="$(cat ${{steps.get_pr.outputs.all_changed_files}} | jq -r '.display_float_text')"
+              if [ $floatName == '' && ${{needs.toMerge.outputs.old_user != needs.toMerge.outputs.current_pr_user}} ]; then
+                echo "${{needs.toMerge.outputs.current_pr_user}}" > contributors/names/@${{needs.toMerge.outputs.current_pr_user}}
+              elif [ $floatName != '' && $floatName != "${{needs.toMerge.outputs.old_user}}" ]; then
+                echo "$floatName" > contributors/names/@${{needs.toMerge.outputs.current_pr_user}}
+              fi
+              git config --global user.name 'STICKnoLOGIC'
+              git config --global user.email '65322242+STICKnoLOGIC@users.noreply.github.com'
+              git add ./contributors/names
+              git commit -m 'Update Contributor/s'
+              git push
+      - uses: thollander/actions-comment-pull-request@v3
+        with:
+          message: |
+            Hi @${{needs.toMerge.outputs.current_pr_user}}! Every great journey begins with a first step. Your first contribution on `First Accord` shows just how capable you are. Keep building your skills and gently nurturing your confidence — check out [these additional resources](https://github.com/firstcontributions/first-contributions) to get you adding more contributions on GitHub.
+
+            Best regards,
+            @STICKnoLOGIC
+      - uses: "pascalgn/automerge-action@v0.16.4"
+
+

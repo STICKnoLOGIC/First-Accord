@@ -21,6 +21,7 @@ jobs:
     outputs:
       new_user: ${{steps.old_ref.outputs.NEW_NAME}}
       current_pr_user: ${{steps.fetched_data.outputs.PR_AUTHOR}}
+      current_pr_number: ${{ github.event.pull_request.number }}
     steps:
       - uses: actions/checkout@v4
       - name: getting prs
@@ -94,14 +95,13 @@ jobs:
               fi
 
       - uses: thollander/actions-comment-pull-request@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
         with:
           message: |
             Hi @${{needs.toMerge.outputs.current_pr_user}}! Every great journey begins with a first step. Your first contribution on `First Accord` shows just how capable you are. Keep building your skills and gently nurturing your confidence — check out [these additional resources](https://github.com/firstcontributions/first-contributions) to get you adding more contributions on GitHub.
 
             Best regards,
             @STICKnoLOGIC
+          github-token: ${{ secrets.FA_TOKEN }}
       - uses: "pascalgn/automerge-action@v0.16.4"
         env:
           GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}

@@ -71,7 +71,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
     if: ${{ github.event.pull_request && !contains(github.event.pull_request.labels.*.name, 'to Delete') }}
     steps:
-      - uses: action/checkout@v4
+      - uses: actions/checkout@v4
       - uses: tj-actions/changed-files@v46
         id: get_pr
       - name: Fetching Data

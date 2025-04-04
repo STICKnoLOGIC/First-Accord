@@ -62,7 +62,7 @@ jobs:
       run: |
         git config --global user.name 'STICKnoLOGIC'
         git config --global user.email '65322242+STICKnoLOGIC@users.noreply.github.com'
-        git add ./contributors/names
+        git add util/.
         if git commit -m 'Generate Contributors List'; then
           echo 'commited'
         fi

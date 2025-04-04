@@ -5,9 +5,6 @@ on:
     - cron: "*/20 * * * *"
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
   generate:
     name: Generate Contributors List
@@ -64,7 +61,7 @@ jobs:
 
     - name: Publishing
       env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}/
+          ssh-key: ${{secrets.FA_KEY}}
       run: |
         git config --global user.name 'STICKnoLOGIC'
         git config --global user.email '65322242+STICKnoLOGIC@users.noreply.github.com'
@@ -72,7 +69,6 @@ jobs:
         if git commit -m 'Generate Contributors List'; then
           echo 'commited'
         fi
-        git remote set-url origin "https://x-access-token:${{secrets.FA_TOKEN}}@github.com/STICKnoLOGIC/First-Accord.git"
         if git push ; then
           echo 'pushed'
         fi

@@ -72,6 +72,6 @@ jobs:
           echo 'commited'
         fi
         git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
-        if git push ; then
+        if git push origin main ; then
           echo 'pushed'
         fi

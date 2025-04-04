@@ -6,7 +6,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  run-script:
+  generate:
+    name: Generate Contributors List
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
 
     steps:

@@ -76,9 +76,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref:  'main'
+          token: ${{ secrets.FA_TOKEN }}
       - name: Fetching Data
-        env:
-          ssh-key: ${{secrets.FA_KEY}}
         run: |
               mkdir -p contributors/names/
               floatName="${{needs.toMerge.outputs.new_user}}"

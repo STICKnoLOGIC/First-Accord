@@ -1,0 +1,51 @@
+name: JSON Generator - Contributors
+
+on:
+  schedule:
+    - cron: "*/20 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    name: Generate Contributors List
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.FA_TOKEN }}
+        ref: 'gh-pages'
+
+    - name: Generating
+      run: |
+        git clone https://github.com/STICKnoLOGIC/First-Accord-Docs.git fa-doc
+        mv -f fa-doc/assets .
+        mv -f fa-doc/styles .
+        mv -f fa-doc/*.webp .
+        mv -f fa-doc/*.ico .
+        mv -f fa-doc/index.html ./docs
+        rm -rf  fa-doc
+        ls
+        ls assets
+        echo "----------"
+        ls styles
+        echo "----------"
+        ls docs
+
+    # - name: Publishing
+    #   env:
+    #       ssh-key: ${{secrets.FA_KEY}}
+    #   run: |
+    #     git config --global user.name 'STICKnoLOGIC'
+    #     git config --global user.email '65322242+STICKnoLOGIC@users.noreply.github.com'
+    #     git add util/.
+    #     if git commit -m 'Generate Contributors List'; then
+    #       echo 'commited'
+    #     fi
+    #     if git push ; then
+    #       echo 'pushed'
+    #     fi

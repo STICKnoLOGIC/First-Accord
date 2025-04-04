@@ -78,7 +78,7 @@ jobs:
           ref:  'main'
       - name: Fetching Data
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ssh-key: ${{secrets.FA_KEY}}
         run: |
               mkdir -p contributors/names/
               floatName="${{needs.toMerge.outputs.new_user}}"
@@ -97,7 +97,6 @@ jobs:
               if git commit -m 'Update Contributor/s'; then
                 echo 'commited'
               fi
-              git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
               if git push ; then
                 echo 'pushed'
               fi

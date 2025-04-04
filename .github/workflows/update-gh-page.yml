@@ -35,8 +35,6 @@ jobs:
         ls docs
 
     - name: Publishing
-      env:
-          ssh-key: ${{secrets.FA_KEY}}
       run: |
         git config --global user.name 'STICKnoLOGIC'
         git config --global user.email '65322242+STICKnoLOGIC@users.noreply.github.com'

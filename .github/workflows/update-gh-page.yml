@@ -23,11 +23,11 @@ jobs:
     - name: Generating
       run: |
         git clone https://github.com/STICKnoLOGIC/First-Accord-Docs.git fa-doc
-        mv -f fa-doc/assets ./
-        mv -f fa-doc/styles ./
-        mv -f fa-doc/*.webp .
-        mv -f fa-doc/*.ico .
-        mv -f fa-doc/index.html ./docs/
+        cp -rf fa-doc/assets .
+        cp -rf fa-doc/styles .
+        cp -rf fa-doc/*.webp .
+        cp -rf fa-doc/*.ico .
+        cp -rf fa-doc/index.html ./docs
         rm -rf  fa-doc
         ls
         ls assets

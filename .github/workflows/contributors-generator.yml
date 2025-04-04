@@ -5,12 +5,13 @@ on:
     - cron: "*/20 * * * *"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   generate:
     name: Generate Contributors List
     runs-on: ubuntu-latest
-    permissions:
-        contents: write
 
     steps:
     - name: Checkout Repository
@@ -71,7 +72,7 @@ jobs:
         if git commit -m 'Generate Contributors List'; then
           echo 'commited'
         fi
-        git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
-        if git push origin main ; then
+        # git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
+        if git push ; then
           echo 'pushed'
         fi

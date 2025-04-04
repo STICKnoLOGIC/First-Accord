@@ -1,8 +1,6 @@
 name: Fetch and Update Page
 
 on:
-  schedule:
-    - cron: "*/20 * * * *"
   workflow_dispatch:
 
 permissions:

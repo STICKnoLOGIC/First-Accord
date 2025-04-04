@@ -23,11 +23,11 @@ jobs:
     - name: Generating
       run: |
         git clone https://github.com/STICKnoLOGIC/First-Accord-Docs.git fa-doc
-        cp -rf fa-doc/assets .
-        cp -rf fa-doc/styles .
+        cp -rf fa-doc/assets ./assets/
+        cp -rf fa-doc/styles ./styles/
         cp -rf fa-doc/*.webp .
         cp -rf fa-doc/*.ico .
-        cp -rf fa-doc/index.html ./docs
+        cp -rf fa-doc/index.html ./docs/
         rm -rf  fa-doc
         ls
         ls assets
@@ -36,16 +36,16 @@ jobs:
         echo "----------"
         ls docs
 
-    # - name: Publishing
-    #   env:
-    #       ssh-key: ${{secrets.FA_KEY}}
-    #   run: |
-    #     git config --global user.name 'STICKnoLOGIC'
-    #     git config --global user.email '65322242+STICKnoLOGIC@users.noreply.github.com'
-    #     git add util/.
-    #     if git commit -m 'Generate Contributors List'; then
-    #       echo 'commited'
-    #     fi
-    #     if git push ; then
-    #       echo 'pushed'
-    #     fi
+    - name: Publishing
+      env:
+          ssh-key: ${{secrets.FA_KEY}}
+      run: |
+        git config --global user.name 'STICKnoLOGIC'
+        git config --global user.email '65322242+STICKnoLOGIC@users.noreply.github.com'
+        git add .
+        if git commit -m 'Fetched From https://github.com/STICKnoLOGIC/first-accord-docs'; then
+          echo 'commited'
+        fi
+        if git push ; then
+          echo 'pushed'
+        fi

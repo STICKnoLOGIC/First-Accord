@@ -72,7 +72,7 @@ jobs:
         if git commit -m 'Generate Contributors List'; then
           echo 'commited'
         fi
-        git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}"
+        git remote set-url origin "https://x-access-token:${{secrets.FA_TOKEN}}@github.com/STICKnoLOGIC/First-Accord.git"
         if git push ; then
           echo 'pushed'
         fi

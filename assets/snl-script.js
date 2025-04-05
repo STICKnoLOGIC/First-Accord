@@ -14,6 +14,11 @@ if(lastWidth<780){
     floatingTextCount=25;
 }
 
+//caching contributors json
+const CACHE_KEY = "contributorCache";
+const CACHE_TIMESTAMP_KEY = "contributorCacheTimestamp";
+const CACHE_TTL = 30 * 60 * 1000; // 30 minutes in milliseconds
+
 // colors
 const darkColors = ["#383a42", "#0098dd", "#23974a", "#a05a48", "#c5a332", "#ce33c0","#823ff1","#275fe4","#df631c","#d52753","#7a82da"];
 const lightColors = ["#f8f8f2", "#8be9fd", "#50fa7b", "#ffb86c", "#ff79c6", "#bd93f9","#ff5555","#f1fa8c"];
@@ -161,13 +166,49 @@ search.addEventListener(
 if(localStorage.getItem('snl_fa_theme')=='true'){
     toggleMode();
 }
+
+function fetchJSONData(url) {
+    return new Promise((resolve, reject) => {
+      const cachedData = localStorage.getItem(CACHE_KEY);
+      const cachedTimestamp = localStorage.getItem(CACHE_TIMESTAMP_KEY);
+
+      if (cachedData && cachedTimestamp) {
+        const age = Date.now() - parseInt(cachedTimestamp, 10);
+        if (age < CACHE_TTL) {
+          console.log("Using cached JSON data.");
+          return resolve(JSON.parse(cachedData));
+        } else {
+          // Remove expired cache items
+          localStorage.removeItem(CACHE_KEY);
+          localStorage.removeItem(CACHE_TIMESTAMP_KEY);
+        }
+      }
+
+      // No valid cache - fetch new data
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Network response was not OK.");
+          }
+          return response.json();
+        })
+        .then(data => {
+          // Store new data in cache
+          localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+          localStorage.setItem(CACHE_TIMESTAMP_KEY, Date.now());
+          resolve(data);
+        })
+        .catch(err => reject(err));
+    });
+  }
+
 // start the floating
-fetch('https://raw.githubusercontent.com/sticknologic/first-accord/main/util/contributors.json')
-  .then((response) => response.json())
+
+fetchJSONData('https://raw.githubusercontent.com/sticknologic/first-accord/main/util/contributors.json')
   .then((data) => {
     words=data;
     generateFloatingText();
-  })
+  });
 
 //contributor
 async function fetchContributor(fileName) {

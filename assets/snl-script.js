@@ -293,6 +293,7 @@ async function searchContributor() {
     const result = await fetchContributor(fileName);
 
     if (result) {
+        document.activeElement.blur();
         searchedUser=fileName;
         showDial(result);
     } else {
@@ -303,7 +304,7 @@ async function searchContributor() {
 
 function share(link){
     let url='';
-    let current_url=window.location.href+(window.location.href.includes('?c=')?"":'?c='+search.value);
+    let current_url=`https://First-Accord.js.org?c=${searchedUser}`;
     let message="Don't miss out—join First Accord and make your very first contribution to GitHub and Open Source!";
     switch(link){
         case 0:

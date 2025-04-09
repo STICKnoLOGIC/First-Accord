@@ -165,6 +165,7 @@ body.light-mode .snl-info{
     max-width: 600px;
     height: 400px;
     min-width: 400px;
+    width: 600px;
     border-radius: 1rem;
     position: relative;
     overflow: hidden;
@@ -248,6 +249,7 @@ body.light-mode .dial-card{
     justify-content:space-between;
     width: 100%;
     align-items: center;
+    z-index: 2001 ;
 }
 
 .dial-close{
@@ -277,6 +279,21 @@ body.light-mode .dial-card{
     z-index: 200;
 }
 
+@media (pointer: coarse) {
+    .dial-close:hover{
+        font-weight: inherit;
+    }
+    .dial-share:hover{
+        color: inherit;
+        transform: none;
+    }
+    .floating-text:hover{
+        animation-play-state:inherit;
+        cursor: inherit;
+    }
+
+  }
+
 @media (max-width: 480px) {
     .doc-text{
         display: none;
@@ -296,7 +313,8 @@ body.light-mode .dial-card{
     .dial-card{
         margin: 0 8px;
         max-width: 100%;
-        min-width: auto;
+        min-width: 300px;
+        width: calc(100% - 16px);
     }
     .search-container{
         flex-direction: column;

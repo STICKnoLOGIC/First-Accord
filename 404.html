@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Error - Page Not Found</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            font-family: "Courier New", Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+        }
+        .error-code {
+            font-size: 3rem;
+            color: #ce9178;
+        }
+        .error-message {
+            font-size: 1.5rem;
+            color: #dcdcaa;
+        }
+        .hint {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #569cd6;
+        }
+        a {
+            text-decoration: none;
+            color: #4ec9b0;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .terminal {
+            background-color: #252526;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            color: #d4d4d4;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="error-code">Error 404</div>
+        <div class="error-message">Oops! The page you're looking for is not found.</div>
+        <div class="hint">
+            Try debugging by <a href="/">returning home</a>.
+        </div>
+        <div class="terminal">
+            > _ PageNotFoundException: The requested resource could not be located. <br>
+            > _ StatusCode: 404 <br>
+            > _ Hint: Check the URL for typos or contact the admin. <br>
+        </div>
+    </div>
+</body>
+</html>

@@ -293,6 +293,7 @@ async function searchContributor() {
     const result = await fetchContributor(fileName);
 
     if (result) {
+        document.activeElement.blur();
         searchedUser=fileName;
         showDial(result);
     } else {
@@ -303,7 +304,7 @@ async function searchContributor() {
 
 function share(link){
     let url='';
-    let current_url=window.location.href+(window.location.href.includes('?c=')?"":'?c='+search.value);
+    let current_url=`https://First-Accord.js.org?c=${searchedUser}`;
     let message="Don't miss out—join First Accord and make your very first contribution to GitHub and Open Source!";
     switch(link){
         case 0:
@@ -313,10 +314,10 @@ function share(link){
             url=`https://x.com/intent/post?url=${current_url}&via=STICKnoLOGIC&hashtags=FirstAccord&text=${message}`;
             break;
         case 2:
-            url=`https://bsky.app/intent/compose?text=${message} ${current_url}\n via @sticknologic.bsky.social`;
+            url=`https://bsky.app/intent/compose?text=${message}%0A${current_url}%0Avia @STICKnoLOGIC.is-a.dev`;
             break;
         case 3:
-            url=`https://wa.me/?text=${message}  :: ${current_url}`;
+            url=`https://wa.me/?text=${message}%0A${current_url}`;
             break;
         case 4:
             url=`https://t.me/share/url?url=${current_url}&text=${message}`;

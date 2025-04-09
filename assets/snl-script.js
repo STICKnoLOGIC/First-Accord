@@ -314,10 +314,10 @@ function share(link){
             url=`https://x.com/intent/post?url=${current_url}&via=STICKnoLOGIC&hashtags=FirstAccord&text=${message}`;
             break;
         case 2:
-            url=`https://bsky.app/intent/compose?text=${message} ${current_url}\n via @STICKnoLOGIC.is-a.dev`;
+            url=`https://bsky.app/intent/compose?text=${message}%0A${current_url}%0Avia @STICKnoLOGIC.is-a.dev`;
             break;
         case 3:
-            url=`https://wa.me/?text=${message}  :: ${current_url}`;
+            url=`https://wa.me/?text=${message}%0A${current_url}`;
             break;
         case 4:
             url=`https://t.me/share/url?url=${current_url}&text=${message}`;

@@ -248,6 +248,7 @@ body.light-mode .dial-card{
     justify-content:space-between;
     width: 100%;
     align-items: center;
+    z-index: 2001 ;
 }
 
 .dial-close{
@@ -279,13 +280,15 @@ body.light-mode .dial-card{
 
 @media (pointer: coarse) {
     .dial-close:hover{
-        pointer-events: none;
+        font-weight: inherit;
     }
     .dial-share:hover{
-        pointer-events: none;
+        color: inherit;
+        transform: none;
     }
     .floating-text:hover{
-        pointer-events: none;
+        animation-play-state:inherit;
+        cursor: inherit;
     }
 
   }

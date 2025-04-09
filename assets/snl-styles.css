@@ -277,6 +277,19 @@ body.light-mode .dial-card{
     z-index: 200;
 }
 
+@media (pointer: coarse) {
+    .dial-close:hover{
+        all: revert-layer;
+    }
+    .dial-share:hover{
+        all: revert-layer;
+    }
+    .floating-text:hover{
+        all: revert-layer;
+    }
+
+  }
+
 @media (max-width: 480px) {
     .doc-text{
         display: none;

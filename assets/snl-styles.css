@@ -278,14 +278,14 @@ body.light-mode .dial-card{
 }
 
 @media (pointer: coarse) {
-    .dial-close:hover{
-        all: revert-layer;
+    .dial-close{
+        pointer-events: none;
     }
-    .dial-share:hover{
-        all: revert-layer;
+    .dial-share{
+        pointer-events: none;
     }
-    .floating-text:hover{
-        all: revert-layer;
+    .floating-text{
+        pointer-events: none;
     }
 
   }

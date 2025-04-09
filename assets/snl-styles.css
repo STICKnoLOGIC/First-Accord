@@ -313,7 +313,8 @@ body.light-mode .dial-card{
     .dial-card{
         margin: 0 8px;
         max-width: 100%;
-        width: 100%;
+        min-width: 300px;
+        width: calc(100% - 32px);
     }
     .search-container{
         flex-direction: column;

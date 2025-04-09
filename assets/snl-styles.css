@@ -165,7 +165,7 @@ body.light-mode .snl-info{
     max-width: 600px;
     height: 400px;
     min-width: 400px;
-    width: 400px;
+    width: 600px;
     border-radius: 1rem;
     position: relative;
     overflow: hidden;
@@ -313,7 +313,7 @@ body.light-mode .dial-card{
     .dial-card{
         margin: 0 8px;
         max-width: 100%;
-        min-width: 300px;
+        width: 100%;
     }
     .search-container{
         flex-direction: column;

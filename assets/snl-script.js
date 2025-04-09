@@ -308,7 +308,7 @@ function share(link){
     let message="Don't miss out—join First Accord and make your very first contribution to GitHub and Open Source!";
     switch(link){
         case 0:
-            url=`https://www.facebook.com/sharer/sharer.php?u=${current_url}/&share=facebook`;
+            url=`https://www.facebook.com/sharer/sharer.php?u=${current_url}&share=facebook`;
             break;
         case 1:
             url=`https://x.com/intent/post?url=${current_url}&via=STICKnoLOGIC&hashtags=FirstAccord&text=${message}`;

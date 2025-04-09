@@ -314,7 +314,7 @@ body.light-mode .dial-card{
         margin: 0 8px;
         max-width: 100%;
         min-width: 300px;
-        width: calc(100% - 32px);
+        width: calc(100% - 16px);
     }
     .search-container{
         flex-direction: column;

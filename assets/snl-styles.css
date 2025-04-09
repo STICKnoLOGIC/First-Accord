@@ -278,13 +278,13 @@ body.light-mode .dial-card{
 }
 
 @media (pointer: coarse) {
-    .dial-close{
+    .dial-close:hover{
         pointer-events: none;
     }
-    .dial-share{
+    .dial-share:hover{
         pointer-events: none;
     }
-    .floating-text{
+    .floating-text:hover{
         pointer-events: none;
     }
 

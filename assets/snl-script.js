@@ -311,7 +311,7 @@ function share(link){
             url=`https://x.com/intent/post?url=${current_url}\n&via=STICKnoLOGIC&hashtags=FirstAccord,WebDevelopment,OpenSource\n&text=${message}\n`;
             break;
         case 2:
-            url=`https://bsky.app/intent/compose?text=${message}\n${current_url}\nvia @STICKnoLOGIC.is-a.dev`;
+            url=`https://bsky.app/intent/compose?text=${message}\n${current_url}\nvia @sticknologic.is-a.dev`;
             break;
         case 3:
             url=`https://wa.me/?text=${message}\n${current_url}`;

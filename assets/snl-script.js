@@ -311,13 +311,13 @@ function share(link){
             url=`https://www.facebook.com/sharer/sharer.php?u=${current_url}&share=facebook`;
             break;
         case 1:
-            url=`https://x.com/intent/post?url=${current_url}&via=STICKnoLOGIC&hashtags=FirstAccord&text=${message}`;
+            url=`https://x.com/intent/post?url=${current_url}\n&via=STICKnoLOGIC&hashtags=FirstAccord,WebDevelopment,OpenSource\n&text=${message}\n`;
             break;
         case 2:
-            url=`https://bsky.app/intent/compose?text=${message}%0A${current_url}%0Avia @STICKnoLOGIC.is-a.dev`;
+            url=`https://bsky.app/intent/compose?text=${message}\n${current_url}\nvia @STICKnoLOGIC.is-a.dev`;
             break;
         case 3:
-            url=`https://wa.me/?text=${message}%0A${current_url}`;
+            url=`https://wa.me/?text=${message}\n${current_url}`;
             break;
         case 4:
             url=`https://t.me/share/url?url=${current_url}&text=${message}`;
@@ -327,7 +327,7 @@ function share(link){
             alert("Link copied to clipboard");
             return;
     }
-    window.open(url,"Share First Accord",'width=360,height=640,titlebar=0,toolbar=0,');
+    window.open(encodeURI(url),"Share First Accord",'width=360,height=640,titlebar=0,toolbar=0,');
 }
 function closeButton(){
     hide(dialBG);

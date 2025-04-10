@@ -36,12 +36,6 @@ const userDescription=document.getElementById('dial-description');
 const userResourceContainer=document.getElementById('dial-res-cntnr');
 const userResource=document.getElementById('dial-resources');
 
-// checker
-if(c!==null && c!==''){
-    search.value=c;
-    searchContributor();
-}
-
 
 function getRandomWord() {
     return words[Math.floor(Math.random() * words.length)];
@@ -132,6 +126,26 @@ window.addEventListener('resize', () => {
 
 });
 
+function searchChecker(e){
+    const inputValue = e.value.trim();
+    const matchedValue = inputValue.match(pattern);
+
+    if (matchedValue && inputValue!=="") {
+        if(inputValue.endsWith('--')){
+            e.value=lastInput;
+            return;
+        }
+        lastInput=matchedValue[0];
+        e.value = matchedValue[0];
+        return;
+    }else if(inputValue.endsWith('--')||inputValue.startsWith("-")){
+        e.value=lastInput;
+        return;
+    }
+    e.value="";
+    lastInput=this.value;
+}
+
 //search listener
 search.addEventListener('keypress',function(e){
     if(e.key==='Enter'){
@@ -141,24 +155,7 @@ search.addEventListener('keypress',function(e){
 
 search.addEventListener(
     "input", function () {
-    const inputValue = this.value.trim();
-
-    const matchedValue = inputValue.match(pattern);
-
-    if (matchedValue && inputValue!=="") {
-        if(inputValue.endsWith('--')){
-            this.value=lastInput;
-            return;
-        }
-        lastInput=matchedValue[0];
-        search.value = matchedValue[0];
-        return;
-    }else if(inputValue.endsWith('--')||inputValue.startsWith("-")){
-        this.value=lastInput;
-        return;
-    }
-    this.value="";
-    lastInput=this.value;
+    searchChecker(this);
 }
 );
 
@@ -369,3 +366,10 @@ if(localStorage.getItem('snl_fa_about')=='true'){
 document.getElementById('show-about').addEventListener('change', function() {
     localStorage.setItem('snl_fa_about', this.checked);
   });
+
+  // checker
+if(c!==null && c!==''){
+    search.value=c;
+    searchChecker(search);
+    searchContributor();
+}

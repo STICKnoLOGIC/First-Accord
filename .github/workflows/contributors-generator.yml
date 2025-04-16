@@ -28,14 +28,6 @@ jobs:
         echo "\"STICKnoLOGIC\"," >> "$OUTPUT_FILE"
         echo "\"STICKnoLOGIC\"," >> "$OUTPUT_FILE"
         echo "\"STICKnoLOGIC\"," >> "$OUTPUT_FILE"
-        echo "\"STICKnoLOGIC\"," >> "$OUTPUT_FILE"
-        echo "\"STICKnoLOGIC\"," >> "$OUTPUT_FILE"
-        echo "\"STICKnoLOGIC\"," >> "$OUTPUT_FILE"
-        echo "\"STICKnoLOGIC\"," >> "$OUTPUT_FILE"
-        echo "\"SnL\"," >> "$OUTPUT_FILE"
-        echo "\"SnL\"," >> "$OUTPUT_FILE"
-        echo "\"SnL\"," >> "$OUTPUT_FILE"
-        echo "\"SnL\"," >> "$OUTPUT_FILE"
         echo "\"SnL\"," >> "$OUTPUT_FILE"
         echo "\"SnL\"," >> "$OUTPUT_FILE"
         echo "\"SnL\"," >> "$OUTPUT_FILE"
@@ -44,17 +36,13 @@ jobs:
         echo "\"@firstcontributions\"," >> "$OUTPUT_FILE"
         echo "\"@firstcontributions\"," >> "$OUTPUT_FILE"
         echo "\"@firstcontributions\"," >> "$OUTPUT_FILE"
-        echo "\"@firstcontributions\"," >> "$OUTPUT_FILE"
-        echo "\"@firstcontributions\"," >> "$OUTPUT_FILE"
-        echo "\"@firstcontributions\"," >> "$OUTPUT_FILE"
+
 
         #BIG SHOUT OUT
         echo "\"js.org\"," >> "$OUTPUT_FILE"
         echo "\"js.org\"," >> "$OUTPUT_FILE"
         echo "\"js.org\"," >> "$OUTPUT_FILE"
-        echo "\"js.org\"," >> "$OUTPUT_FILE"
-        echo "\"js.org\"," >> "$OUTPUT_FILE"
-        echo "\"js.org\"," >> "$OUTPUT_FILE"
+
 
         for FILE in "$FOLDER"/*; do
           [ -f "$FILE" ] && echo "$(jq -R -s . < "$FILE")," >> "$OUTPUT_FILE"

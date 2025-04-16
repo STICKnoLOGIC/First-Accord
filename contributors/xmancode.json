@@ -1,21 +1,10 @@
 {
     "owner":{
         "name":"xmancode",
-        "email":"not-required",
         "github":"https://github.com/xmancode"
     },
     "social":{ 
-        "fa-brands fa-facebook":"link1",
-        "fa-brands fa-discord":"link2",
-        "just copy the class from the FontAwesome icon":"upto 5 social media"
+        "fa-brands fa-square-github":"https://github.com/xmancode"
     },
-    "my_top_resources":{
-        "title e.g. StackOverflow":"link",
-        "another title":"link2",
-        "etc":"upto 3 resources"
-    },
-    "description":"required-short info about you and yourself",
-    "use_github_avatar":true,
-    "custom_avatar_url":"not-required",
-    "display_float_text":"not-required - automatically use filename, max of 16 Characters"
+    "use_github_avatar":true
 }

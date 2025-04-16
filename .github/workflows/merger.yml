@@ -13,11 +13,11 @@ concurrency:
 
 jobs:
   toMerge:
+    
     runs-on: ubuntu-latest
     name: Ready to Merge - ${{ github.event.pull_request.title }}
     if:  contains( github.event.pull_request.labels.*.name, 'ready to merge')
-    permissions:
-      pull-requests: write
+    permissions: write-all
     outputs:
       new_user: ${{steps.old_ref.outputs.NEW_NAME}}
       current_pr_user: ${{steps.fetched_data.outputs.PR_AUTHOR}}
@@ -49,6 +49,7 @@ jobs:
 
 # REMOVING
   Delete_Merge:
+    permissions: write-all
     runs-on: ubuntu-latest
     needs: toMerge
     if: contains( github.event.pull_request.labels.*.name, 'to Delete')
@@ -70,6 +71,7 @@ jobs:
 # ADDING
   Create_Merge:
     runs-on: ubuntu-latest
+    permissions: write-all
     needs: toMerge
     if: ${{ github.event.pull_request && !contains(github.event.pull_request.labels.*.name, 'to Delete') }}
     steps:

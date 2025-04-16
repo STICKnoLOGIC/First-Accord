@@ -1,0 +1,11 @@
+{
+    "owner":{
+        "name":"xmancode",
+        "email":"empty@gh.com",
+        "github":"https://github.com/xmancode"
+    },
+    "social":{ 
+        "fa-brands fa-square-github":"https://github.com/xmancode"
+    },
+    "use_github_avatar":true
+}

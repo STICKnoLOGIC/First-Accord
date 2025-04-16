@@ -57,4 +57,4 @@ You can Support us by:
   [![PayPal](https://img.shields.io/badge/PayPal-00457C?style=flat&logo=paypal&logoColor=white)](https://paypal.me/yhalSTICKnoLOGIC)
 
 ## Contributor/s
-[![Contributors](https://contrib.rocks/image?repo=STICKnoLOGIC/first-accord)](https://contrib.rocks/preview?repo=STICKnoLOGIC%2FFirst-Accord)
+[![Contributors](https://stg.contrib.rocks/image?repo=STICKnoLOGIC/first-accord)](https://stg.contrib.rocks/preview?repo=STICKnoLOGIC%2FFirst-Accord)

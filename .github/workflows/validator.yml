@@ -130,7 +130,7 @@ jobs:
             ${{ steps.checker.outputs.ERROR_FILE }}
             ${{ steps.checker.outputs.ERROR_CONTENT }}
             ${{steps.checker.outputs.ERROR_DELETE}}
-            For more info, please visit our [documentaion](https://first-accord.js.org/docs/#/json-structure)
+            For more info, please visit our [documentation](https://first-accord.js.org/docs/#/json-structure)
 
       - name: Closing JSON result 1
         if: ${{steps.checker.outputs.ERROR_COUNT || steps.checker.outputs.ERROR_FILE || steps.checker.outputs.ERROR_CONTENT ||steps.checker.outputs.ERROR_DELETE}}
@@ -172,7 +172,7 @@ jobs:
               ${{steps.checker.outputs.PROFANITY_2}}
               ${{steps.checker.outputs.PROFANITY_3}}
               ${{steps.checker.outputs.JSON_USE_PIC}}
-            Thank You! 😁😁
+            Thank you! 😁😁
 
       - name: closing JSON 3 result
         if: ${{ steps.checker.outputs.ERROR_DELETE && steps.get_pr.outputs.deleted_files_count != 1 }}

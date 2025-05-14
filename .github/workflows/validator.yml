@@ -14,8 +14,7 @@ jobs:
     initialize:
       runs-on: ubuntu-latest
       name: Fetching Data
-      permissions:
-        pull-requests: write
+      permissions: write-all
       outputs:
         user: ${{ steps.init.outputs.PR_AUTHOR }}
         delete_message: ${{steps.checker.outputs.ERROR_DELETE}}
@@ -194,6 +193,7 @@ jobs:
 
     delete:
       needs: initialize
+      permissions: write-all
       runs-on: ubuntu-latest
       name: when Deleting JSON
       steps:

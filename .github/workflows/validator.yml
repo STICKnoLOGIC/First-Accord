@@ -82,7 +82,7 @@ jobs:
                   echo "ERROR_REQ_PIC= - use_github_avatar" >>  "$GITHUB_OUTPUT";
                 else
                   if [ cat $content | jq -r '.use_github_avatar' ]; then
-                    isPic=$(cat $content | jq -r '.use_github_avatar')
+                    isPic=$(jq -r '.use_github_avatar' "$content")
                     echo "JSON_USE_PIC=$isPic" >>  "$GITHUB_OUTPUT";
                   fi
                 fi
@@ -107,11 +107,9 @@ jobs:
               fi
 
               # check if there is a deleted file
-              if [${{steps.get_pr.outputs.deleted_files_count}} > 1 ]; then
-
+              if [ ${{steps.get_pr.outputs.deleted_files_count}} -gt 1 ]; then
                   echo "ERROR_DELETE= - You can only delete/remove 1 JSON file per Contributor." >>  "$GITHUB_OUTPUT"
-
-              elif [ ${{steps.get_pr.outputs.deleted_files_count}} == 1 ]; then
+              elif [ ${{steps.get_pr.outputs.deleted_files_count}} -eq 1 ]; then
 
                 if [[ "${{steps.get_pr.outputs.all_changed_files}}" != *"$lower_name"* ]]; then
 
@@ -201,7 +199,6 @@ jobs:
       - name: checking
         if: ${{ needs.initialize.outputs.delete_message == '' && needs.initialize.outputs.deleted_content }}
         run: |
-              run: |
-              gh pr edit ${{ github.event.pull_request.number }} --add-label "r: Yhal,to Delete"
+            gh pr edit ${{ github.event.pull_request.number }} --add-label "r: Yhal,to Delete"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

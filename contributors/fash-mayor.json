@@ -1,0 +1,21 @@
+{
+    "owner":{
+        "name":"Faugba Mayowa",
+        "email":"mayowasmaon03@gmail.com",
+        "github":"https://github.com/Fash-Mayor"
+    },
+    "social":{
+        "fa-brands fa-instagram":"https://instagram.com/_.mayowa_",
+        "fa-brands fa-linkedin":"https://linkedin.com/in/fasugba-mayowa",
+        "fa-brands fa-x-twitter":"https://x.com/_FashMayor"
+    },
+    "my_top_resources":{
+        "mdn":"https://developer.mozilla.org/en-US/docs/Web",
+        "w3schools":"https://www.w3schools.com",
+        "Daily.Dev":"https://app.daily.dev"
+    },
+    "description":"A Web/App Developer | Video Editor | A boy that wan't to see the world without limits",
+    "use_github_avatar":true,
+    "custom_avatar_url":"",
+    "display_float_text":"Fash_Mayor"
+}

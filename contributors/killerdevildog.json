@@ -1,0 +1,20 @@
+{
+    "owner":{
+        "name":"Quaylyn Rimer / Killerdevildog",
+        "email":"software.quaylynrimer@gmail.com",
+        "github":"https://github.com/killerdevildog"
+    },
+    "social":{ 
+        "fa-solid fa-envelope":"mailto:software.quaylynrimer@gmail.com",
+        "fa-brands fa-discord":"killersoftware.qr"
+    },
+    "my_top_resources":{
+        "Geeks For Geeks":"https://www.geeksforgeeks.org/",
+        "Godot Docs":"https://docs.godotengine.org/en/stable/",
+        "Claude":"https://claude.ai"
+    },
+    "description":"I am just a guy who wants to make it, Proficient in most languages and frameworks.",
+    "use_github_avatar":true,
+    "custom_avatar_url":"not-required",
+    "display_float_text":"The Codenator"
+}

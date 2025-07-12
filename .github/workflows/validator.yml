@@ -38,11 +38,11 @@ jobs:
         id: checker
         run: |
               # we expect you to create 1 json file
-              if [ ${{steps.get_pr.outputs.all_changed_files_count}} != 1 ]; then
+              if [ "${{steps.get_pr.outputs.all_changed_files_count}}" != "1" ]; then
 
                 echo "ERROR_COUNT= - You can only create 1 JSON file per Contributor" >>  "$GITHUB_OUTPUT"
 
-              elif [ ${{steps.get_pr.outputs.all_changed_files_count}} == 1 ]; then
+              elif [ "${{steps.get_pr.outputs.all_changed_files_count}}" == "1" ]; then
 
                 temp_var_name="${{steps.init.outputs.PR_AUTHOR}}"
                 lower_name="${temp_var_name,,}"
@@ -75,14 +75,14 @@ jobs:
                 fi
 
                 # check if owner.email key exist
-                if ! jq -e '.owner | has("email")' $content > /dev/null; then
+                if ! jq -e '.owner | has("email")' "$content" > /dev/null; then
                   echo "ERROR_REQ_OWNER_EMAIL= - owner/email" >>  "$GITHUB_OUTPUT"
                 fi
-                if ! jq -e 'has("use_github_avatar")' $content > /dev/null; then
+                if ! jq -e 'has("use_github_avatar")' "$content" > /dev/null; then
                   echo "ERROR_REQ_PIC= - use_github_avatar" >>  "$GITHUB_OUTPUT";
                 else
-                  if [ cat $content | jq -r '.use_github_avatar' ]; then
-                    isPic=$(jq -r '.use_github_avatar' "$content")
+                  isPic=$(jq -r '.use_github_avatar' "$content")
+                  if [ "$isPic" = "true" ]; then
                     echo "JSON_USE_PIC=$isPic" >>  "$GITHUB_OUTPUT";
                   fi
                 fi
@@ -107,9 +107,9 @@ jobs:
               fi
 
               # check if there is a deleted file
-              if [ ${{steps.get_pr.outputs.deleted_files_count}} -gt 1 ]; then
+              if [ "${{steps.get_pr.outputs.deleted_files_count}}" -gt 1 ]; then
                   echo "ERROR_DELETE= - You can only delete/remove 1 JSON file per Contributor." >>  "$GITHUB_OUTPUT"
-              elif [ ${{steps.get_pr.outputs.deleted_files_count}} -eq 1 ]; then
+              elif [ "${{steps.get_pr.outputs.deleted_files_count}}" -eq 1 ]; then
 
                 if [[ "${{steps.get_pr.outputs.all_changed_files}}" != *"$lower_name"* ]]; then
 

@@ -57,4 +57,7 @@ You can Support us by:
   [![PayPal](https://img.shields.io/badge/PayPal-00457C?style=flat&logo=paypal&logoColor=white)](https://paypal.me/yhalSTICKnoLOGIC)
 
 ## Contributor/s
-<!--GAMFC--><!--GAMFC-END-->
+<!--GAMFC--><a href="https://github.com/STICKnoLOGIC" title="John Aerial J.  Azcune"><img src="https://avatars.githubusercontent.com/u/65322242?v=4" width="42;" alt="John Aerial J.  Azcune"/></a>
+<a href="https://github.com/Fash-Mayor" title="Fasugba Mayowa"><img src="https://avatars.githubusercontent.com/u/129373577?v=4" width="42;" alt="Fasugba Mayowa"/></a>
+<a href="https://github.com/killerdevildog" title="Quaylyn Rimer"><img src="https://avatars.githubusercontent.com/u/31830590?v=4" width="42;" alt="Quaylyn Rimer"/></a>
+<a href="https://github.com/xmancode" title="xmancode"><img src="https://avatars.githubusercontent.com/u/15168172?v=4" width="42;" alt="xmancode"/></a><!--GAMFC-END-->

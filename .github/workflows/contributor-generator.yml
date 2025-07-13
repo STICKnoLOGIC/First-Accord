@@ -1,0 +1,35 @@
+name: Generator - Contributors
+
+on:
+  schedule:
+    - cron: "*/20 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    name: Generate Contributors
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.FA_TOKEN }}
+
+    - name: Generate Contributors Images
+      uses: sticknologic/github-action-contributors@main
+      id: contributors
+      with:
+        token: ${{ secrets.FA_TOKEN }}
+        filter-author: (renovate\[bot\]|renovate-bot|dependabot\[bot\])
+        avatarSize: 42
+
+    - name: Modify README.md
+      uses: jaywcjlove/github-action-modify-file-content@main
+      with:
+        token: ${{ secrets.FA_TOKEN }}
+        path: README.md
+        body: '${{steps.contributors.outputs.htmlList}}'

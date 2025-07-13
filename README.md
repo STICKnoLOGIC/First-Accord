@@ -58,8 +58,10 @@ You can Support us by:
 
 ## Contributor/s
 
-<!--GAMFC--><div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 10px; max-width: 100%; box-sizing: border-box;"><a href="https://github.com/STICKnoLOGIC" title="John Aerial J.  Azcune"><img style="object-fit: cover; display: block; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2);" src="https://avatars.githubusercontent.com/u/65322242?v=4" width="42;" alt="John Aerial J.  Azcune"/></a>
-</div><a href="https://github.com/Fash-Mayor" title="Fasugba Mayowa"><img style="object-fit: cover; display: block; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2);" src="https://avatars.githubusercontent.com/u/129373577?v=4" width="42;" alt="Fasugba Mayowa"/></a>
-</div><a href="https://github.com/killerdevildog" title="Quaylyn Rimer"><img style="object-fit: cover; display: block; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2);" src="https://avatars.githubusercontent.com/u/31830590?v=4" width="42;" alt="Quaylyn Rimer"/></a>
-</div><a href="https://github.com/xmancode" title="xmancode"><img style="object-fit: cover; display: block; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2);" src="https://avatars.githubusercontent.com/u/15168172?v=4" width="42;" alt="xmancode"/></a>
-</div><!--GAMFC-END-->
+<!--GAMFC--><a href="https://github.com/STICKnoLOGIC" title="John Aerial J.  Azcune"><img style="border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2);" src="https://avatars.githubusercontent.com/u/65322242?v=4" width="42;" alt="John Aerial J.  Azcune"/></a>
+
+<a href="https://github.com/Fash-Mayor" title="Fasugba Mayowa"><img style="border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2);" src="https://avatars.githubusercontent.com/u/129373577?v=4" width="42;" alt="Fasugba Mayowa"/></a>
+
+<a href="https://github.com/killerdevildog" title="Quaylyn Rimer"><img style="border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2);" src="https://avatars.githubusercontent.com/u/31830590?v=4" width="42;" alt="Quaylyn Rimer"/></a>
+
+<a href="https://github.com/xmancode" title="xmancode"><img style="border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2);" src="https://avatars.githubusercontent.com/u/15168172?v=4" width="42;" alt="xmancode"/></a><!--GAMFC-END-->

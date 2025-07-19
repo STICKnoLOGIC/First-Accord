@@ -24,7 +24,7 @@ jobs:
       id: contributors
       with:
         token: ${{ secrets.FA_TOKEN }}
-        filter-author: (renovate\[bot\]|renovate-bot|dependabot\[bot\])
+        filter-author: (renovate\[bot\]|renovate-bot|dependabot\[bot\]|github-actions\[bot\])
         avatarSize: 42
 
     - name: Modify README.md

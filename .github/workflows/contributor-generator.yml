@@ -1,8 +1,8 @@
-name: Generator - Contributors
+name: Readme Generator - Contributors
 
 on:
   schedule:
-    - cron: "*/20 * * * *"
+    - cron: "*/120 * * * *"
   workflow_dispatch:
 
 permissions:

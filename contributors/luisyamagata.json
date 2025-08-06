@@ -1,0 +1,19 @@
+{
+    "owner":{
+        "name":"Luis Yamagata",
+        "email":"luisyamagatadev@gmail.com",
+        "github":"https://github.com/luisyamagata"
+    },
+    "social":{
+        "fa-brands fa-linkedin":"https://www.linkedin.com/in/luis-yamagata-381a994b/"
+    },
+    "my_top_resources":{
+        "w3schools":"https://www.w3schools.com/",
+        "cs50x":"https://cs50.harvard.edu/x/",
+        "the odin project":"https://www.theodinproject.com/" 
+    },
+    "description":"Hi, I'm Luis. Technological undergraduate student in systems analysis and development. Currently learning HTML, CSS, JavaScript and Python.",
+    "use_github_avatar":true,
+    "custom_avatar_url":"",
+    "display_float_text":"luisyamagata"
+}

@@ -2,15 +2,12 @@ name: CI JSON Checker
 
 on:
     pull_request:
-
     push:
         branches: [main]
         paths:
-            - "domains/*"
+            - "contributors/*"
             - "tests/*"
             - "util/*"
-            - ".github/workflows/ci.yml"
-
     workflow_dispatch:
 
 concurrency:

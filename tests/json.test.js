@@ -93,6 +93,8 @@ async function validateFields(t, obj, fields, file, prefix = "") {
 }
 
 async function validateFileName(t, file) {
+    if(file === '__TEMPLATE__')
+        return;
     t.true(file.endsWith(".json"), `${file}: File does not have .json extension`);
     t.true(file === file.toLowerCase(), `${file}: File name should be all lowercase`);
     t.false(file.includes("--"), `${file}: File name should not contain consecutive hyphens`);

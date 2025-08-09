@@ -2,7 +2,7 @@ name: Readme Generator - Contributors
 
 on:
   schedule:
-    - cron: "*/120 * * * *"
+    - cron: "0 */2 * * *"
   workflow_dispatch:
 
 permissions:

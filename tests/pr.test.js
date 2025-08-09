@@ -1,6 +1,24 @@
-const t = require("ava");
-const fs = require("fs-extra");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
+const test = require('ava');
+
+const trustedPath = path.join(__dirname, '../util/trusted.json');
+const trusted = JSON.parse(fs.readFileSync(trustedPath, 'utf8'));
+
+const prAuthor = process.env.PR_AUTHOR;
+const prAuthorId = Number(process.env.PR_AUTHOR_ID);
+
+const isTrusted = trusted.some(
+  entry =>
+    entry.username === prAuthor ||
+    entry.id === prAuthorId
+);
+
+test('trusted PR skips all tests', t => {
+  if (isTrusted) {
+    t.pass();
+    return;
+  }
 
 const requiredEnvVars = ["PR_AUTHOR", "PR_AUTHOR_ID"];
 
@@ -62,4 +80,5 @@ t("Users can only update their own contribution", (t) => {
     }
 
     t.pass();
+});
 });

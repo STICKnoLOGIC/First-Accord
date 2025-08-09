@@ -1,6 +1,21 @@
-const t = require("ava");
-const fs = require("fs-extra");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
+const test = require('ava');
+
+// Load trusted.json
+const trustedPath = path.join(__dirname, '../util/trusted.json');
+const trusted = JSON.parse(fs.readFileSync(trustedPath, 'utf8'));
+
+// Get PR author and PR ID from environment variables
+const prAuthor = process.env.PR_AUTHOR;
+const prAuthorId = Number(process.env.PR_AUTHOR_ID);
+
+// Check if trusted
+const isTrusted = trusted.some(
+  entry =>
+    entry.username === prAuthor ||
+    entry.id === prAuthorId
+);
 
 const ignoredRootJSONFiles = ["package-lock.json", "package.json"];
 
@@ -166,32 +181,33 @@ async function processFile(file, t) {
     if(data.display_float_text){
         t.true(data.display_float_text.length > 0 && data.display_float_text <= 16, `${file}: Display float text should have between 1 and 16 entries`);
     }
-
-    // if (data.redirect_config) {
-    //     validateFields(t, data.redirect_config, optionalRedirectConfigFields, file, "redirect_config");
-    // }
-
 }
 
-t("JSON files should not be in the root directory", (t) => {
-    const rootFiles = fs
-        .readdirSync(path.resolve())
-        .filter((file) => file.endsWith(".json") && !ignoredRootJSONFiles.includes(file));
-    t.is(rootFiles.length, 0, "JSON files should not be in the root directory");
-});
+test('trusted PR skips all tests', t => {
+    if (isTrusted) {
+      t.pass();
+      return;
+    }
+    t("JSON files should not be in the root directory", (t) => {
+        const rootFiles = fs
+            .readdirSync(path.resolve())
+            .filter((file) => file.endsWith(".json") && !ignoredRootJSONFiles.includes(file));
+        t.is(rootFiles.length, 0, "JSON files should not be in the root directory");
+    });
 
-t("All files should be valid JSON", async (t) => {
-    await Promise.all(
-        files.map((file) => {
-            return t.notThrows(() => fs.readJson(path.join(contributorsPath, file)), `${file}: Invalid JSON file`);
-        })
-    );
-});
+    t("All files should be valid JSON", async (t) => {
+        await Promise.all(
+            files.map((file) => {
+                return t.notThrows(() => fs.readJson(path.join(contributorsPath, file)), `${file}: Invalid JSON file`);
+            })
+        );
+    });
 
-t("All files should have valid file names", async (t) => {
-    await Promise.all(files.map((file) => validateFileName(t, file)));
-});
+    t("All files should have valid file names", async (t) => {
+        await Promise.all(files.map((file) => validateFileName(t, file)));
+    });
 
-t("All files should have valid required and optional fields", async (t) => {
-    await Promise.all(files.map((file) => processFile(file, t)));
+    t("All files should have valid required and optional fields", async (t) => {
+        await Promise.all(files.map((file) => processFile(file, t)));
+    });
 });

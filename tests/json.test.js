@@ -2,15 +2,12 @@ const fs = require('fs');
 const path = require('path');
 const test = require('ava');
 
-// Load trusted.json
 const trustedPath = path.join(__dirname, '../util/trusted.json');
 const trusted = JSON.parse(fs.readFileSync(trustedPath, 'utf8'));
 
-// Get PR author and PR ID from environment variables
 const prAuthor = process.env.PR_AUTHOR;
-const prAuthorId = Number(process.env.PR_AUTHOR_ID);
+const prAuthorId = Number(process.env.PR_AUTHOR_ID) ;
 
-// Check if trusted
 const isTrusted = trusted.some(
   entry =>
     entry.username === prAuthor ||

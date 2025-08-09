@@ -20,8 +20,6 @@ test('trusted PR skips all tests', t => {
     return;
   }
 
-const requiredEnvVars = ["PR_AUTHOR", "PR_AUTHOR_ID"];
-
 function getContributorData(contributor) {
     try {
         const data = fs.readJsonSync(path.join(path.resolve("contributors"), `${contributor}.json`));
@@ -32,7 +30,6 @@ function getContributorData(contributor) {
 }
 
 t("Users can only update their own contribution", (t) => {
-    if (requiredEnvVars.every((v) => process.env[v])) {
         const changedFiles = JSON.parse(process.env.CHANGED_FILES);
         const deletedFiles = JSON.parse(process.env.DELETED_FILES);
         const prAuthor = process.env.PR_AUTHOR.toLowerCase();
@@ -77,7 +74,6 @@ t("Users can only update their own contribution", (t) => {
             );
             
         });
-    }
 
     t.pass();
 });

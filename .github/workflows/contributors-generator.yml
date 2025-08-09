@@ -21,7 +21,7 @@ jobs:
 
     - name: Generating
       run: |
-        FOLDER="contributors/names"
+        FOLDER="util/names"
         OUTPUT_FILE="util/contributors.json"
 
         echo "[" > "$OUTPUT_FILE"

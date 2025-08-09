@@ -27,7 +27,7 @@
      </a>
     <br><br>
     <!-- STATUS -->
-    <img alt="contributor" src="https://img.shields.io/github/directory-file-count/sticknologic/first-accord/contributors/names?color=orange&label=CONTRIBUTOR&style=flat">
+    <img alt="contributor" src="https://img.shields.io/github/directory-file-count/sticknologic/first-accord/util/names?color=orange&label=CONTRIBUTOR&style=flat">
     <img alt="contributor" src="https://img.shields.io/github/issues-raw/sticknologic/first-accord?color=orange&label=ISSUE&style=flat">
     <img alt="contributor" src="https://img.shields.io/github/issues-pr-raw/sticknologic/first-accord?color=orange&label=PULL&style=flat">
 </p>

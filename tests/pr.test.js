@@ -32,8 +32,6 @@ function getContributorData(contributor) {
 t("Users can only update their own contribution", (t) => {
         const changedFiles = JSON.parse(process.env.CHANGED_FILES);
         const deletedFiles = JSON.parse(process.env.DELETED_FILES);
-        const prAuthor = process.env.PR_AUTHOR.toLowerCase();
-        const prAuthorId = process.env.PR_AUTHOR_ID;
 
         const changedJSONFiles = changedFiles
             .filter((file) => file.startsWith("contributors/"))
@@ -43,7 +41,6 @@ t("Users can only update their own contribution", (t) => {
             .map((file) => path.basename(file.name));
 
         if (!changedJSONFiles && !deletedFiles) return t.pass();
-        if (process.env.PR_LABELS && process.env.PR_LABELS.includes("ci: bypass-owner-check")) return t.pass();
 
         changedJSONFiles.forEach((file) => {
             const contributor = file.replace(/\.json$/, "");

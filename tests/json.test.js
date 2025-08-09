@@ -180,6 +180,18 @@ async function processFile(file, t) {
     }
 }
 
+const profanityWords = fs.readFileSync(
+  path.join(__dirname, '../util/profanity_wordlist.txt'),
+  'utf8'
+).split('\n').map(w => w.trim()).filter(Boolean);
+
+function containsProfanity(str) {
+  if (!str || typeof str !== 'string') return false;
+  return profanityWords.some(word =>
+    str.toLowerCase().includes(word.toLowerCase())
+  );
+}
+
 test('trusted PR skips all tests', t => {
     if (isTrusted) {
       t.pass();
@@ -207,4 +219,40 @@ test('trusted PR skips all tests', t => {
     t("All files should have valid required and optional fields", async (t) => {
         await Promise.all(files.map((file) => processFile(file, t)));
     });
+});
+
+test('No profanity in contributor JSON', async t => {
+  if (isTrusted) {
+    t.pass();
+    return;
+  }
+  for (const file of files) {
+    const filePath = path.join(contributorsPath, file);
+    const data = await fs.readJson(filePath);
+
+    // Check all string fields in root and owner
+    for (const key of Object.keys(data)) {
+      if (typeof data[key] === 'string' && containsProfanity(data[key])) {
+        t.fail(`${file}: Profanity found in field ${key}`);
+      }
+    }
+    if (data.owner) {
+      for (const key of Object.keys(data.owner)) {
+        if (typeof data.owner[key] === 'string' && containsProfanity(data.owner[key])) {
+          t.fail(`${file}: Profanity found in owner.${key}`);
+        }
+      }
+    }
+    // Check socials and my_top_resources
+    ['social', 'my_top_resources'].forEach(field => {
+      if (data[field]) {
+        for (const key of Object.keys(data[field])) {
+          if (typeof data[field][key] === 'string' && containsProfanity(data[field][key])) {
+            t.fail(`${file}: Profanity found in ${field}.${key}`);
+          }
+        }
+      }
+    });
+    t.pass();
+  }
 });

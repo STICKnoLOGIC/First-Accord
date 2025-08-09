@@ -11,7 +11,7 @@ on:
     workflow_dispatch:
 
 concurrency:
-    group: ${{ github.ref }}-ci
+    group: ${{ github.ref }}-ci-validator
 
 jobs:
     tests:
@@ -23,7 +23,7 @@ jobs:
             - run: npm install
 
             - name: Fetch PR information
-              # if: github.event_name == 'pull_request'
+              if: github.event_name == 'pull_request'
               run: |
                   echo "PR_AUTHOR=${{ github.event.pull_request.user.login }}" >> $GITHUB_ENV
                   echo "PR_AUTHOR_ID=${{ github.event.pull_request.user.id }}" >> $GITHUB_ENV
@@ -37,7 +37,25 @@ jobs:
                   REMOVED_FILE_DATA=$(gh api --jq '[.[] | select(.status == "removed") | {name: .filename, data: .patch}]' /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files)
                   echo "DELETED_FILES=$REMOVED_FILE_DATA" >> $GITHUB_ENV
               env:
-                  GH_TOKEN: ${{ github.token }}
+                  GH_TOKEN: ${{ secrets.FA_TOKEN }}
 
-            - name: Run tests
+            - name: Json Validation
+              id: json_validation
               run: npx ava tests/*.test.js --timeout=1m
+
+            - name: Post PR comment on failure
+              if: failure()
+              run: |
+                gh pr comment ${{ github.event.pull_request.number }} \
+                  --body "❌ Validation failed! See test output below:\n\`\`\`\n${{ steps.json_validation.outcome }}\n\`\`\`"
+              env:
+                GH_TOKEN: ${{ secrets.FA_TOKEN }}
+
+            - name: Congratulate and auto-merge on success
+              if: success()
+              run: |
+                gh pr comment ${{ github.event.pull_request.number }} \
+                  --body "🎉 Congratulations! All checks passed. Your PR will be auto-merged."
+                gh pr merge ${{ github.event.pull_request.number }} --auto --merge
+              env:
+                GH_TOKEN: ${{ secrets.FA_TOKEN }}

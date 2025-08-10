@@ -33,3 +33,11 @@ jobs:
         token: ${{ secrets.FA_TOKEN }}
         path: README.md
         body: '${{steps.contributors.outputs.htmlList}}'
+        
+    - name: Trigger docs workflow
+      run: |
+        curl -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{ secrets.FA_TOKEN }}" \
+          https://api.github.com/repos/STICKnoLOGIC/First-Accord-Docs/dispatches \
+          -d '{"event_type":"update_contributors","client_payload":{"htmlList":"${{ steps.contributors.outputs.htmlList }}"}}'

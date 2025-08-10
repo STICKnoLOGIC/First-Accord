@@ -37,7 +37,7 @@ jobs:
     - name: Trigger docs workflow
       run: |
         jq -n --arg htmlList "${{ steps.contributors.outputs.htmlList }}" \
-          '{"event_type":"update_contributors","client_payload":{"htmlList":$htmlList}}' > payload.json
+          '{"event_type":"update_contributors","client_payload":{"htmlList":"$htmlList"}}' > payload.json
 
         curl -X POST \
           -H "Accept: application/vnd.github+json" \

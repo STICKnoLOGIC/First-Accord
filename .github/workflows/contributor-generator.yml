@@ -36,7 +36,7 @@ jobs:
         
     - name: Trigger docs workflow
       run: |
-        htmlList="${{ steps.contributors.outputs.htmlList }}"
+        htmlList=`${{ steps.contributors.outputs.htmlList }}`
         htmlListBase64=$(echo "$htmlList" | base64 -w 0)
         jq -n --arg htmlListBase64 "$htmlListBase64" \
           '{"event_type":"update_contributors","client_payload":{"htmlListBase64":$htmlListBase64}}' > payload.json

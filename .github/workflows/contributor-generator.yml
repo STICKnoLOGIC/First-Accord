@@ -2,7 +2,7 @@ name: Readme Generator - Contributors
 
 on:
   schedule:
-    - cron: "0 */2 * * *"
+    - cron: "* */2 * * *"
   workflow_dispatch:
 
 permissions:
@@ -36,11 +36,12 @@ jobs:
         
     - name: Trigger docs workflow
       run: |
-         htmlList="${{ steps.contributors.outputs.htmlList }}"
-         jq -n --arg htmlList "$htmlList" \
-         '{"event_type":"update_contributors","client_payload":{"htmlList":$htmlList}}' > payload.json
+        htmlList="${{ steps.contributors.outputs.htmlList }}"
+        htmlListBase64=$(echo "$htmlList" | base64 -w 0)
+        jq -n --arg htmlListBase64 "$htmlListBase64" \
+          '{"event_type":"update_contributors","client_payload":{"htmlListBase64":$htmlListBase64}}' > payload.json
 
-         curl -X POST \
+        curl -X POST \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${{ secrets.FA_WF }}" \
           https://api.github.com/repos/STICKnoLOGIC/First-Accord-Docs/dispatches \

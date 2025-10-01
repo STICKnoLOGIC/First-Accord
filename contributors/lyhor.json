@@ -1,0 +1,21 @@
+{
+    "owner":{
+        "name":"Lyhor Hieng",
+        "email":"hieng.lyhoir6764@gmail.com",
+        "github":"https://github.com/hienglyhor"
+    },
+    "social":{
+        "fa-brands fa-facebook":"https://www.facebook.com/Hieng.Lyhorr/",
+        "fa-brands fa-linkedin":"https://www.linkedin.com/in/lyhor-hieng/",
+        "fa-brands fa-x-twitter":"https://x.com/hieng_lyhor"
+    },
+    "my_top_resources":{
+        "GitHub":"https://github.com/",
+        "Medium":"https://medium.com/",
+        "Daily.Dev":"https://app.daily.dev"
+    },
+    "description":"Backend alchemist – I turn .NET, Spring Boot, Dynamics 365, and SQL into APIs that (usually) behave.",
+    "use_github_avatar":true,
+    "custom_avatar_url":"https://avatars.githubusercontent.com/hienglyhor?v=8",
+    "display_float_text":"Lyhor"
+}

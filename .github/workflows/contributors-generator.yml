@@ -43,6 +43,9 @@ jobs:
         echo "\"js.org\"," >> "$OUTPUT_FILE"
         echo "\"js.org\"," >> "$OUTPUT_FILE"
 
+        #OTHER CONTRIBUTOR
+        echo "\"sammy200-ui\"" >> "$OUTPUT_FILE"
+
 
         for FILE in "$FOLDER"/*; do
           [ -f "$FILE" ] && echo "$(jq -R -s . < "$FILE")," >> "$OUTPUT_FILE"

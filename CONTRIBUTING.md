@@ -132,25 +132,75 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/STICKn
 <!-- You might want to create an issue template for enhancement suggestions that can be used as a guide and that defines the structure of the information to be included. If you do so, reference it here in the description. -->
 
 ### Your First Code Contribution
-<!-- TODO
-include Setup of env, IDE and typical getting started instructions?
 
--->
+To get started with your first code contribution to First Accord, follow these steps. This project is beginner-friendly and uses standard web technologies.
+
+#### Environment Setup
+1. **Install Node.js and npm**: Download and install from [nodejs.org](https://nodejs.org/). This is required to run tests and manage dependencies.
+   - Verify installation: `node --version` and `npm --version`
+2. **Clone the repository**: Use Git to clone the project locally.
+   - `git clone https://github.com/STICKnoLOGIC/First-Accord.git`
+   - `cd First-Accord`
+3. **Install dependencies**: Run `npm install` to install project dependencies (listed in `package.json`).
+
+#### IDE Recommendations
+- **VS Code** (recommended): Free, lightweight, with built-in Git support. Install extensions like "Prettier" for code formatting.
+- **Any text editor**: Sublime Text, Atom, or even Notepad++ work fine for simple edits.
+
+#### Typical Getting Started Workflow
+1. **Fork the repository** on GitHub.
+2. **Create a branch** for your changes: `git checkout -b your-feature-name`
+3. **Make your changes** (e.g., edit files, add your contributor profile).
+4. **Run tests**: `npm test` to ensure your changes pass validation.
+5. **Commit your changes**: `git add .` then `git commit -m "Brief description"`
+6. **Push and create a PR**: `git push origin your-feature-name` then open a Pull Request on GitHub.
+
+For detailed guides, check the [Documentation](https://first-accord.js.org/docs).
 
 ### Improving The Documentation
-<!-- TODO
-Updating, improving and correcting the documentation
 
--->
+Documentation is crucial for helping users understand and contribute to First Accord. The main docs are in the [First-Accord-Docs repository](https://github.com/STICKnoLOGIC/First-Accord-Docs).
+
+#### How to Contribute to Documentation
+1. **Fork and clone** the docs repo: `git clone https://github.com/STICKnoLOGIC/First-Accord-Docs.git`
+2. **Make edits**: Update `.md` files for corrections, improvements, or new content.
+3. **Test locally**: Use Docsify to preview changes (follow repo instructions).
+4. **Submit a PR**: Ensure changes are clear and follow the existing style.
+
+#### Translating Documentation
+- Create new language folders (e.g., `docs/zh/` for Chinese).
+- Translate existing `.md` files and update navigation.
+- Follow the same PR process.
+
+#### Standards
+- Use clear, simple language suitable for beginners.
+- Include code examples where helpful.
+- Check for broken links and ensure consistency.
 
 ## Styleguides
 ### Commit Messages
-<!-- TODO
 
--->
+Use clear, descriptive commit messages that explain what changed and why. Follow conventional commit format for consistency:
+
+- **Format**: `type(scope): description`
+- **Types**: `feat` (new feature), `fix` (bug fix), `docs` (documentation), `style` (formatting), `refactor` (code restructure), `test` (tests), `chore` (maintenance)
+- **Examples**:
+  - `feat: add dark mode toggle`
+  - `fix: correct typo in README`
+  - `docs: update setup instructions`
+
+Keep messages under 72 characters for the first line, with optional body for details.
 
 ## Join The Project Team
-<!-- TODO -->
+
+First Accord welcomes contributors who show consistent involvement and quality contributions. To join as a maintainer:
+
+1. **Contribute regularly**: Submit multiple PRs, help with issues, and engage in discussions.
+2. **Demonstrate expertise**: Show knowledge of the codebase, web technologies, and open-source best practices.
+3. **Contact maintainers**: Reach out via GitHub discussions or email (bot@STICKnoLOGIC.is-a.dev) expressing interest.
+4. **Roles**: Maintainers help review PRs, manage issues, and guide new contributors.
+
+We value diversity and encourage participation from all backgrounds.
 
 <!-- omit in toc -->
 ## Attribution

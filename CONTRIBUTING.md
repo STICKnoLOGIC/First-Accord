@@ -132,25 +132,382 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/STICKn
 <!-- You might want to create an issue template for enhancement suggestions that can be used as a guide and that defines the structure of the information to be included. If you do so, reference it here in the description. -->
 
 ### Your First Code Contribution
-<!-- TODO
-include Setup of env, IDE and typical getting started instructions?
 
--->
+Welcome to your first code contribution! 🎉 This section will guide you through setting up your development environment and making your first contribution to First Accord.
+
+#### Environment Setup
+
+**Prerequisites:**
+- [Node.js](https://nodejs.org/) (version 14 or higher)
+- [npm](https://www.npmjs.com/) (comes with Node.js)
+- [Git](https://git-scm.com/downloads)
+- A [GitHub account](https://github.com/join)
+
+**Verify your installation:**
+```bash
+node --version
+npm --version
+git --version
+```
+
+#### IDE Recommendations
+
+We recommend using one of these editors for the best development experience:
+
+- **[Visual Studio Code](https://code.visualstudio.com/)** (Recommended)
+  - Install the "Live Server" extension for local development
+  - Install the "HTML CSS Support" extension
+  - Install the "JavaScript (ES6) code snippets" extension
+
+- **[WebStorm](https://www.jetbrains.com/webstorm/)** (Professional option)
+- **[Sublime Text](https://www.sublimetext.com/)** (Lightweight option)
+
+#### Getting Started Workflow
+
+**Step 1: Fork the Repository**
+1. Go to the [First-Accord repository](https://github.com/STICKnoLOGIC/First-Accord)
+2. Click the "Fork" button in the top-right corner
+3. This creates your own copy of the repository
+
+**Step 2: Clone Your Fork**
+```bash
+git clone https://github.com/YOUR-USERNAME/First-Accord.git
+cd First-Accord
+```
+
+**Step 3: Set Up Remote**
+```bash
+git remote add upstream https://github.com/STICKnoLOGIC/First-Accord.git
+git remote -v  # Verify remotes are set correctly
+```
+
+**Step 4: Install Dependencies**
+```bash
+npm install
+```
+
+**Step 5: Create a New Branch**
+```bash
+git checkout -b your-feature-branch-name
+# Example: git checkout -b fix-typo-in-readme
+```
+
+**Step 6: Make Your Changes**
+- Edit the files you need to change
+- Test your changes locally by opening `index.html` in your browser
+- Run tests to ensure everything works: `npm test`
+
+**Step 7: Commit Your Changes**
+```bash
+git add .
+git commit -m "Your descriptive commit message"
+```
+
+**Step 8: Push and Create Pull Request**
+```bash
+git push origin your-feature-branch-name
+```
+Then go to your fork on GitHub and click "Compare & pull request"
+
+#### First-Time Contributor Tips
+
+- Start with small changes like fixing typos or updating documentation
+- Read existing code to understand the project structure
+- Don't hesitate to ask questions in issues or discussions
+- Check out our [documentation](https://first-accord.js.org/docs) for detailed guides
+- Look for issues labeled `good first issue` or `beginner-friendly`
 
 ### Improving The Documentation
-<!-- TODO
-Updating, improving and correcting the documentation
 
--->
+Documentation is crucial for helping newcomers understand and contribute to the project. We welcome all kinds of documentation improvements!
+
+#### Types of Documentation Contributions
+
+**Website Documentation:**
+- Main documentation site: [first-accord.js.org/docs](https://first-accord.js.org/docs)
+- Source repository: [First-Accord-Docs](https://github.com/STICKnoLOGIC/First-Accord-Docs)
+- Powered by [Docsify](https://docsify.js.org/)
+
+**In-Repository Documentation:**
+- README.md improvements
+- Code comments and inline documentation
+- This CONTRIBUTING.md file
+- Issue and PR templates
+
+#### How to Contribute to Documentation
+
+**For Website Documentation:**
+1. Visit the [First-Accord-Docs repository](https://github.com/STICKnoLOGIC/First-Accord-Docs)
+2. Follow the same fork → clone → branch → edit → commit → push → PR workflow
+3. Documentation files are written in Markdown (.md format)
+
+**For In-Repository Documentation:**
+1. Use the standard contribution workflow described above
+2. Focus on clarity and beginner-friendliness
+3. Include examples where helpful
+
+#### Documentation Standards
+
+**Writing Style:**
+- Use clear, simple language
+- Write for beginners - assume no prior knowledge
+- Use active voice where possible
+- Break up long paragraphs into smaller sections
+- Include code examples with proper syntax highlighting
+
+**Formatting Guidelines:**
+- Use proper Markdown syntax
+- Include descriptive headings (H1, H2, H3, etc.)
+- Use code blocks for terminal commands: \`\`\`bash
+- Use inline code for file names: \`filename.js\`
+- Include screenshots for UI-related instructions
+
+**Content Guidelines:**
+- Keep information up-to-date
+- Test all code examples and commands
+- Include links to external resources when helpful
+- Explain "why" in addition to "how"
+
+#### Translation and Localization
+
+We welcome documentation translations! Currently supported languages:
+- English (primary)
+- Open to additional languages based on community demand
+
+**To contribute translations:**
+1. Check the [First-Accord-Docs repository](https://github.com/STICKnoLOGIC/First-Accord-Docs) for existing translations
+2. Create an issue proposing a new language
+3. Follow the established folder structure for translations
+4. Maintain consistency with the English version's structure
+
+#### Documentation Review Process
+
+1. All documentation changes go through the same PR review process
+2. Maintainers will check for:
+   - Accuracy of information
+   - Clarity and readability
+   - Consistency with existing style
+   - Proper formatting and links
+
+#### Quick Documentation Fixes
+
+For small fixes like typos or broken links:
+1. You can edit directly on GitHub using the web interface
+2. Click the pencil icon on any file
+3. Make your changes and propose them via PR
+4. This is perfect for quick contributions!
 
 ## Styleguides
 ### Commit Messages
-<!-- TODO
 
--->
+Good commit messages help maintainers and other contributors understand the history and evolution of the project. We follow a structured approach to commit messages.
+
+#### Commit Message Format
+
+We use a simplified version of [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+<type>: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+#### Commit Types
+
+- **feat**: A new feature for the user
+- **fix**: A bug fix for the user
+- **docs**: Changes to documentation only
+- **style**: Changes that do not affect the meaning of the code (formatting, missing semi-colons, etc.)
+- **refactor**: A code change that neither fixes a bug nor adds a feature
+- **test**: Adding missing tests or correcting existing tests
+- **chore**: Changes to the build process or auxiliary tools and libraries
+
+#### Examples of Good Commit Messages
+
+```bash
+# Adding a new feature
+feat: add dark mode toggle to main navigation
+
+# Fixing a bug
+fix: resolve contributor avatar loading issue on mobile devices
+
+# Documentation changes
+docs: update README with new contribution guidelines
+
+# Code formatting
+style: fix indentation in main CSS file
+
+# Refactoring existing code
+refactor: simplify contributor validation logic
+
+# Adding or updating tests
+test: add validation tests for contributor JSON files
+
+# Build or tooling changes
+chore: update npm dependencies to latest versions
+```
+
+#### Commit Message Guidelines
+
+**Do:**
+- Use the imperative mood ("add" not "added" or "adds")
+- Keep the first line under 50 characters when possible
+- Capitalize the first letter of the description
+- Don't end the subject line with a period
+- Use the body to explain "what" and "why" vs. "how"
+- Reference issues and pull requests when relevant
+
+**Don't:**
+- Use vague descriptions like "fix stuff" or "update code"
+- Include multiple unrelated changes in one commit
+- Use all caps or excessive punctuation
+
+#### Examples of What NOT to Do
+
+```bash
+# Too vague
+fix: bug
+
+# Multiple unrelated changes
+feat: add new feature and fix typo and update dependencies
+
+# Wrong mood/tense
+fixed: the contributor validation
+
+# Too long subject line
+feat: add a really comprehensive dark mode toggle feature that works across all pages and remembers user preference
+```
+
+#### Linking to Issues
+
+When your commit relates to a GitHub issue, include it in the commit message:
+
+```bash
+fix: resolve mobile responsive layout issues
+
+Closes #123
+Fixes #456
+Resolves #789
+```
+
+#### Breaking Changes
+
+If your commit introduces breaking changes, include "BREAKING CHANGE:" in the footer:
+
+```bash
+feat: update contributor JSON schema
+
+BREAKING CHANGE: contributor files now require 'description' field
+```
 
 ## Join The Project Team
-<!-- TODO -->
+
+Interested in taking a more active role in the First Accord project? We're always looking for dedicated contributors to join our team! 🌟
+
+#### Current Team Structure
+
+**Project Maintainer:**
+- [@STICKnoLOGIC](https://github.com/STICKnoLOGIC) - Project founder and lead maintainer
+
+**Core Contributors:**
+Active community members who regularly contribute code, review PRs, and help with project direction.
+
+**Community Moderators:**
+Help manage discussions, issues, and maintain a welcoming environment for newcomers.
+
+#### Ways to Get More Involved
+
+**1. Become a Regular Contributor**
+- Make consistent, quality contributions over time
+- Help review and test pull requests from other contributors
+- Participate actively in discussions and issues
+- Mentor new contributors and help them get started
+
+**2. Specialized Roles**
+
+**Documentation Lead:**
+- Maintain and improve project documentation
+- Help with translation efforts
+- Ensure documentation stays current with code changes
+
+**Community Manager:**
+- Help newcomers in issues and discussions
+- Moderate community interactions
+- Organize community events or initiatives
+
+**Quality Assurance:**
+- Test new features and bug fixes
+- Improve and maintain test coverage
+- Help establish testing best practices
+
+**Design Contributor:**
+- Improve UI/UX of the project website
+- Create graphics, logos, or promotional materials
+- Help with accessibility improvements
+
+#### Path to Core Team Membership
+
+**Requirements:**
+- Demonstrate consistent, high-quality contributions over 2-3 months
+- Show good understanding of project goals and values
+- Positive interactions with community members
+- Reliability in completing commitments
+- Alignment with project's beginner-friendly philosophy
+
+**Benefits of Team Membership:**
+- Direct push access to repositories (with guidelines)
+- Ability to review and merge pull requests
+- Input on project direction and major decisions
+- Access to maintainer discussions and planning
+- Recognition as a core team member
+
+#### How to Express Interest
+
+**Step 1: Build Your Track Record**
+- Start contributing regularly to the project
+- Help other contributors with their questions
+- Participate in project discussions
+
+**Step 2: Reach Out**
+- Open a [discussion](https://github.com/STICKnoLOGIC/First-Accord/discussions) explaining your interest
+- Mention your contributions and how you'd like to help
+- Be specific about the role(s) that interest you
+
+**Step 3: Evaluation Process**
+- Current maintainers will review your contributions
+- We may have a brief discussion about expectations
+- Trial period with specific responsibilities
+- Final decision and onboarding
+
+#### Team Member Responsibilities
+
+**All Team Members:**
+- Maintain the welcoming, beginner-friendly atmosphere
+- Follow and enforce the [Code of Conduct](/CODE_OF_CONDUCT.md)
+- Participate in major project decisions
+- Help onboard new contributors
+
+**Code Review Guidelines:**
+- Focus on helping contributors improve their skills
+- Provide constructive, encouraging feedback
+- Ensure changes align with project goals
+- Test functionality when possible
+
+**Communication:**
+- Be responsive to mentions and requests
+- Communicate clearly about availability
+- Participate in team discussions and planning
+
+#### Contact Information
+
+Questions about joining the team?
+- Open a [discussion](https://github.com/STICKnoLOGIC/First-Accord/discussions)
+- Email: <bot@STICKnoLOGIC.is-a.dev>
+- Mention current team members in relevant issues
+
+We're excited to grow our team with passionate contributors who share our mission of making open source accessible to everyone! 🚀
 
 <!-- omit in toc -->
 ## Attribution

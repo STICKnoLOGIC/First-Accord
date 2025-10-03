@@ -22,11 +22,15 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Get changed files
+        env:
+          GH_TOKEN: ${{ secrets.FA_TOKEN }}
         id: files
         run: |
           echo "CHANGED_FILES=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '[.files[].status]')" >> $GITHUB_ENV
 
       - name: Post merge comment
+        env:
+          GH_TOKEN: ${{ secrets.FA_TOKEN }}
         run: |
           if echo "$CHANGED_FILES" | grep -q '"removed"'; then
             gh pr comment ${{ github.event.pull_request.number }} \
@@ -38,6 +42,7 @@ jobs:
           else
             gh pr comment ${{ github.event.pull_request.number }} \
               --body "Hi @${{ github.event.pull_request.user.login }}! Your contribution has been merged.
+              you can view your contribution here: https://first-accord.js.org?c=${{ github.event.pull_request.user.login }}
               Keep building your skills and check out [these resources](https://github.com/firstcontributions/first-contributions).
               
               Best regards,

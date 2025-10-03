@@ -15,7 +15,7 @@ jobs:
         name: Tests
         runs-on: ubuntu-latest
         env:
-          GH_TOKEN: ${{ secrets.FA_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         steps:
             - uses: actions/checkout@v4
 
@@ -23,7 +23,7 @@ jobs:
 
             - name: Fetch PR information
               env:
-                  GH_TOKEN: ${{ secrets.FA_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               if: github.event_name == 'pull_request'
               run: |
                   echo "PR_AUTHOR=${{ github.event.pull_request.user.login }}" >> $GITHUB_ENV
@@ -40,7 +40,7 @@ jobs:
 
             - name: Json Validation
               env:
-                  GH_TOKEN: ${{ secrets.FA_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               id: json_validation
               run: npx ava tests/*.test.js --timeout=1m
 
@@ -52,7 +52,7 @@ jobs:
 
             - name: Congratulate and auto-merge on success
               env:
-                  GH_TOKEN: ${{ secrets.FA_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               if: success()
               run: |
                 gh pr comment ${{ github.event.pull_request.number }} \

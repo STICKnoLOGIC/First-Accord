@@ -12,25 +12,27 @@ jobs:
   generate:
     name: Generate Contributors
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
       with:
-        token: ${{ secrets.FA_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Generate Contributors Images
       uses: sticknologic/github-action-contributors@main
       id: contributors
       with:
-        token: ${{ secrets.FA_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
         filter-author: (renovate\[bot\]|renovate-bot|dependabot\[bot\]|github-actions\[bot\])
         avatarSize: 42
 
     - name: Modify README.md
       uses: jaywcjlove/github-action-modify-file-content@main
       with:
-        token: ${{ secrets.FA_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
         path: README.md
         body: '${{steps.contributors.outputs.htmlList}}'
         

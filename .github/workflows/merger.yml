@@ -5,7 +5,7 @@ on:
     types: [closed]
     branches: [main]
     paths:
-      - "contributors/*.json"
+      - "contributors/*"
 
 concurrency:
   group: ${{ github.ref }}-ci-merger

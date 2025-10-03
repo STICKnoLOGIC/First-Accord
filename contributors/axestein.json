@@ -1,0 +1,21 @@
+{
+    "owner":{
+        "name":"Aditya Singh",
+        "email":"adityandmb@gmail.com",
+        "github":"https://github.com/Axestein"
+    },
+    "social":{
+        "fa-brands fa-instagram":"https://instagram.com/adityasingh7209",
+        "fa-brands fa-linkedin":"https://linkedin.com/in/adityakumarsingh2005",
+        "fa-brands fa-x-twitter":"https://x.com/adityasingh7211"
+    },
+    "my_top_resources":{
+        "Daily.Dev":"https://app.daily.dev",
+        "takeuforward":"https://takeuforward.org/",
+        "roadmapsh":"https://roadmap.sh/"
+    },
+    "description":"A Web and App Developer, UI/UX Designer. I love building things and Passionate About Creating User-Centered Solutions",
+    "use_github_avatar":true,
+    "custom_avatar_url":"",
+    "display_float_text":"Axestein"
+}

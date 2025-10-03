@@ -1,0 +1,19 @@
+{
+  "owner": {
+    "name": "Akash Kumar",
+    "email": "akash.kashyap.10398@gmail.com",
+    "github": "https://github.com/akash-1033"
+  },
+  "social": {
+    "fa-brands fa-linkedin": "https://www.linkedin.com/in/akashkumar1033/"
+  },
+  "my_top_resources": {
+    "w3schools": "https://www.w3schools.com/",
+    "mdn": "https://developer.mozilla.org/en-US/docs/Web",
+    "piyush-garg": "https://www.youtube.com/@piyushgargdev"
+  },
+  "description": "Backend Developer and B.Tech student passionate about building scalable systems and APIs, deeply focused on backend and technology.",
+  "use_github_avatar": true,
+  "custom_avatar_url": "",
+  "display_float_text": "akash-1033"
+}

@@ -1,0 +1,21 @@
+{
+  "owner": {
+    "name": "Abhinav Kumar",
+    "email": "abhinavk.r654@gmail.com",
+    "github": "https://github.com/abhinav-1409"
+  },
+  "social": {
+    "fa-brands fa-instagram": "",
+    "fa-brands fa-linkedin": "https://www.linkedin.com/in/abhinav-kumar1409/",
+    "fa-brands fa-x-twitter": ""
+  },
+  "my_top_resources": {
+    "w3schools": "https://www.w3schools.com/",
+    "mdn": "https://developer.mozilla.org/en-US/docs/Web",
+    "piyush-garg": "https://www.youtube.com/@piyushgargdev"
+  },
+  "description": "Backend Developer and B.Tech student passionate about building scalable systems and APIs, deeply focused on backend and technology.",
+  "use_github_avatar": true,
+  "custom_avatar_url": "",
+  "display_float_text": "abhinav-1409"
+}

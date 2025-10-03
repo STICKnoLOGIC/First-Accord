@@ -14,6 +14,8 @@ concurrency:
 jobs:
   merger:
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.FA_TOKEN }}
     if: ${{ github.event.pull_request.merged == true }}
     permissions: write-all
     steps:
@@ -41,7 +43,5 @@ jobs:
               Best regards,
               @STICKnoLOGIC"
           fi
-        env:
-          GH_TOKEN: ${{ secrets.FA_TOKEN }}
 
 

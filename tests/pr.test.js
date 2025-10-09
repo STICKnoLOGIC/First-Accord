@@ -25,7 +25,7 @@ const deletedJSONFiles = deletedFiles
     .map((file) => path.basename(file.name));
 
 test.before(t => {
-  if (changedJSONFiles && !deletedFiles){
+  if (!changedJSONFiles && !deletedFiles){
     t.fail(': no file changes');
     t.log(': no file changes');
     console.log(': no file changes');

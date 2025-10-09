@@ -53,7 +53,10 @@ jobs:
                   GH_TOKEN: ${{ secrets.FA_TOKEN }}
               run: |
                 gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
-                  --body "❌ Validation failed! See test output below:\n\`\`\`\n${{ steps.json_validation.outcome }}\n\`\`\`" \
+                  -f body="$(cat <<EOF
+                  ❌ Validation failed! See test output below:\n\`\`\`\n${{ steps.json_validation.outcome }}\n\`\`\`
+                  EOF
+                  )" \
                   --method POST
 
             - name: Congratulate and auto-merge on success
@@ -63,7 +66,10 @@ jobs:
               run: |
                 # comment
                 gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
-                  --body "🎉 Congratulations! All checks passed. Your PR will be auto-merged." \
+                  -f body="$(cat <<EOF
+                  🎉 Congratulations! All checks passed. Your PR will be auto-merged.
+                  EOF
+                  )" \
                   --method POST
 
                 # label

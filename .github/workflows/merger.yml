@@ -30,20 +30,26 @@ jobs:
         run: |
           if echo "$CHANGED_FILES" | grep -q '"removed"'; then
             gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
-              --body "Hey @${{ github.event.pull_request.user.login }}! Thank you for your contribution.
+              -f body="$(cat <<EOF
+              Hey @${{ github.event.pull_request.user.login }}! Thank you for your contribution.
               Even though you decided to remove your contribution, we truly appreciate your effort.
               
               Best Regards,
-              @STICKnoLOGIC" \
+              @STICKnoLOGIC
+              EOF
+              )" \
               --method POST
           else
             gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
-              --body "Hi @${{ github.event.pull_request.user.login }}! Your contribution has been merged.
+              -f body="$(cat <<EOF
+              Hi @${{ github.event.pull_request.user.login }}! Your contribution has been merged.
               you can view your contribution here: https://first-accord.js.org?c=${{ github.event.pull_request.user.login }}
               Keep building your skills and check out [these resources](https://github.com/firstcontributions/first-contributions).
               
               Best regards,
-              @STICKnoLOGIC" \
+              @STICKnoLOGIC
+              EOF
+              )" \
               --method POST
           fi
 

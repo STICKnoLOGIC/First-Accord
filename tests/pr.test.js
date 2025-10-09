@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 const test = require('ava');
 
@@ -14,7 +14,23 @@ const isTrusted = trusted.some(
     entry.id === prAuthorId
 );
 
+const changedFiles = JSON.parse(process.env.CHANGED_FILES);
+const deletedFiles = JSON.parse(process.env.DELETED_FILES);
+
+const changedJSONFiles = changedFiles
+    .filter((file) => file.startsWith("contributors/"))
+    .map((file) => path.basename(file));
+const deletedJSONFiles = deletedFiles
+    .filter((file) => file.name.startsWith("contributors/"))
+    .map((file) => path.basename(file.name));
+
 test.before(t => {
+  if (!changedJSONFiles && !deletedFiles){
+    t.fail(': no file changes');
+    t.log(': no file changes');
+    console.log(': no file changes');
+    return;
+  }
    if (isTrusted) {
       console.log(`Skipping test: ${prAuthor} is trusted`); 
       t.log(`Skipping test: ${prAuthor} is trusted`); 
@@ -33,17 +49,6 @@ function getContributorData(contributor) {
 }
 
 test("Users can only update their own contribution", (t) => {
-    const changedFiles = JSON.parse(process.env.CHANGED_FILES);
-    const deletedFiles = JSON.parse(process.env.DELETED_FILES);
-
-    const changedJSONFiles = changedFiles
-        .filter((file) => file.startsWith("contributors/"))
-        .map((file) => path.basename(file));
-    const deletedJSONFiles = deletedFiles
-        .filter((file) => file.name.startsWith("contributors/"))
-        .map((file) => path.basename(file.name));
-
-    if (!changedJSONFiles && !deletedFiles) return t.pass();
 
     changedJSONFiles.forEach((file) => {
         const contributor = file.replace(/\.json$/, "");
@@ -75,4 +80,14 @@ test("Users can only update their own contribution", (t) => {
   });
 
 t.pass();
+});
+
+test("JSON files should only be in contributors", (t) => {
+  let isNot=false;
+  changedFiles.forEach((file)=?{
+    if (!file.startsWith("contributors/")){
+      isNot=true;
+    }
+  });
+  t.false(isNot, "JSON files should not be in the root directory");
 });

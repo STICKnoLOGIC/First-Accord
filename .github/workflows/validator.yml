@@ -24,7 +24,6 @@ jobs:
             - name: Fetch PR information
               env:
                   GH_TOKEN: ${{ github.token }}
-                  GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
               if: github.event_name == 'pull_request'
               run: |
                   echo "PR_AUTHOR=${{ github.event.pull_request.user.login }}" >> $GITHUB_ENV
@@ -45,23 +44,42 @@ jobs:
             - name: Json Validation
               env:
                   GH_TOKEN: ${{ secrets.FA_TOKEN }}
-                  GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
               id: json_validation
               run: npx ava tests/*.test.js --timeout=1m
 
-            # - name: Post PR comment on failure
-            #   if: failure()
-            #   run: |
-            #     gh pr comment ${{ github.event.pull_request.number }} \
-            #       --body "❌ Validation failed! See test output below:\n\`\`\`\n${{ steps.json_validation.outcome }}\n\`\`\`"
+            - name: Post PR comment on failure
+              if: failure()
+              env:
+                  GH_TOKEN: ${{ secrets.FA_TOKEN }}
+              run: |
+                gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
+                  -f body="$(cat <<EOF
+                  ❌ Validation failed! See test output below:\n\`\`\`\n${{ steps.json_validation.outcome }}\n\`\`\`
+                  EOF
+                  )" \
+                  --method POST
 
             - name: Congratulate and auto-merge on success
               env:
                   GH_TOKEN: ${{ github.token }}
-                  GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
               if: success()
               run: |
-                gh pr comment ${{ github.event.pull_request.number }} \
-                  --body "🎉 Congratulations! All checks passed. Your PR will be auto-merged."
-                gh pr edit ${{ github.event.pull_request.number }} --add-label "ready to merge"
-                gh pr merge ${{ github.event.pull_request.number }} --auto --merge
+                # comment
+                gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
+                  -f body="$(cat <<EOF
+                  🎉 Congratulations! All checks passed. Your PR will be auto-merged.
+                  EOF
+                  )" \
+                  --method POST
+
+                # label
+                gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
+                  -f labels='["ready to merge"]' \
+                  --method POST
+
+                # auto merge
+                gh api repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/merge \
+                  -f merge_method="squash" \
+                  -f commit_title="Merge PR #${{ github.event.pull_request.number }}" \
+                  -f commit_message="Automated merging by workflow" \
+                  --method PUT

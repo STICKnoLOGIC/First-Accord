@@ -1,6 +1,7 @@
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 const test = require('ava');
+
 
 const trustedPath = path.join(__dirname, '../util/trusted.json');
 const trusted = JSON.parse(fs.readFileSync(trustedPath, 'utf8'));
@@ -13,6 +14,8 @@ const isTrusted = trusted.some(
     entry.username === prAuthor ||
     entry.id === prAuthorId
 );
+
+const changedFiles = JSON.parse(process.env.CHANGED_FILES);
 
 const ignoredRootJSONFiles = ["package-lock.json", "package.json"];
 
@@ -116,13 +119,13 @@ async function validateFileName(t, file) {
 }
 
 async function processFile(file, t) {
-    const filePath = path.join(contributorsPath, file);
-    const data = await fs.readJson(filePath);
+    // const filePath = path.join(contributorsPath, file);
+    const data = await fs.readJson(file);
 
-    validateFileName(t, file);
+    // validateFileName(t, file);
 
     // Check for duplicate keys
-    const rawData = await fs.readFile(filePath, "utf8");
+    const rawData = await fs.readFile(file, "utf8");
     const duplicateKeys = findDuplicateKeys(rawData);
     t.true(!duplicateKeys.length, `${file}: Duplicate keys found: ${duplicateKeys.join(", ")}`);
 
@@ -192,43 +195,44 @@ function containsProfanity(str) {
   );
 }
 
-test('trusted PR skips all tests', t => {
-    if (isTrusted) {
-      t.pass();
-      return;
-    }
-    t("JSON files should not be in the root directory", (t) => {
-        const rootFiles = fs
-            .readdirSync(path.resolve())
-            .filter((file) => file.endsWith(".json") && !ignoredRootJSONFiles.includes(file));
-        t.is(rootFiles.length, 0, "JSON files should not be in the root directory");
-    });
 
-    t("All files should be valid JSON", async (t) => {
-        await Promise.all(
-            files.map((file) => {
-                return t.notThrows(() => fs.readJson(path.join(contributorsPath, file)), `${file}: Invalid JSON file`);
-            })
-        );
-    });
-
-    t("All files should have valid file names", async (t) => {
-        await Promise.all(files.map((file) => validateFileName(t, file)));
-    });
-
-    t("All files should have valid required and optional fields", async (t) => {
-        await Promise.all(files.map((file) => processFile(file, t)));
-    });
-});
-
-test('No profanity in contributor JSON', async t => {
-  if (isTrusted) {
-    t.pass();
+// global before test
+test.before(t => {
+  if(!changedFiles){
+    console.log(`no changed File`);
+    t.log(`n changed File`);
+    t.fail(': no File Changes/Modification');
     return;
   }
-  for (const file of files) {
-    const filePath = path.join(contributorsPath, file);
-    const data = await fs.readJson(filePath);
+  if (isTrusted) {
+    console.log(`Skipping test: ${prAuthor} is trusted`);
+    t.log(`Skipping test: ${prAuthor} is trusted`);
+    t.pass();
+    return;
+ }
+});
+
+test("All files should be valid JSON", async (t) => {
+    await Promise.all(
+        changedFiles.map((file) => {
+            return t.notThrows(() => fs.readJson(file), `${file}: Invalid JSON file`);
+        })
+    );
+});
+
+test("All files should have valid file names", async (t) => {
+    await Promise.all(changedFiles.map((file) => validateFileName(t, path.basename(file))));
+});
+
+test("All files should have valid required and optional fields", async (t) => {
+    await Promise.all(files.map((file) => processFile(file, t)));
+});
+
+
+test('No profanity in contributor JSON', async t => {
+  for (const file of changedFiles) {
+    // const filePath = path.join(contributorsPath, file);
+    const data = await fs.readJson(file);
 
     // Check all string fields in root and owner
     for (const key of Object.keys(data)) {

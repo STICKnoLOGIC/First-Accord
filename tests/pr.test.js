@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 const test = require('ava');
 
@@ -14,11 +14,30 @@ const isTrusted = trusted.some(
     entry.id === prAuthorId
 );
 
-test('trusted PR skips all tests', t => {
-  if (isTrusted) {
-    t.pass();
+const changedFiles = JSON.parse(process.env.CHANGED_FILES);
+const deletedFiles = JSON.parse(process.env.DELETED_FILES);
+
+const changedJSONFiles = changedFiles
+    .filter((file) => file.startsWith("contributors/"))
+    .map((file) => path.basename(file));
+const deletedJSONFiles = deletedFiles
+    .filter((file) => file.name.startsWith("contributors/"))
+    .map((file) => path.basename(file.name));
+
+test.before(t => {
+  if (!changedJSONFiles && !deletedFiles){
+    t.fail(': no file changes');
+    t.log(': no file changes');
+    console.log(': no file changes');
     return;
   }
+   if (isTrusted) {
+      console.log(`Skipping test: ${prAuthor} is trusted`); 
+      t.log(`Skipping test: ${prAuthor} is trusted`); 
+     t.pass();
+     return;
+    }
+});
 
 function getContributorData(contributor) {
     try {
@@ -29,49 +48,46 @@ function getContributorData(contributor) {
     }
 }
 
-t("Users can only update their own contribution", (t) => {
-        const changedFiles = JSON.parse(process.env.CHANGED_FILES);
-        const deletedFiles = JSON.parse(process.env.DELETED_FILES);
+test("Users can only update their own contribution", (t) => {
 
-        const changedJSONFiles = changedFiles
-            .filter((file) => file.startsWith("contributors/"))
-            .map((file) => path.basename(file));
-        const deletedJSONFiles = deletedFiles
-            .filter((file) => file.name.startsWith("contributors/"))
-            .map((file) => path.basename(file.name));
+    changedJSONFiles.forEach((file) => {
+        const contributor = file.replace(/\.json$/, "");
+        const data = getContributorData(contributor);
 
-        if (!changedJSONFiles && !deletedFiles) return t.pass();
-
-        changedJSONFiles.forEach((file) => {
-            const contributor = file.replace(/\.json$/, "");
-            const data = getContributorData(contributor);
-
-            t.true(
-                contributor === prAuthor,
-                `${file}: ${prAuthor} is not authorized to update ${contributor}.json`
-            );
+        t.true(
+            contributor === prAuthor,
+            `${file}: ${prAuthor} is not authorized to update ${contributor}.json`
+        );
             
-        });
+    });
 
-        deletedJSONFiles.forEach((file) => {
-            const contributor = file.replace(/\.json$/, "");
-            const data = JSON.parse(
-                deletedFiles
-                    .find((f) => f.name === `contributors/${file}`)
-                    .data.split("\n")
-                    .filter((line) => line.startsWith("-") && !line.startsWith("---"))
-                    .map((line) => line.substring(1))
-                    .join("\n")
-            );
+    deletedJSONFiles.forEach((file) => {
+      const contributor = file.replace(/\.json$/, "");
+      const data = JSON.parse(
+          deletedFiles
+              .find((f) => f.name === `contributors/${file}`)
+              .data.split("\n")
+              .filter((line) => line.startsWith("-") && !line.startsWith("---"))
+              .map((line) => line.substring(1))
+              .join("\n")
+      );
 
-           
-            t.true(
-                contributor === prAuthor,
-                `${file}: ${prAuthor} is not authorized to delete ${contributor}.json`
-            );
-            
-        });
+      t.true(
+          contributor === prAuthor,
+          `${file}: ${prAuthor} is not authorized to delete ${contributor}.json`
+      );
+      
+  });
 
-    t.pass();
+t.pass();
 });
+
+test("JSON files should only be in contributors", (t) => {
+  let isNot=false;
+  changedFiles.forEach((file)=?{
+    if (!file.startsWith("contributors/")){
+      isNot=true;
+    }
+  });
+  t.false(isNot, "JSON files should not be in the root directory");
 });

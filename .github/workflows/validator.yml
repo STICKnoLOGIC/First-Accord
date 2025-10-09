@@ -23,6 +23,7 @@ jobs:
 
             - name: Fetch PR information
               env:
+                  GH_TOKEN: ${{ secrets.FA_TOKEN }}
                   GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
               if: github.event_name == 'pull_request'
               run: |
@@ -32,6 +33,9 @@ jobs:
                   LABELS=$(gh api --jq '[.labels[].name]' /repos/{owner}/{repo}/pulls/${{ github.event.number }})
                   echo "PR_LABELS=$LABELS" >> $GITHUB_ENV
 
+                  # login
+                  echo "${GITHUB_TOKEN}" | gh auth login --with-token
+
                   FILES=$(gh api --jq '[.[] | select(.status != "removed") | .filename]' /repos/{owner}/{repo}/pulls/${{ github.event.number }}/files)
                   echo "CHANGED_FILES=$FILES" >> $GITHUB_ENV
 
@@ -40,6 +44,7 @@ jobs:
 
             - name: Json Validation
               env:
+                  GH_TOKEN: ${{ secrets.FA_TOKEN }}
                   GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
               id: json_validation
               run: npx ava tests/*.test.js --timeout=1m
@@ -52,6 +57,7 @@ jobs:
 
             - name: Congratulate and auto-merge on success
               env:
+                  GH_TOKEN: ${{ secrets.FA_TOKEN }}
                   GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
               if: success()
               run: |

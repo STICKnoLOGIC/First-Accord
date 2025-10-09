@@ -14,6 +14,12 @@ const isTrusted = trusted.some(
     entry.id === prAuthorId
 );
 
+console.log('PR_AUTHOR:', prAuthor);
+console.log('PR_AUTHOR_ID:', prAuthorId);
+console.log('Trusted List:', trusted);
+console.log('Is Trusted:', isTrusted);
+
+
 const ignoredRootJSONFiles = ["package-lock.json", "package.json"];
 
 const requiredFields = {

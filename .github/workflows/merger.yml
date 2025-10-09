@@ -23,14 +23,14 @@ jobs:
 
       - name: Get changed files
         env:
-          GH_TOKEN: ${{ secrets.FA_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         id: files
         run: |
           echo "CHANGED_FILES=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '[.files[].status]')" >> $GITHUB_ENV
 
       - name: Post merge comment
         env:
-          GH_TOKEN: ${{ secrets.FA_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           if echo "$CHANGED_FILES" | grep -q '"removed"'; then
             gh pr comment ${{ github.event.pull_request.number }} \

@@ -82,3 +82,12 @@ test("Users can only update their own contribution", (t) => {
 t.pass();
 });
 
+test("JSON files should only be in contributors", (t) => {
+  let isNot=false;
+  changedFiles.forEach((file)=?{
+    if (!file.startsWith("contributors/")){
+      isNot=true;
+    }
+  });
+  t.false(isNot, "JSON files should not be in the root directory");
+});

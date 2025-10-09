@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const test = require('ava');
 
+
 const trustedPath = path.join(__dirname, '../util/trusted.json');
 const trusted = JSON.parse(fs.readFileSync(trustedPath, 'utf8'));
 
@@ -13,12 +14,6 @@ const isTrusted = trusted.some(
     entry.username === prAuthor ||
     entry.id === prAuthorId
 );
-
-console.log('PR_AUTHOR:', prAuthor);
-console.log('PR_AUTHOR_ID:', prAuthorId);
-console.log('Trusted List:', trusted);
-console.log('Is Trusted:', isTrusted);
-
 
 const ignoredRootJSONFiles = ["package-lock.json", "package.json"];
 
@@ -198,40 +193,42 @@ function containsProfanity(str) {
   );
 }
 
-test('trusted PR skips all tests', t => {
-    if (isTrusted) {
+
+// global before test
+test.before(t => {
+   if (isTrusted) {
+      console.log(`Skipping test: ${prAuthor} is trusted`);
+      t.log(`Skipping test: ${prAuthor} is trusted`);
       t.pass();
       return;
-    }
-    t("JSON files should not be in the root directory", (t) => {
-        const rootFiles = fs
-            .readdirSync(path.resolve())
-            .filter((file) => file.endsWith(".json") && !ignoredRootJSONFiles.includes(file));
-        t.is(rootFiles.length, 0, "JSON files should not be in the root directory");
-    });
-
-    t("All files should be valid JSON", async (t) => {
-        await Promise.all(
-            files.map((file) => {
-                return t.notThrows(() => fs.readJson(path.join(contributorsPath, file)), `${file}: Invalid JSON file`);
-            })
-        );
-    });
-
-    t("All files should have valid file names", async (t) => {
-        await Promise.all(files.map((file) => validateFileName(t, file)));
-    });
-
-    t("All files should have valid required and optional fields", async (t) => {
-        await Promise.all(files.map((file) => processFile(file, t)));
-    });
+   }
 });
 
+test("JSON files should not be in the root directory", (t) => {
+    const rootFiles = fs
+        .readdirSync(path.resolve())
+        .filter((file) => file.endsWith(".json") && !ignoredRootJSONFiles.includes(file));
+    t.is(rootFiles.length, 0, "JSON files should not be in the root directory");
+});
+
+test("All files should be valid JSON", async (t) => {
+    await Promise.all(
+        files.map((file) => {
+            return t.notThrows(() => fs.readJson(path.join(contributorsPath, file)), `${file}: Invalid JSON file`);
+        })
+    );
+});
+
+test("All files should have valid file names", async (t) => {
+    await Promise.all(files.map((file) => validateFileName(t, file)));
+});
+
+test("All files should have valid required and optional fields", async (t) => {
+    await Promise.all(files.map((file) => processFile(file, t)));
+});
+
+
 test('No profanity in contributor JSON', async t => {
-  if (isTrusted) {
-    t.pass();
-    return;
-  }
   for (const file of files) {
     const filePath = path.join(contributorsPath, file);
     const data = await fs.readJson(filePath);

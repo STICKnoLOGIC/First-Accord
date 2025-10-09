@@ -34,7 +34,7 @@ jobs:
                   echo "PR_LABELS=$LABELS" >> $GITHUB_ENV
 
                   # login
-                  echo "${GITHUB_TOKEN}" | gh auth login --with-token
+                  # echo "${GITHUB_TOKEN}" | gh auth login --with-token
 
                   FILES=$(gh api --jq '[.[] | select(.status != "removed") | .filename]' /repos/{owner}/{repo}/pulls/${{ github.event.number }}/files)
                   echo "CHANGED_FILES=$FILES" >> $GITHUB_ENV

@@ -15,7 +15,7 @@ jobs:
         name: Tests
         runs-on: ubuntu-latest
         env:
-          GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
+          GH_TOKEN: ${{ secrets.FA_TOKEN }}
         steps:
             - uses: actions/checkout@v4
 
@@ -23,7 +23,7 @@ jobs:
 
             - name: Fetch PR information
               env:
-                  GH_TOKEN: ${{ secrets.FA_TOKEN }}
+                  GH_TOKEN: ${{ github.token }}
                   GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
               if: github.event_name == 'pull_request'
               run: |
@@ -57,7 +57,7 @@ jobs:
 
             - name: Congratulate and auto-merge on success
               env:
-                  GH_TOKEN: ${{ secrets.FA_TOKEN }}
+                  GH_TOKEN: ${{ github.token }}
                   GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
               if: success()
               run: |

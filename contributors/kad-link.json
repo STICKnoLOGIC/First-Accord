@@ -1,0 +1,19 @@
+{
+  "owner": {
+    "name": "Sri Charan",
+    "email": "waaji.saaho2006@gmail.com",
+    "github": "https://github.com/kad-link"
+  },
+  "social": {
+    "fa-brands fa-linkedin": "https://www.linkedin.com/in/sri-charan-chittineni-4b7074323/"
+  },
+  "my_top_resources": {
+    "w3schools": "https://www.w3schools.com/",
+    "MDN-Docs": "https://developer.mozilla.org/en-US/docs/Web",
+    "Chai-Code": "https://www.chaicode.com/"
+  },
+  "description": "Full Stack developer and competitive programmer",
+  "use_github_avatar": true,
+  "custom_avatar_url": "https://avatars.githubusercontent.com/u/182063909?s=400&u=8e6c865ec07b09d09ff6df4ab9417d088072909f&v=4",
+  "display_float_text": "kad-link"
+}

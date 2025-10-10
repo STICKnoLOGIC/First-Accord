@@ -45,31 +45,47 @@ jobs:
               env:
                   GH_TOKEN: ${{ secrets.FA_TOKEN }}
               id: json_validation
-              run: npx ava tests/*.test.js --timeout=1m
+              run: npx ava tests/*.test.js --timeout=1m --tap > ava.tap
+
 
             - name: Post PR comment on failure
               if: failure()
               env:
-                  GH_TOKEN: ${{ secrets.FA_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
               run: |
+                echo "${GITHUB_TOKEN}" | gh auth login -p https --with-token
+                
+                failed_tests=$(grep '^not ok' ava.tap || true)
+                echo "❌ Found failed tests:"
+                echo "$failed_tests"
+                
                 gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
+                  -H "Accept: application/vnd.github+json" \
+                  -H "X-GitHub-Api-Version: 2022-11-28" \
                   -f body="$(cat <<EOF
-                  ❌ Validation failed! See test output below:\n\`\`\`\n${{ steps.json_validation.outcome }}\n\`\`\`
-                  EOF
-                  )" \
+                ❌ Validation failed! See test output below:
+                \`\`\`
+                $failed_tests
+                \`\`\`
+                EOF
+                )" \
                   --method POST
 
             - name: Congratulate and auto-merge on success
               env:
-                  GH_TOKEN: ${{ github.token }}
+                  GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
               if: success()
               run: |
+                echo "${GITHUB_TOKEN}" | gh auth login -p https --with-token
+                
                 # comment
                 gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
+                  -H "Accept: application/vnd.github+json" \
+                  -H "X-GitHub-Api-Version: 2022-11-28" \
                   -f body="$(cat <<EOF
-                  🎉 Congratulations! All checks passed. Your PR will be auto-merged.
-                  EOF
-                  )" \
+                🎉 Congratulations! All checks passed. Your PR will be auto-merged.
+                EOF
+                )" \
                   --method POST
 
                 # label

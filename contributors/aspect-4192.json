@@ -1,0 +1,19 @@
+{
+  "owner": {
+    "name": "Jeffarson Amenya",
+    "email": "jeffamenya388@gmail.com",
+    "github": "https://github.com/aspects19"
+  },
+  "social": {
+    "fa-brands fa-linkedin": "https://www.linkedin.com/in/jeff-amenya/"
+  },
+  "my_top_resources": {
+    "The Rust Book": "https://doc.rust-lang.org/book/",
+    "React": "https://react.dev/learn",
+    "Jon Gjengset": "https://www.youtube.com/@jonhoo"
+  },
+  "description": " Telecom student, Rust dev and IoT enthusiast",
+  "use_github_avatar": true,
+  "custom_avatar_url": "",
+  "display_float_text": "aspects19"
+}

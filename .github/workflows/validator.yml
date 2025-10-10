@@ -53,6 +53,8 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
               run: |
+                echo "${GITHUB_TOKEN}"
+                echo "111111111111111111111111111111"
                 echo "${GITHUB_TOKEN}" | gh auth login --with-token
 
                 failed_tests=$(grep '^not ok' ava.tap || true)

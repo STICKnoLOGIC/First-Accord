@@ -52,8 +52,6 @@ jobs:
               id: json_validation
               run: |
                 npx ava tests/*.test.js --timeout=1m --tap > ava.tap
-                failed_tests=$(grep '^not ok' ava.tap || true)
-                echo "FA_FAILED=$failed_tests" >> $GITHUB_ENV
                 
             - name: Post PR on failure
               if: failure()

@@ -53,14 +53,16 @@ jobs:
                   GH_TOKEN: ${{ github.token }}
               run: |
                 gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
-                -f body="$(cat <<EOF
+                  -H "Accept: application/vnd.github+json" \
+                  -H "X-GitHub-Api-Version: 2022-11-28" \
+                  -f body="$(cat <<EOF
                 ❌ Validation failed! See test output below:
                 ```
                 ${{ steps.json_validation.outcome }}
                 ```
                 EOF
                 )" \
-                --method POST
+                  --method POST
 
             - name: Congratulate and auto-merge on success
               env:
@@ -69,7 +71,9 @@ jobs:
               run: |
                 # comment
                 gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
-                -f body="$(cat <<EOF
+                  -H "Accept: application/vnd.github+json" \
+                  -H "X-GitHub-Api-Version: 2022-11-28" \
+                  -f body="$(cat <<EOF
                 🎉 Congratulations! All checks passed. Your PR will be auto-merged.
                 EOF
                 )" \

@@ -51,10 +51,10 @@ jobs:
             - name: Post PR comment on failure
               if: failure()
               env:
-                  GH_TOKEN: ${{ secrets.FA_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
               run: |
-                # echo "${GITHUB_TOKEN}" | gh auth login -p https --with-token
-                gh auth login
+                echo "${GITHUB_TOKEN}" | gh auth login -p https --with-token
+                
                 failed_tests=$(grep '^not ok' ava.tap || true)
                 echo "❌ Found failed tests:"
                 echo "$failed_tests"
@@ -73,11 +73,11 @@ jobs:
 
             - name: Congratulate and auto-merge on success
               env:
-                  GH_TOKEN: ${{ secrets.FA_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
               if: success()
               run: |
-                # echo "${GITHUB_TOKEN}" | gh auth login -p https --with-token
-                gh auth login
+                echo "${GITHUB_TOKEN}" | gh auth login -p https --with-token
+                
                 # comment
                 gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
                   -H "Accept: application/vnd.github+json" \

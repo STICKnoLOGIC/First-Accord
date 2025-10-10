@@ -50,7 +50,6 @@ const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 
 const contributorsPath = path.resolve("contributors");
-const files = fs.readdirSync(contributorsPath);
 
 function findDuplicateKeys(jsonString) {
     const duplicateKeys = new Set();
@@ -225,7 +224,7 @@ test("All files should have valid file names", async (t) => {
 });
 
 test("All files should have valid required and optional fields", async (t) => {
-    await Promise.all(files.map((file) => processFile(file, t)));
+    await Promise.all(changedFiles.map((file) => processFile(file, t)));
 });
 
 

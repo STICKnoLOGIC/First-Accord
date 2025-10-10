@@ -80,6 +80,8 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
               if: success()
               run: |
+                echo "${GITHUB_TOKEN}"
+                echo "111111111111111111111111111111"
                 echo "${GITHUB_TOKEN}" | gh auth login --with-token
                 # comment
                 gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \

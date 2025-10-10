@@ -84,7 +84,7 @@ t.pass();
 
 test("JSON files should only be in contributors", (t) => {
   let isNot=false;
-  changedFiles.forEach((file)=?{
+  changedFiles.forEach((file)=>{
     if (!file.startsWith("contributors/")){
       isNot=true;
     }

@@ -54,6 +54,7 @@ jobs:
               if: failure()
               uses: peter-evans/create-or-update-comment@v5
               with:
+                token: ${{ secrets.FA_TOKEN }}
                 issue-number: ${{ github.event.number }}
                 body: |
                   ❌ Validation failed! See test output below:

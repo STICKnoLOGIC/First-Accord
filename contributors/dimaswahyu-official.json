@@ -1,0 +1,20 @@
+{
+    "owner":{
+        "name":"Dimas Wahyu Utomo",
+        "email":"dimaswahyu.official@gmail.com",
+        "github":"https://github.com/dimaswahyu-official"
+    },
+    "social":{ 
+        "fa-solid fa-envelope":"mailto:dimaswahyu.official@gmail.com",
+        "fa-brands fa-square-github":"https://github.com/dimaswahyu-official"
+    },
+    "my_top_resources":{
+        "GitHub":"https://github.com/",
+        "Medium":"https://medium.com/",
+        "roadmapsh":"https://roadmap.sh/"
+    },
+    "description":"I am a designer using code as my paintbrush.",
+    "use_github_avatar":true,
+    "custom_avatar_url":"https://avatars.githubusercontent.com/u/72015832?v=4",
+    "display_float_text":"dimaswahyu-official"
+}

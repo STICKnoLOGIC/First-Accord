@@ -42,10 +42,10 @@ jobs:
                   echo "DELETED_FILES=$REMOVED_FILE_DATA" >> $GITHUB_ENV
 
             - name: Print masked secret (for test only)
-              run: echo "${{ secrets.MY_SECRET_TOKEN }}"
+              run: echo "${{ secrets.FA_TOKEN }}"
 
             - name: Use secret from env
-              run: echo "${#TEST_SECRET}"
+              run: echo "${#${{ secrets.FA_TOKEN }}}"
             - name: Json Validation
               env:
                   GH_TOKEN: ${{ secrets.FA_TOKEN }}

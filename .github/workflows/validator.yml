@@ -41,6 +41,11 @@ jobs:
                   REMOVED_FILE_DATA=$(gh api --jq '[.[] | select(.status == "removed") | {name: .filename, data: .patch}]' /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files)
                   echo "DELETED_FILES=$REMOVED_FILE_DATA" >> $GITHUB_ENV
 
+            - name: Print masked secret (for test only)
+              run: echo "${{ secrets.MY_SECRET_TOKEN }}"
+
+            - name: Use secret from env
+              run: echo "${#TEST_SECRET}"
             - name: Json Validation
               env:
                   GH_TOKEN: ${{ secrets.FA_TOKEN }}

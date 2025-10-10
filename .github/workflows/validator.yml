@@ -55,6 +55,12 @@ jobs:
                 failed_tests=$(grep '^not ok' ava.tap || true)
                 echo "FA_FAILED=$failed_tests" >> $GITHUB_ENV
                 
+            - name: Post PR on failure
+              if: failure()
+              run: |
+                failed_tests=$(grep '^not ok' ava.tap || true)
+                echo "FA_FAILED=$failed_tests" >> $GITHUB_ENV
+              
             - name: Post PR comment on failure
               if: failure()
               uses: peter-evans/create-or-update-comment@v5

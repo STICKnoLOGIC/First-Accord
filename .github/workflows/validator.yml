@@ -50,7 +50,7 @@ jobs:
             - name: Post PR comment on failure
               if: failure()
               env:
-                  GH_TOKEN: ${{ secrets.FA_TOKEN }}
+                  GH_TOKEN: ${{ github.token }}
               run: |
                 gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
                 -f body="$(cat <<EOF

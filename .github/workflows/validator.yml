@@ -45,32 +45,43 @@ jobs:
               env:
                   GH_TOKEN: ${{ secrets.FA_TOKEN }}
               id: json_validation
-              run: npx ava tests/*.test.js --timeout=1m --tap > ava.tap
-
-
+              run: |
+                npx ava tests/*.test.js --timeout=1m --tap > ava.tap
+                failed_tests=$(grep '^not ok' ava.tap || true)
+                echo "failed=$failed_tests" >> $GITHUB_ENV
+                
             - name: Post PR comment on failure
               if: failure()
-              env:
-                  GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
-              run: |
-                gh auth logout
-                echo "${GITHUB_TOKEN}" | gh auth login -p https --with-token
+              uses: peter-evans/create-or-update-comment@v5
+              with:
+                issue-number: ${{ github.event.number }}
+                body: |
+                  ❌ Validation failed! See test output below:
+                  ```
+                    ${{ env.failed }}
+                  ```
+
+              # env:
+              #     GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
+              # run: |
+              #   gh auth logout
+              #   echo "${GITHUB_TOKEN}" | gh auth login -p https --with-token
                 
-                failed_tests=$(grep '^not ok' ava.tap || true)
-                echo "❌ Found failed tests:"
-                echo "$failed_tests"
+              #   failed_tests=$(grep '^not ok' ava.tap || true)
+              #   echo "❌ Found failed tests:"
+              #   echo "$failed_tests"
                 
-                gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
-                  -H "Accept: application/vnd.github+json" \
-                  -H "X-GitHub-Api-Version: 2022-11-28" \
-                  -f body="$(cat <<EOF
-                ❌ Validation failed! See test output below:
-                \`\`\`
-                $failed_tests
-                \`\`\`
-                EOF
-                )" \
-                  --method POST
+              #   gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
+              #     -H "Accept: application/vnd.github+json" \
+              #     -H "X-GitHub-Api-Version: 2022-11-28" \
+              #     -f body="$(cat <<EOF
+              #   ❌ Validation failed! See test output below:
+              #   \`\`\`
+              #   $failed_tests
+              #   \`\`\`
+              #   EOF
+              #   )" \
+              #     --method POST
 
             - name: Congratulate and auto-merge on success
               env:

@@ -45,7 +45,7 @@ jobs:
               env:
                   GH_TOKEN: ${{ secrets.FA_TOKEN }}
               id: json_validation
-              run: npx ava tests/*.test.js --timeout=1m --tap > ava.tap 2>&1 || true
+              run: npx ava tests/*.test.js --timeout=1m --tap > ava.tap
 
 
             - name: Post PR comment on failure
@@ -77,7 +77,7 @@ jobs:
 
             - name: Congratulate and auto-merge on success
               env:
-                  GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
+                  GH_TOKEN: ${{ secrets.FA_TOKEN }}
               if: success()
               run: |
                 echo "${{ secrets.FA_TOKEN }}"

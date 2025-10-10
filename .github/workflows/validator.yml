@@ -1,7 +1,7 @@
 name: CI JSON Checker
 
 on:
-    pull_request_target:
+    pull_request:
         branches: [main]
         paths:
             - "contributors/*"
@@ -14,6 +14,8 @@ jobs:
     tests:
         name: Tests
         runs-on: ubuntu-latest
+        permissions:
+          pull-requests: write
         env:
           GH_TOKEN: ${{ secrets.FA_TOKEN }}
         steps:
@@ -41,14 +43,7 @@ jobs:
                   REMOVED_FILE_DATA=$(gh api --jq '[.[] | select(.status == "removed") | {name: .filename, data: .patch}]' /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files)
                   echo "DELETED_FILES=$REMOVED_FILE_DATA" >> $GITHUB_ENV
 
-            - name: Print masked secret (for test only)
-              run: echo "${{ secrets.FA_TOKEN }}"
-
-            - name: Use secret from env
-              run: echo "${#${{ secrets.FA_TOKEN }}}"
             - name: Json Validation
-              env:
-                  GH_TOKEN: ${{ secrets.FA_TOKEN }}
               id: json_validation
               run: |
                 npx ava tests/*.test.js --timeout=1m --tap > ava.tap
@@ -63,7 +58,6 @@ jobs:
               if: failure()
               uses: peter-evans/create-or-update-comment@v5
               with:
-                token: ${{ secrets.FA_TOKEN }}
                 issue-number: ${{ github.event.number }}
                 body: |
                   ❌ Validation failed! See test output below:

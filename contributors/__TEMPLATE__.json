@@ -2,7 +2,7 @@
     "owner":{
         "name":"required",
         "email":"not-required",
-        "github":"not-required, automatically use filename"
+        "github":"not-required, your Github Link, automatically use filename"
     },
     "social":{ 
         "fa-brands fa-facebook":"link1",

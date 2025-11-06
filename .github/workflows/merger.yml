@@ -26,7 +26,7 @@ jobs:
         run: |
           echo "CHANGED_FILES=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '[.files[].status]')" >> $GITHUB_ENV
 
-      - name: Post merge comment
+      - name: Post merge
         run: |
           if echo "$CHANGED_FILES" | grep -q '"removed"'; then
           echo "Good bye!"

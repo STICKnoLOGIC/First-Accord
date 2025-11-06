@@ -153,7 +153,7 @@ async function processFile(file, t) {
         t.regex(data.owner.github, githubUrlPattern, `${file}: GitHub link is not valid`);
       
         // Extract last path segment from URL
-        const urlParts = link.split('/');
+        const urlParts = data.owner.github.split('/');
         const lastSegment = urlParts[urlParts.length - 1] || urlParts[urlParts.length - 2]; // handles trailing slash
       
         // Compare with username

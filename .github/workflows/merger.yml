@@ -31,12 +31,12 @@ jobs:
           if echo "$CHANGED_FILES" | grep -q '"removed"'; then
           echo "Good bye!"
           else
-          for file in $files; do
+          for file in $CHANGED_FILES; do
             value=$(jq -r '.display_float_text // empty' $file)
             if [ -z "$value" ]; then
-              echo '@${{ github.event.pull_request.user.login }}' >> util/names/@${{ github.event.pull_request.user.login }}
+              echo '@${{ github.event.pull_request.user.login }}' > util/names/@${{ github.event.pull_request.user.login }}
             else
-              echo '$value' >> util/names/@${{ github.event.pull_request.user.login }}
+              echo '$value' > util/names/@${{ github.event.pull_request.user.login }}
               echo "display_float_text: $value"
             fi
           done

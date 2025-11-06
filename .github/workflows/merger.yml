@@ -31,15 +31,15 @@ jobs:
           if echo "$CHANGED_FILES" | grep -q '"removed"'; then
           echo "Good bye!"
           else
-          for file in $CHANGED_FILES; do
-            value=$(jq -r '.display_float_text // empty' $file)
-            if [ -z "$value" ]; then
-              echo '@${{ github.event.pull_request.user.login }}' > util/names/@${{ github.event.pull_request.user.login }}
-            else
-              echo '$value' > util/names/@${{ github.event.pull_request.user.login }}
-              echo "display_float_text: $value"
-            fi
-          done
+          file="$CHANGED_FILES"
+          value=$(jq -r '.display_float_text // empty' "$file")
+          
+          if [ -z "$value" ]; then
+            echo ' @${{ github.event.pull_request.user.login }}' > "util/names/ @${{ github.event.pull_request.user.login }}"
+          else
+            echo "$value" > "util/names/ @${{ github.event.pull_request.user.login }}"
+            echo "display_float_text: $value"
+          fi
           git config --global user.name "STICKnoLOGIC[automation]"
           git config --global user.email "65322242+STICKnoLOGIC@users.noreply.github.com"
           git add .

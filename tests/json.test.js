@@ -186,7 +186,7 @@ async function processFile(file, t) {
     
     // display float text validation
     if(data.display_float_text){
-        t.true(data.display_float_text.length > 0 && data.display_float_text <= 16, `${file}: Display float text should have between 1 and 16 entries`);
+        t.true(data.display_float_text.length > 0 && data.display_float_text.length <= 16, `${file}: Display float text should have between 1 and 16 entries`);
     }
 }
 

@@ -1,0 +1,21 @@
+{
+    "owner":{
+        "name":"K7!",
+        "email":"lonely@lonely.is-a.dev",
+        "github":"https://github.com/LonelyGuy12"
+    },
+    "social":{ 
+        "fa-brands fa-linkedin":"https://www.linkedin.com/in/lonely-guy/",
+        "fa-brands fa-discord":"https://discord.com/users/886120777630486538",
+        "fa-brands fa-instagram":"https://www.instagram.com/lonelyguy7973/",
+        "fa-brands fa-threads":"https://www.threads.com/@lonelyguy7973",
+        "fa-brands fa-spotify":"https://open.spotify.com/user/317netgm4kmczv7xctvdzzopygpy"
+    },
+    "my_top_resources":{
+        "StackOverflow":"https://stackoverflow.com/",
+        "geeksforgeeks":"https://www.geeksforgeeks.org/",
+        "w3schools":"https://www.w3schools.com/"
+    },
+    "description":"A random and curious idiot. Aims way too high.. but doesn't have enough caffeine",
+    "use_github_avatar":true
+}

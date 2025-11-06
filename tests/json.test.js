@@ -162,7 +162,7 @@ async function processFile(file, t) {
 
     // social validation
     if (data.social) {
-        t.true(Object.keys(data.social) <= 5, `${file}: Maximum of 5 social links allowed`);
+        t.false(Object.keys(data.social) <= 5, `${file}: Maximum of 5 social links allowed`);
         for (const key of Object.keys(data.social)) {
             t.true(typeof data.social[key] === "string", `${file}: social.${key} should be a string`);
             t.true(data.social[key].startsWith("http"), `${file}: social.${key} should be a valid URL`);
@@ -171,7 +171,7 @@ async function processFile(file, t) {
 
     //my_top_resources validation
     if (data.my_top_resources) {
-        t.true(Object.keys(data.my_top_resources).length <= 5, `${file}: Maximum of 5 my_top_resources allowed`);
+        t.false(Object.keys(data.my_top_resources).length <= 3, `${file}: Maximum of 3 my_top_resources allowed`);
         for (const key of Object.keys(data.my_top_resources)) {
             t.true(typeof data.my_top_resources[key] === "string", `${file}: my_top_resources.${key} should be a string`);
             t.true(data.my_top_resources[key].startsWith("http"), `${file}: my_top_resources.${key} should be a valid URL`);

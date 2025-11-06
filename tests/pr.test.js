@@ -55,7 +55,7 @@ test("Users can only update their own contribution", (t) => {
         const data = getContributorData(contributor);
 
         t.true(
-            contributor === prAuthor,
+            contributor.toLowerCase() === prAuthor.toLowerCase(),
             `${file}: ${prAuthor} is not authorized to update ${contributor}.json`
         );
             

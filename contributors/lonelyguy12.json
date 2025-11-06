@@ -17,7 +17,5 @@
         "w3schools":"https://www.w3schools.com/"
     },
     "description":"A random and curious idiot. Aims way too high.. but doesn't have enough caffeine",
-    "use_github_avatar":true,
-    "custom_avatar_url":"not-required",
-    "display_float_text":"not-required - automatically use filename, max of 16 Characters"
+    "use_github_avatar":true
 }

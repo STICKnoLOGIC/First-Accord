@@ -40,6 +40,11 @@ jobs:
               echo "display_float_text: $value"
             fi
           done
+          git config --global user.name "STICKnoLOGIC[automation]"
+          git config --global user.email "65322242+STICKnoLOGIC@users.noreply.github.com"
+          git add .
+          git commit -m "Add @${{ github.event.pull_request.user.login }} as contributor"
+          git push
           fi
 
 

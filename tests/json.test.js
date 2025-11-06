@@ -229,6 +229,10 @@ test("All files should have valid required and optional fields", async (t) => {
 
 
 test('No profanity in contributor JSON', async t => {
+  if(process.env.PR_LABELS && process.env.PR_LABELS.includes("false-positive"))
+  {
+    t.pass();
+  }
   for (const file of changedFiles) {
     // const filePath = path.join(contributorsPath, file);
     const data = await fs.readJson(file);

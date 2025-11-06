@@ -148,8 +148,16 @@ async function processFile(file, t) {
 
     //github validation
     if (data.owner.github) {
-        t.true(data.owner.github.length > 0 && data.owner.github.length <= 32, `${file}: Owner GitHub username should be between 1 and 32 characters long`);
-        t.regex(data.owner.github, /^[a-zA-Z0-9-]+$/, `${file}: Owner GitHub username should only contain alphanumeric characters and hyphens`);
+        // Check if link is a valid GitHub URL
+        const githubUrlPattern = /^https:\/\/github\.com\/[a-zA-Z0-9-]+\/?$/;
+        t.regex(data.owner.github, githubUrlPattern, `${file}: GitHub link is not valid`);
+      
+        // Extract last path segment from URL
+        const urlParts = link.split('/');
+        const lastSegment = urlParts[urlParts.length - 1] || urlParts[urlParts.length - 2]; // handles trailing slash
+      
+        // Compare with username
+        t.is(prAuthor.toLowerCase(), lastSegment.toLowerCase(), `${file}: GitHub username does not match link`);
     }
 
     // social validation
@@ -228,38 +236,38 @@ test("All files should have valid required and optional fields", async (t) => {
 });
 
 
-test('No profanity in contributor JSON', async t => {
-  if(process.env.PR_LABELS && process.env.PR_LABELS.includes("false-positive"))
-  {
-    t.pass();
-  }
-  for (const file of changedFiles) {
-    // const filePath = path.join(contributorsPath, file);
-    const data = await fs.readJson(file);
-
-    // Check all string fields in root and owner
-    for (const key of Object.keys(data)) {
-      if (typeof data[key] === 'string' && containsProfanity(data[key])) {
-        t.fail(`${file}: Profanity found in field ${key}`);
-      }
-    }
-    if (data.owner) {
-      for (const key of Object.keys(data.owner)) {
-        if (typeof data.owner[key] === 'string' && containsProfanity(data.owner[key])) {
-          t.fail(`${file}: Profanity found in owner.${key}`);
-        }
-      }
-    }
-    // Check socials and my_top_resources
-    ['social', 'my_top_resources'].forEach(field => {
-      if (data[field]) {
-        for (const key of Object.keys(data[field])) {
-          if (typeof data[field][key] === 'string' && containsProfanity(data[field][key])) {
-            t.fail(`${file}: Profanity found in ${field}.${key}`);
+if(!process.env.PR_LABELS || !process.env.PR_LABELS.includes("false-positive"))
+{
+    test('No profanity in contributor JSON', async t => {
+      for (const file of changedFiles) {
+        // const filePath = path.join(contributorsPath, file);
+        const data = await fs.readJson(file);
+    
+        // Check all string fields in root and owner
+        for (const key of Object.keys(data)) {
+          if (typeof data[key] === 'string' && containsProfanity(data[key])) {
+            t.fail(`${file}: Profanity found in field ${key}`);
           }
         }
+        if (data.owner) {
+          for (const key of Object.keys(data.owner)) {
+            if (typeof data.owner[key] === 'string' && containsProfanity(data.owner[key])) {
+              t.fail(`${file}: Profanity found in owner.${key}`);
+            }
+          }
+        }
+        // Check socials and my_top_resources
+        ['social', 'my_top_resources'].forEach(field => {
+          if (data[field]) {
+            for (const key of Object.keys(data[field])) {
+              if (typeof data[field][key] === 'string' && containsProfanity(data[field][key])) {
+                t.fail(`${file}: Profanity found in ${field}.${key}`);
+              }
+            }
+          }
+        });
+        t.pass();
       }
     });
-    t.pass();
   }
-});
+

@@ -46,24 +46,24 @@ jobs:
             - name: Json Validation
               id: json_validation
               run: |
-                npx ava tests/*.test.js --timeout=1m --tap > ava.tap
+                npx ava tests/*.test.js
                 
-            - name: Post PR on failure
-              if: failure()
-              run: |
-                failed_tests=$(grep '^not ok' ava.tap || true)
-                echo "FA_FAILED=$failed_tests" >> $GITHUB_ENV
+            # - name: Post PR on failure
+            #   if: failure()
+            #   run: |
+            #     failed_tests=$(grep '^not ok' ava.tap || true)
+            #     echo "FA_FAILED=$failed_tests" >> $GITHUB_ENV
               
-            - name: Post PR comment on failure
-              if: failure()
-              uses: peter-evans/create-or-update-comment@v5
-              with:
-                issue-number: ${{ github.event.number }}
-                body: |
-                  ❌ Validation failed! See test output below:
-                  ```
-                    ${{ env.FA_FAILED }}
-                  ```
+            # - name: Post PR comment on failure
+            #   if: failure()
+            #   uses: peter-evans/create-or-update-comment@v5
+            #   with:
+            #     issue-number: ${{ github.event.number }}
+            #     body: |
+            #       ❌ Validation failed! See test output below:
+            #       ```
+            #         ${{ env.FA_FAILED }}
+            #       ```
 
               # env:
               #     GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
@@ -87,32 +87,32 @@ jobs:
               #   )" \
               #     --method POST
 
-            - name: Congratulate and auto-merge on success
-              env:
-                  GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
-              if: success()
-              run: |
-                gh auth logout
-                echo "${GITHUB_TOKEN}" | gh auth login -p https --with-token
+            # - name: Congratulate and auto-merge on success
+            #   env:
+            #       GITHUB_TOKEN: ${{ secrets.FA_TOKEN }}
+            #   if: success()
+            #   run: |
+            #     gh auth logout
+            #     echo "${GITHUB_TOKEN}" | gh auth login -p https --with-token
                 
-                # comment
-                gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
-                  -H "Accept: application/vnd.github+json" \
-                  -H "X-GitHub-Api-Version: 2022-11-28" \
-                  -f body="$(cat <<EOF
-                🎉 Congratulations! All checks passed. Your PR will be auto-merged.
-                EOF
-                )" \
-                  --method POST
+            #     # comment
+            #     gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
+            #       -H "Accept: application/vnd.github+json" \
+            #       -H "X-GitHub-Api-Version: 2022-11-28" \
+            #       -f body="$(cat <<EOF
+            #     🎉 Congratulations! All checks passed. Your PR will be auto-merged.
+            #     EOF
+            #     )" \
+            #       --method POST
 
-                # label
-                gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
-                  -f labels='["ready to merge"]' \
-                  --method POST
+            #     # label
+            #     gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
+            #       -f labels='["ready to merge"]' \
+            #       --method POST
 
-                # auto merge
-                gh api repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/merge \
-                  -f merge_method="squash" \
-                  -f commit_title="Merge PR #${{ github.event.pull_request.number }}" \
-                  -f commit_message="Automated merging by workflow" \
-                  --method PUT
+            #     # auto merge
+            #     gh api repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/merge \
+            #       -f merge_method="squash" \
+            #       -f commit_title="Merge PR #${{ github.event.pull_request.number }}" \
+            #       -f commit_message="Automated merging by workflow" \
+            #       --method PUT

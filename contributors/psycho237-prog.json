@@ -1,0 +1,22 @@
+{
+    "owner":{
+        "name":"O.Gregoire Legrand",
+        "email":"psychomarlon6@gmail.com",
+        "github":"https://github.com/psycho237-prog"
+     },
+    "social":{     
+        "fa-brands fa-linkedin":"https://www.linkedin.com/in/onana-gregoire-legrand-a18529282",
+        "fa-brands fa-facebook":"https://www.facebook.com/psych0.Greg",
+        "fa-brands fa-youtube":"https://youtube.com/@psychogreg?si=Ztinu0HtBSMtFztj",
+        "fa-brands fa-tiktok":"https://www.tiktok.com/@xyberclan"
+     },
+    "my_top_resources":{
+        "freecodecamp":"https://www.freecodecamp.org",
+        "codecademy":"https://www.codecademy.com",
+        "udemy":"https://www.udemy.com"
+    },
+    "description":"An open-source enthusiast and programmer focused on developing secure applications. Currently working on a proof of concept ransomware project.",
+    "use_github_avatar":true,
+    "custom_avatar_url":"",
+    "display_float_text":"psycho237-prog"
+}

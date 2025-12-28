@@ -20,22 +20,14 @@ jobs:
     permissions: write-all
     steps:
       - uses: actions/checkout@v4
-
-      - name: Get changed files
-        id: files
-        run: |
-          echo "CHANGED_FILES=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '[.files[].status]')" >> $GITHUB_ENV
-
       - name: Post merge
         run: |
-          if echo "$CHANGED_FILES" | grep -q '"removed"'; then
-          echo "Good bye!"
-          else
-          file="$CHANGED_FILES"
-          value=$(jq -r '.display_float_text // empty' "$file")
+          file_lower=$(printf '%s' "${{ github.event.pull_request.user.login }}" | tr '[:upper:]' '[:lower:]')
+          if [ -f "contributors/$file_lower.json" ]; then
+          value=$(jq -r '.display_float_text // empty' "contributors/$file_lower.json")
           
           if [ -z "$value" ]; then
-            echo ' @${{ github.event.pull_request.user.login }}' > "util/names/ @${{ github.event.pull_request.user.login }}"
+            echo '@${{ github.event.pull_request.user.login }}' > "util/names/@${{ github.event.pull_request.user.login }}"
           else
             echo "$value" > "util/names/ @${{ github.event.pull_request.user.login }}"
             echo "display_float_text: $value"
